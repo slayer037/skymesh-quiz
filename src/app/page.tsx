@@ -22,8 +22,8 @@ const steps = [
   },
   {
     id: "dob",
-    title: "Quick ID check",
-    subtitle: "The government makes us ask. Sorry."
+    title: "When were you born?",
+    subtitle: "Required for telco account verification"
   },
   {
     id: "address",
