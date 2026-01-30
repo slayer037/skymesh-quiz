@@ -17,8 +17,8 @@ const steps = [
   },
   {
     id: "phone",
-    title: "Best number for delivery updates?",
-    subtitle: "We text when your router ships. That's it."
+    title: "Is this the best number?",
+    subtitle: "We'll text you when your router ships"
   },
   {
     id: "dob",
