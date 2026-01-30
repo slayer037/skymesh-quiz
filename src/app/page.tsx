@@ -35,11 +35,6 @@ const steps = [
     subtitle: "Optional — you can always add it later."
   },
   {
-    id: "postal",
-    title: "Same address for letters?",
-    subtitle: "We'll send any paperwork here."
-  },
-  {
     id: "router",
     title: "Pick your weapon ⚔️",
     subtitle: "Choose a router or bring your own."
@@ -48,6 +43,11 @@ const steps = [
     id: "review",
     title: "Here's the rundown — look good?",
     subtitle: "Double-check before we lock it in."
+  },
+  {
+    id: "payment",
+    title: "Almost there! 💳",
+    subtitle: "Enter your payment details to complete your order."
   }
 ];
 
@@ -77,13 +77,19 @@ export default function Home() {
     dobMonth: "",
     dobYear: "",
     address: "3A Cadle Court, Bayswater VIC 3153",
+    addressAlternateName: false,
+    addressAltName: "",
     avc: "",
-    postalSame: "yes",
+    postalDifferent: false,
     postalAddress1: "",
     postalCity: "",
     postalState: "",
     postalPostcode: "",
-    router: ""
+    router: "",
+    cardName: "",
+    cardNumber: "",
+    cardExpiry: "",
+    cardCvc: ""
   });
 
   const progress = useMemo(
@@ -97,7 +103,7 @@ export default function Home() {
     setStepIndex(clamped);
   };
 
-  const handleChange = (field: string, value: string) => {
+  const handleChange = (field: string, value: string | boolean) => {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -248,60 +254,66 @@ export default function Home() {
               )}
 
               {current.id === "address" && (
-                <div className="space-y-4">
+                <div className="space-y-5">
                   <div className="card bg-orange-50/50 border-orange-100">
-                    <div className="flex items-start gap-3">
-                      <span className="text-2xl">📍</span>
-                      <p className="text-xl font-semibold text-slate-900">
-                        {form.address}
-                      </p>
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex items-start gap-3">
+                        <span className="text-2xl">📍</span>
+                        <p className="text-xl font-semibold text-slate-900">
+                          {form.address}
+                        </p>
+                      </div>
+                      <button type="button" className="text-sm text-skymesh-orange font-semibold hover:underline whitespace-nowrap">
+                        Change Address
+                      </button>
                     </div>
                   </div>
+                  
                   <div className="flex items-center gap-2 text-sm text-green-600">
                     <span>✓</span>
                     <span>NBN available at this address</span>
                   </div>
-                </div>
-              )}
 
-              {current.id === "avc" && (
-                <div>
-                  <label className="label" htmlFor="avc">AVC ID (optional)</label>
-                  <input
-                    id="avc"
-                    className="input mt-2"
-                    placeholder="AVC123456789"
-                    value={form.avc}
-                    onChange={(event) => handleChange("avc", event.target.value)}
-                  />
-                  <p className="mt-3 text-sm text-slate-400">
-                    Find this on your current NBN bill. No worries if you don't have it.
-                  </p>
-                </div>
-              )}
+                  {/* Alternate name checkbox */}
+                  <label className="flex items-start gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={form.addressAlternateName}
+                      onChange={(e) => handleChange("addressAlternateName", e.target.checked)}
+                      className="mt-1 h-5 w-5 rounded border-slate-300 text-skymesh-orange focus:ring-skymesh-orange"
+                    />
+                    <span className="text-sm font-medium text-slate-700 uppercase tracking-wide">
+                      My address is typically known by another name
+                    </span>
+                  </label>
 
-              {current.id === "postal" && (
-                <div className="space-y-5">
-                  <div className="flex items-center gap-3">
-                    {(["yes", "no"] as const).map((option) => (
-                      <button
-                        key={option}
-                        type="button"
-                        onClick={() => handleChange("postalSame", option)}
-                        className={
-                          `rounded-full px-5 py-2.5 text-sm font-semibold transition ` +
-                          (form.postalSame === option
-                            ? "bg-skymesh-orange text-white shadow-soft"
-                            : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-50")
-                        }
-                      >
-                        {option === "yes" ? "Yes, same address" : "No, different address"}
-                      </button>
-                    ))}
-                  </div>
+                  {form.addressAlternateName && (
+                    <div className="ml-8">
+                      <input
+                        type="text"
+                        className="input"
+                        placeholder="Enter alternate name (e.g. 'The Smith Residence')"
+                        value={form.addressAltName}
+                        onChange={(e) => handleChange("addressAltName", e.target.value)}
+                      />
+                    </div>
+                  )}
 
-                  {form.postalSame === "no" && (
-                    <div className="grid gap-4">
+                  {/* Different postal address checkbox */}
+                  <label className="flex items-start gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={form.postalDifferent}
+                      onChange={(e) => handleChange("postalDifferent", e.target.checked)}
+                      className="mt-1 h-5 w-5 rounded border-slate-300 text-skymesh-orange focus:ring-skymesh-orange"
+                    />
+                    <span className="text-sm font-medium text-slate-700 uppercase tracking-wide">
+                      Add different postal address
+                    </span>
+                  </label>
+
+                  {form.postalDifferent && (
+                    <div className="ml-8 grid gap-4">
                       <div>
                         <label className="label" htmlFor="postalAddress1">Postal address</label>
                         <input
@@ -358,6 +370,22 @@ export default function Home() {
                 </div>
               )}
 
+              {current.id === "avc" && (
+                <div>
+                  <label className="label" htmlFor="avc">AVC ID (optional)</label>
+                  <input
+                    id="avc"
+                    className="input mt-2"
+                    placeholder="AVC123456789"
+                    value={form.avc}
+                    onChange={(event) => handleChange("avc", event.target.value)}
+                  />
+                  <p className="mt-3 text-sm text-slate-400">
+                    Find this on your current NBN bill. No worries if you don't have it.
+                  </p>
+                </div>
+              )}
+
               {current.id === "router" && (
                 <div className="grid gap-4">
                   {routerOptions.map((option) => (
@@ -396,17 +424,17 @@ export default function Home() {
                     { label: "Email", value: form.email, step: 1 },
                     { label: "Phone", value: form.phone, step: 2 },
                     { label: "Date of Birth", value: form.dobDay ? `${form.dobDay} ${form.dobMonth} ${form.dobYear}` : "", step: 3 },
-                    { label: "Service Address", value: form.address, step: 4 },
+                    { label: "Service Address", value: form.address + (form.addressAltName ? ` (${form.addressAltName})` : ""), step: 4 },
                     { label: "AVC", value: form.avc || "Not provided", step: 5 },
                     {
                       label: "Postal Address",
                       value:
-                        form.postalSame === "yes"
+                        !form.postalDifferent
                           ? "Same as service address"
                           : `${form.postalAddress1}, ${form.postalCity} ${form.postalState} ${form.postalPostcode}`,
-                      step: 6
+                      step: 4
                     },
-                    { label: "Router", value: form.router || "Not selected", step: 7 }
+                    { label: "Router", value: form.router || "Not selected", step: 6 }
                   ].map((row) => (
                     <div key={row.label} className="card flex items-start justify-between gap-4">
                       <div>
@@ -429,6 +457,72 @@ export default function Home() {
                 </div>
               )}
 
+              {current.id === "payment" && (
+                <div className="space-y-5">
+                  <div className="card bg-slate-50 border-slate-200">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-semibold text-slate-500">Order Total</span>
+                      <span className="text-2xl font-bold text-slate-900">
+                        {form.router === "NF20Mesh" ? "$244.99" : 
+                         form.router === "Tenda v12" ? "$139.99" : 
+                         form.router === "Grandstream HT801" ? "$89.99" : "$0.00"}
+                        <span className="text-sm font-normal text-slate-500"> + $79/mo plan</span>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="label" htmlFor="cardName">Name on card</label>
+                    <input
+                      id="cardName"
+                      className="input mt-2"
+                      placeholder="Jane Citizen"
+                      value={form.cardName}
+                      onChange={(e) => handleChange("cardName", e.target.value)}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="label" htmlFor="cardNumber">Card number</label>
+                    <input
+                      id="cardNumber"
+                      className="input mt-2 tabular-nums"
+                      placeholder="4242 4242 4242 4242"
+                      value={form.cardNumber}
+                      onChange={(e) => handleChange("cardNumber", e.target.value)}
+                    />
+                  </div>
+
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div>
+                      <label className="label" htmlFor="cardExpiry">Expiry</label>
+                      <input
+                        id="cardExpiry"
+                        className="input mt-2"
+                        placeholder="MM / YY"
+                        value={form.cardExpiry}
+                        onChange={(e) => handleChange("cardExpiry", e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <label className="label" htmlFor="cardCvc">CVC</label>
+                      <input
+                        id="cardCvc"
+                        className="input mt-2"
+                        placeholder="123"
+                        value={form.cardCvc}
+                        onChange={(e) => handleChange("cardCvc", e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-3 text-sm text-slate-500">
+                    <span>🔒</span>
+                    <span>Your payment is secure and encrypted</span>
+                  </div>
+                </div>
+              )}
+
               <div className="mt-auto flex flex-col gap-3 pb-4">
                 {current.id === "avc" && (
                   <button
@@ -442,9 +536,16 @@ export default function Home() {
                 <button
                   type="button"
                   className="button-primary"
-                  onClick={() => goToStep(stepIndex + 1)}
+                  onClick={() => {
+                    if (current.id === "payment") {
+                      alert("🎉 Order submitted! (This is a demo)");
+                    } else {
+                      goToStep(stepIndex + 1);
+                    }
+                  }}
                 >
-                  {current.id === "review" ? "Confirm & Continue to Payment" : 
+                  {current.id === "payment" ? "Pay & Complete Order" :
+                   current.id === "review" ? "Continue to Payment" : 
                    current.id === "name" || current.id === "phone" || current.id === "address" ? "That's correct" : 
                    "Continue"}
                 </button>
