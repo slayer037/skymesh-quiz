@@ -13,18 +13,18 @@ type QuizAnswers = {
 };
 
 const defaultAnswers: QuizAnswers = {
-  household: "2",
-  devices: "6-10",
-  usage: ["Video streaming", "Emails & browsing"]
+  household: "Duo — 2 of us",
+  devices: "6-10 devices",
+  usage: ["Streaming", "Browsing & email"]
 };
 
 const usageDetails: Record<string, string> = {
-  "Video calls": "stable upload speeds for clear calls",
-  "Emails & browsing": "quick page loads on multiple devices",
-  Gaming: "low-latency performance",
-  "Video streaming": "smooth HD streaming",
-  "Large file downloads": "consistent download bursts",
-  "Phone calls": "reliable VoIP quality"
+  "Video calls": "Zoom calls where your face doesn't freeze mid-sentence",
+  "Browsing & email": "pages that load before you lose interest",
+  Gaming: "ping low enough to actually win",
+  Streaming: "Netflix without the spinning wheel",
+  "Big downloads": "game updates that finish before you give up",
+  "Home phone": "calls that don't sound like you're underwater"
 };
 
 export default function RecommendedPage() {
@@ -51,12 +51,18 @@ export default function RecommendedPage() {
 
   const dynamicCopy = useMemo(() => {
     const usageList = answers.usage.length ? answers.usage : defaultAnswers.usage;
-    const keyNeeds = usageList.slice(0, 3).map((item) => usageDetails[item]).filter(Boolean);
-    const usagePhrase = usageList.length > 1
-      ? `${usageList.slice(0, -1).join(", ")} and ${usageList[usageList.length - 1]}`
-      : usageList[0];
+    const keyNeed = usageList.slice(0, 1).map((item) => usageDetails[item]).filter(Boolean)[0];
+    
+    const householdText = answers.household.includes("Solo") ? "a household of one" : 
+      answers.household.includes("Duo") ? "two people" :
+      answers.household.includes("Busy") ? "a busy household" :
+      "a full house";
+    
+    const deviceComment = parseInt(answers.devices) > 10 || answers.devices.includes("11") || answers.devices.includes("16")
+      ? "That's a lot of devices fighting for bandwidth."
+      : "Plenty of headroom for everything to connect.";
 
-    return `With ${answers.household} people and ${answers.devices} devices, Fibre Plus balances speed and value for ${usagePhrase}. The plan focuses on ${keyNeeds.join(", ")}, so your household stays connected without slowdowns.`;
+    return `${householdText} with ${answers.devices} devices? ${deviceComment} Fibre Plus gives you ${keyNeed || "reliable speed for everything"} — without paying for overkill.`;
   }, [answers]);
 
   return (
@@ -88,12 +94,27 @@ export default function RecommendedPage() {
           className="mb-6"
         >
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-skymesh-orange">
-            Your best match
+            We found it
           </p>
           <h1 className="mt-2 text-2xl font-bold text-slate-900">Fibre Plus</h1>
           <p className="mt-1 text-slate-500">
-            Designed for households with 2-3 users streaming in HD and browsing simultaneously
+            Fast enough that nobody complains. Priced so you don't overpay. The Goldilocks plan.
           </p>
+          <div className="mt-3 flex items-center gap-3">
+            <div className="flex">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <svg
+                  key={star}
+                  className="h-4 w-4 text-amber-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+              ))}
+            </div>
+            <span className="text-sm text-slate-500">4.8 from 2,847 reviews</span>
+          </div>
         </motion.section>
 
         <motion.div
@@ -106,7 +127,7 @@ export default function RecommendedPage() {
             <div>
               <div className="inline-flex items-center gap-2 rounded-full bg-skymesh-orange/10 px-3 py-1 text-xs font-semibold text-skymesh-orange">
                 <span className="h-2 w-2 rounded-full bg-skymesh-orange" />
-                Most popular
+                47% of customers choose this
               </div>
               <h2 className="mt-3 text-xl font-bold text-slate-900">Fibre Plus</h2>
             </div>
@@ -150,7 +171,7 @@ export default function RecommendedPage() {
           transition={shouldReduceMotion ? { duration: 0 } : { delay: 0.2 }}
           className="card mb-6"
         >
-          <h3 className="text-lg font-bold text-slate-900">Why this plan fits</h3>
+          <h3 className="text-lg font-bold text-slate-900">Why this one?</h3>
           <p className="mt-2 text-sm text-slate-600">{dynamicCopy}</p>
           <div className="mt-4 flex flex-wrap gap-2">
             <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
@@ -174,14 +195,36 @@ export default function RecommendedPage() {
           initial={shouldReduceMotion ? false : { y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={shouldReduceMotion ? { duration: 0 } : { delay: 0.3 }}
-          className="mt-auto"
+          className="mt-auto space-y-4"
         >
+          <div className="rounded-xl bg-amber-50 border border-amber-200/60 px-4 py-3 text-center">
+            <p className="text-sm font-medium text-amber-800">
+              🔥 127 people signed up this week
+            </p>
+          </div>
           <Link href="/" className="button-primary">
-            Continue to checkout
+            Continue with Fibre Plus
           </Link>
-          <p className="mt-3 text-center text-xs text-slate-400">
-            You can review plan details before confirming.
-          </p>
+          <div className="flex items-center justify-center gap-4 text-xs text-slate-500">
+            <span className="flex items-center gap-1">
+              <svg className="h-4 w-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+              </svg>
+              30-day guarantee
+            </span>
+            <span className="flex items-center gap-1">
+              <svg className="h-4 w-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+              </svg>
+              No lock-in
+            </span>
+          </div>
+          <Link
+            href="/plans"
+            className="mx-auto block w-fit text-sm font-medium text-slate-500 underline decoration-slate-300 underline-offset-2 transition-colors hover:text-slate-700 hover:decoration-slate-400"
+          >
+            Compare all plans
+          </Link>
         </motion.div>
       </div>
     </main>

@@ -7,27 +7,27 @@ import { useMemo, useState } from "react";
 const steps = [
   {
     id: "household",
-    title: "How many people live in your household?",
-    subtitle: "This helps us match the right speed for everyone.",
-    options: ["1", "2", "3-4", "5+"]
+    title: "How crowded is your WiFi?",
+    subtitle: "Everyone fighting for bandwidth at 7pm? We need to know.",
+    options: ["Solo — just me", "Duo — 2 of us", "Busy — 3-4 people", "Chaos — 5+"]
   },
   {
     id: "devices",
-    title: "How many devices connect to your internet?",
-    subtitle: "Include phones, TVs, tablets, and smart home gear.",
-    options: ["1-5", "6-10", "11-15", "16+"]
+    title: "Count everything that connects",
+    subtitle: "Phones. Laptops. That TV. The tablet no one admits to using in bed.",
+    options: ["1-5 devices", "6-10 devices", "11-15 devices", "16+ (basically a hotel)"]
   },
   {
     id: "usage",
-    title: "How does your household use the internet?",
-    subtitle: "Select all that apply.",
+    title: "What actually matters to you?",
+    subtitle: "Pick your non-negotiables. We'll make sure they never buffer.",
     options: [
-      { label: "Video calls", icon: "🎥" },
-      { label: "Emails & browsing", icon: "📧" },
-      { label: "Gaming", icon: "🎮" },
-      { label: "Video streaming", icon: "📺" },
-      { label: "Large file downloads", icon: "📥" },
-      { label: "Phone calls", icon: "☎️" }
+      { label: "Video calls", icon: "🎥", hint: "Zoom, Teams, FaceTime" },
+      { label: "Browsing & email", icon: "📧", hint: "News, shopping, work stuff" },
+      { label: "Gaming", icon: "🎮", hint: "PlayStation, Xbox, PC online" },
+      { label: "Streaming", icon: "📺", hint: "Netflix, YouTube, Stan, Binge" },
+      { label: "Big downloads", icon: "📥", hint: "Games, movies, software updates" },
+      { label: "Home phone", icon: "☎️", hint: "VoIP using your landline number" }
     ]
   }
 ];
@@ -76,7 +76,7 @@ export default function QuizPage() {
   const handleFinish = () => {
     if (!isStepValid()) return;
     localStorage.setItem(storageKey, JSON.stringify(answers));
-    router.push("/recommended");
+    router.push("/analyzing");
   };
 
   return (
@@ -172,12 +172,14 @@ export default function QuizPage() {
                     <button
                       key={option}
                       type="button"
-                      onClick={() =>
+                      onClick={() => {
                         setAnswers((prev) => ({
                           ...prev,
                           [current.id]: option
-                        }))
-                      }
+                        }));
+                        // Auto-advance after brief delay for visual feedback
+                        setTimeout(() => goToStep(stepIndex + 1), 200);
+                      }}
                       className={`selection-card ${
                         (current.id === "household" && answers.household === option) ||
                         (current.id === "devices" && answers.devices === option)
@@ -190,14 +192,7 @@ export default function QuizPage() {
                       }
                     >
                       <div className="radio-indicator" />
-                      <div>
-                        <p className="text-base font-semibold text-slate-900">{option}</p>
-                        <p className="text-sm text-slate-500">
-                          {current.id === "household"
-                            ? "People sharing the connection"
-                            : "Connected devices in your home"}
-                        </p>
-                      </div>
+                      <p className="text-base font-semibold text-slate-900">{option}</p>
                     </button>
                   ))}
                 </div>
@@ -205,7 +200,7 @@ export default function QuizPage() {
 
               {current.id === "usage" && (
                 <div className="grid gap-3 sm:grid-cols-2">
-                  {(current.options as { label: string; icon: string }[]).map((option) => {
+                  {(current.options as { label: string; icon: string; hint: string }[]).map((option) => {
                     const isSelected = answers.usage.includes(option.label);
                     return (
                       <button
@@ -237,7 +232,7 @@ export default function QuizPage() {
                           <span className="text-2xl" aria-hidden="true">{option.icon}</span>
                           <div>
                             <p className="text-base font-semibold text-slate-900">{option.label}</p>
-                            <p className="text-sm text-slate-500">Everyday usage support</p>
+                            <p className="text-sm text-slate-500">{option.hint}</p>
                           </div>
                         </div>
                       </button>
@@ -247,29 +242,34 @@ export default function QuizPage() {
               )}
 
               <div className="mt-auto flex flex-col gap-3 pt-8">
-                <div className="flex gap-3">
-                  <button
-                    type="button"
-                    className="button-secondary disabled:cursor-not-allowed disabled:opacity-50"
-                    onClick={() => goToStep(stepIndex - 1)}
-                    disabled={stepIndex === 0}
-                  >
-                    Back
-                  </button>
-                  <button
-                    type="button"
-                    className="button-primary disabled:cursor-not-allowed disabled:opacity-50"
-                    onClick={() =>
-                      stepIndex === steps.length - 1 ? handleFinish() : goToStep(stepIndex + 1)
-                    }
-                    disabled={!isStepValid()}
-                  >
-                    {stepIndex === steps.length - 1 ? "See my recommendation" : "Next"}
-                  </button>
-                </div>
-                <p className="text-center text-xs text-slate-400">
-                  We only use this to personalise your plan, never for marketing.
-                </p>
+                {current.id === "usage" ? (
+                  <>
+                    <div className="flex gap-3">
+                      <button
+                        type="button"
+                        className="button-secondary"
+                        onClick={() => goToStep(stepIndex - 1)}
+                      >
+                        Back
+                      </button>
+                      <button
+                        type="button"
+                        className="button-primary disabled:cursor-not-allowed disabled:opacity-50"
+                        onClick={handleFinish}
+                        disabled={!isStepValid()}
+                      >
+                        Find my plan
+                      </button>
+                    </div>
+                    <p className="text-center text-xs text-slate-400">
+                      We're not selling your data. This just helps us not waste your time.
+                    </p>
+                  </>
+                ) : (
+                  <p className="text-center text-sm text-slate-400">
+                    Tap an option to continue
+                  </p>
+                )}
               </div>
             </motion.section>
           </AnimatePresence>

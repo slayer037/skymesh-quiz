@@ -7,48 +7,48 @@ import { useMemo, useState } from "react";
 const steps = [
   {
     id: "name",
-    title: "Let's confirm your details",
-    subtitle: "We grabbed these from your address check"
+    title: "This you?",
+    subtitle: "We grabbed this from your address check"
   },
   {
     id: "email",
-    title: "Where should we send updates?",
-    subtitle: "Order confirmations and service updates go here"
+    title: "Where do emails go?",
+    subtitle: "We'll send your connection details here"
   },
   {
     id: "phone",
-    title: "Best number to reach you?",
-    subtitle: "We'll only call if there's something urgent"
+    title: "Best number for delivery updates?",
+    subtitle: "We text when your router ships. That's it."
   },
   {
     id: "dob",
-    title: "When's your birthday?",
-    subtitle: "Required for account verification"
+    title: "Quick ID check",
+    subtitle: "The government makes us ask. Sorry."
   },
   {
     id: "address",
-    title: "Installation address confirmed",
-    subtitle: "This is where we'll connect your service"
+    title: "This is where we're connecting you",
+    subtitle: "The good news: nbn® is ready to go here"
   },
   {
     id: "avc",
-    title: "Already with another provider?",
-    subtitle: "Your AVC ID helps us switch you faster (optional)"
+    title: "Got an existing connection?",
+    subtitle: "Your AVC ID makes switching faster. It's on your old bill."
   },
   {
     id: "router",
-    title: "Choose your router",
-    subtitle: "Or bring your own — we're flexible"
+    title: "How do you want to WiFi?",
+    subtitle: "Pick one, or use what you've already got"
   },
   {
     id: "review",
-    title: "Review your order",
-    subtitle: "Make sure everything looks right"
+    title: "Quick sanity check",
+    subtitle: "Make sure we got everything right"
   },
   {
     id: "payment",
-    title: "Secure payment",
-    subtitle: "256-bit SSL encryption protects your details"
+    title: "Almost done",
+    subtitle: "One more click and you're in"
   }
 ];
 
@@ -57,29 +57,33 @@ const routerOptions = [
     id: "tenda",
     name: "Tenda AC1200", 
     price: 139.99, 
-    desc: "Perfect for apartments & small homes",
-    features: ["Dual-band WiFi", "Up to 80m² coverage", "Easy plug-n-play setup"]
+    desc: "Handles apartments and small homes. Most people pick this.",
+    features: ["Dual-band WiFi", "80m² coverage", "Zero setup drama"],
+    tag: "Most picked"
   },
   { 
     id: "mesh",
     name: "NF20 Mesh System", 
     price: 244.99, 
-    desc: "Whole-home coverage for larger spaces",
-    features: ["Mesh technology", "Up to 200m² coverage", "Seamless roaming"]
+    desc: "Kills dead spots. For bigger homes or thick walls.",
+    features: ["Mesh network", "200m² coverage", "Works between floors"],
+    tag: null
   },
   { 
     id: "voip",
     name: "Grandstream HT801", 
     price: 89.99, 
-    desc: "VoIP adapter for your existing phone",
-    features: ["Keep your landline number", "Crystal clear calls", "Simple setup"]
+    desc: "Plug in your existing landline phone. Keep your number.",
+    features: ["Uses your old phone", "Crystal clear calls", "5-min setup"],
+    tag: null
   },
   { 
     id: "byo",
-    name: "BYO Router", 
+    name: "Bring Your Own", 
     price: 0, 
-    desc: "Use your own compatible router",
-    features: ["nbn® compatible required", "Limited support", "Advanced users"]
+    desc: "Already have one? Skip the hardware cost.",
+    features: ["Must be nbn® compatible", "You set it up", "We'll still help"],
+    tag: null
   }
 ];
 
@@ -161,7 +165,7 @@ export default function Home() {
             <svg className="h-4 w-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
             </svg>
-            Secure checkout
+            Secure signup
           </div>
         </header>
 
@@ -467,6 +471,11 @@ export default function Home() {
                       <div className="flex-1">
                         <div className="flex items-start justify-between">
                           <div>
+                            {opt.tag && (
+                              <span className="mb-1 inline-block rounded-full bg-skymesh-orange/10 px-2 py-0.5 text-xs font-semibold text-skymesh-orange">
+                                {opt.tag}
+                              </span>
+                            )}
                             <p className="font-semibold text-slate-900">{opt.name}</p>
                             <p className="text-sm text-slate-500">{opt.desc}</p>
                           </div>
