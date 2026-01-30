@@ -67,6 +67,21 @@ const routerOptions = [
   }
 ];
 
+const planOptions = [
+  {
+    id: "fibre-plus",
+    name: "Fibre Plus",
+    price: 74.95,
+    desc: "Balanced speed for everyday streaming and work."
+  },
+  {
+    id: "fibre-max",
+    name: "Fibre Max",
+    price: 89.95,
+    desc: "Extra speed for busy households and gamers."
+  }
+];
+
 export default function Home() {
   const router = useRouter();
   const [stepIndex, setStepIndex] = useState(0);
@@ -87,10 +102,21 @@ export default function Home() {
     postalState: "",
     postalPostcode: "",
     router: "",
+    plan: "fibre-plus",
     cardName: "",
     cardNumber: "",
     cardExpiry: "",
     cardCvc: ""
+  });
+  const [editModal, setEditModal] = useState<null | "contact" | "address" | "router" | "plan">(null);
+  const [modalDraft, setModalDraft] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    address: "",
+    router: "",
+    plan: ""
   });
 
   const progress = useMemo(
@@ -100,6 +126,7 @@ export default function Home() {
 
   const selectedRouter = routerOptions.find(r => r.id === form.router);
   const routerPrice = selectedRouter?.price ?? 0;
+  const selectedPlan = planOptions.find(p => p.id === form.plan) ?? planOptions[0];
 
   const goToStep = (nextIndex: number) => {
     setDirection(nextIndex > stepIndex ? 1 : -1);
@@ -108,6 +135,33 @@ export default function Home() {
 
   const handleChange = (field: string, value: string | boolean) => {
     setForm((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const openEditModal = (type: "contact" | "address" | "router" | "plan") => {
+    setModalDraft({
+      firstName: form.firstName,
+      lastName: form.lastName,
+      email: form.email,
+      phone: form.phone,
+      address: form.address,
+      router: form.router,
+      plan: form.plan
+    });
+    setEditModal(type);
+  };
+
+  const handleModalSave = () => {
+    setForm((prev) => ({
+      ...prev,
+      firstName: modalDraft.firstName,
+      lastName: modalDraft.lastName,
+      email: modalDraft.email,
+      phone: modalDraft.phone,
+      address: modalDraft.address,
+      router: modalDraft.router,
+      plan: modalDraft.plan
+    }));
+    setEditModal(null);
   };
 
   const current = steps[stepIndex];
@@ -150,10 +204,10 @@ export default function Home() {
         <div className="mb-6 flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3">
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium text-slate-600">Your plan:</span>
-            <span className="text-sm font-bold text-slate-900">Fibre Plus</span>
+            <span className="text-sm font-bold text-slate-900">{selectedPlan.name}</span>
           </div>
           <div className="text-right">
-            <span className="text-sm font-bold text-slate-900">$74.95<span className="font-normal text-slate-500">/mo</span></span>
+            <span className="text-sm font-bold text-slate-900">${selectedPlan.price.toFixed(2)}<span className="font-normal text-slate-500">/mo</span></span>
           </div>
         </div>
 
@@ -392,11 +446,11 @@ export default function Home() {
               {current.id === "review" && (
                 <div className="space-y-4">
                   {[
-                    { label: "Name", value: `${form.firstName} ${form.lastName}`, step: 0 },
-                    { label: "Email", value: form.email, step: 0 },
-                    { label: "Phone", value: form.phone, step: 0 },
-                    { label: "Address", value: form.address, step: 1 },
-                    { label: "Router", value: selectedRouter?.name || "Not selected", step: 2 }
+                    { label: "Name", value: `${form.firstName} ${form.lastName}`, modal: "contact" },
+                    { label: "Email", value: form.email, modal: "contact" },
+                    { label: "Phone", value: form.phone, modal: "contact" },
+                    { label: "Address", value: form.address, modal: "address" },
+                    { label: "Router", value: selectedRouter?.name || "Not selected", modal: "router" }
                   ].map((row) => (
                     <div key={row.label} className="flex items-center justify-between py-3 border-b border-slate-100 last:border-0">
                       <div>
@@ -405,7 +459,7 @@ export default function Home() {
                       </div>
                       <button
                         type="button"
-                        onClick={() => goToStep(row.step)}
+                        onClick={() => openEditModal(row.modal as "contact" | "address" | "router")}
                         className="rounded-full px-4 py-1.5 text-sm font-semibold text-skymesh-orange hover:bg-orange-50 transition"
                       >
                         Edit
@@ -416,7 +470,16 @@ export default function Home() {
                   <div className="card-highlight mt-6">
                     <div className="flex items-center justify-between">
                       <span className="text-slate-600">Your plan</span>
-                      <span className="text-lg font-bold text-slate-900 tabular-nums">Fibre Plus — $74.95/mo</span>
+                      <button
+                        type="button"
+                        onClick={() => openEditModal("plan")}
+                        className="rounded-full px-3 py-1 text-xs font-semibold text-skymesh-orange hover:bg-orange-50 transition"
+                      >
+                        Edit plan
+                      </button>
+                    </div>
+                    <div className="mt-2 text-lg font-bold text-slate-900 tabular-nums">
+                      {selectedPlan.name} — ${selectedPlan.price.toFixed(2)}/mo
                     </div>
                     <div className="mt-3 flex items-center gap-2 text-sm">
                       <svg className="h-4 w-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
@@ -442,7 +505,7 @@ export default function Home() {
                       </span>
                     </div>
                     <p className="mt-1 text-sm text-slate-500">
-                      {routerPrice === 0 ? "Router included" : "Router only"} — $74.95/mo plan starts once you're connected
+                      {routerPrice === 0 ? "Router included" : "Router only"} — ${selectedPlan.price.toFixed(2)}/mo plan starts once you're connected
                     </p>
                     <div className="mt-3 flex items-center gap-2 rounded-lg bg-green-50 px-3 py-2 text-sm">
                       <svg className="h-4 w-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
@@ -557,6 +620,148 @@ export default function Home() {
             </motion.section>
           </AnimatePresence>
         </div>
+
+        {editModal && current.id === "review" && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 px-4">
+            <div className="w-full max-w-md rounded-2xl bg-white p-5 shadow-xl">
+              <div className="flex items-center justify-between">
+                <h2 className="text-lg font-bold text-slate-900">
+                  {editModal === "contact" && "Edit contact details"}
+                  {editModal === "address" && "Edit address"}
+                  {editModal === "router" && "Edit router"}
+                  {editModal === "plan" && "Edit plan"}
+                </h2>
+                <button
+                  type="button"
+                  onClick={() => setEditModal(null)}
+                  className="rounded-full px-2 py-1 text-sm font-semibold text-slate-500 hover:text-slate-700"
+                >
+                  Close
+                </button>
+              </div>
+
+              {editModal === "contact" && (
+                <div className="mt-4 space-y-3">
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <input
+                      className="input"
+                      placeholder="First name"
+                      value={modalDraft.firstName}
+                      onChange={(e) => setModalDraft((prev) => ({ ...prev, firstName: e.target.value }))}
+                    />
+                    <input
+                      className="input"
+                      placeholder="Last name"
+                      value={modalDraft.lastName}
+                      onChange={(e) => setModalDraft((prev) => ({ ...prev, lastName: e.target.value }))}
+                    />
+                  </div>
+                  <input
+                    className="input"
+                    type="email"
+                    placeholder="Email"
+                    value={modalDraft.email}
+                    onChange={(e) => setModalDraft((prev) => ({ ...prev, email: e.target.value }))}
+                  />
+                  <input
+                    className="input"
+                    type="tel"
+                    placeholder="Mobile"
+                    value={modalDraft.phone}
+                    onChange={(e) => setModalDraft((prev) => ({ ...prev, phone: e.target.value }))}
+                  />
+                </div>
+              )}
+
+              {editModal === "address" && (
+                <div className="mt-4 space-y-3">
+                  <input
+                    className="input"
+                    placeholder="Street address"
+                    value={modalDraft.address}
+                    onChange={(e) => setModalDraft((prev) => ({ ...prev, address: e.target.value }))}
+                  />
+                </div>
+              )}
+
+              {editModal === "router" && (
+                <div className="mt-4 space-y-3">
+                  {routerOptions.map((opt) => (
+                    <button
+                      key={opt.id}
+                      type="button"
+                      className={`selection-card w-full text-left ${modalDraft.router === opt.id ? "selected" : ""}`}
+                      onClick={() => setModalDraft((prev) => ({ ...prev, router: opt.id }))}
+                      aria-pressed={modalDraft.router === opt.id}
+                    >
+                      <div className="radio-indicator" />
+                      <div className="flex-1">
+                        <div className="flex items-start justify-between">
+                          <div>
+                            {opt.tag && (
+                              <span className="mb-1 inline-block rounded-full bg-skymesh-orange/10 px-2 py-0.5 text-xs font-semibold text-skymesh-orange">
+                                {opt.tag}
+                              </span>
+                            )}
+                            <p className="font-semibold text-slate-900">{opt.name}</p>
+                            <p className="text-sm text-slate-500">{opt.desc}</p>
+                          </div>
+                          <p className="text-lg font-bold text-slate-900 tabular-nums">
+                            {opt.price === 0 ? "Free" : `$${opt.price.toFixed(2)}`}
+                          </p>
+                        </div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {editModal === "plan" && (
+                <div className="mt-4 space-y-3">
+                  {planOptions.map((opt) => (
+                    <button
+                      key={opt.id}
+                      type="button"
+                      className={`selection-card w-full text-left ${modalDraft.plan === opt.id ? "selected" : ""}`}
+                      onClick={() => setModalDraft((prev) => ({ ...prev, plan: opt.id }))}
+                      aria-pressed={modalDraft.plan === opt.id}
+                    >
+                      <div className="radio-indicator" />
+                      <div className="flex-1">
+                        <div className="flex items-start justify-between">
+                          <div>
+                            <p className="font-semibold text-slate-900">{opt.name}</p>
+                            <p className="text-sm text-slate-500">{opt.desc}</p>
+                          </div>
+                          <p className="text-lg font-bold text-slate-900 tabular-nums">
+                            ${opt.price.toFixed(2)}
+                          </p>
+                        </div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              <div className="mt-5 flex justify-end gap-3">
+                <button
+                  type="button"
+                  onClick={() => setEditModal(null)}
+                  className="rounded-full px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-100 transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleModalSave}
+                  className="button-primary"
+                >
+                  Save changes
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </main>
   );
