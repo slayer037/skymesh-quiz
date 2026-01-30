@@ -102,7 +102,7 @@ export default function QuizPage() {
           </div>
         </header>
 
-        <div className="mb-7">
+        <div className="mb-6 rounded-3xl border border-white/70 bg-white/80 p-5 shadow-card backdrop-blur">
           <div className="progress-bar">
             <div
               className="progress-fill bg-gradient-to-r from-skymesh-orange via-orange-500 to-amber-400"
@@ -115,19 +115,20 @@ export default function QuizPage() {
           </div>
         </div>
 
-        <div className="mb-10 flex items-center justify-between">
+        <div className="mb-10 rounded-3xl border border-white/70 bg-gradient-to-r from-white/80 via-amber-50/40 to-white/80 p-5 shadow-card backdrop-blur">
+          <div className="flex items-center justify-between">
           {steps.map((step, index) => {
             const isCompleted = index < stepIndex;
             const isActive = index === stepIndex;
             return (
               <div key={step.id} className="flex flex-1 items-center">
                 <div
-                  className={`flex h-10 w-10 items-center justify-center rounded-full border-2 transition-all ${
+                  className={`relative flex h-11 w-11 items-center justify-center rounded-full border-2 transition-all ${
                     isCompleted
-                      ? "border-skymesh-orange bg-gradient-to-br from-skymesh-orange to-amber-400 text-white shadow-soft"
+                      ? "border-skymesh-orange bg-gradient-to-br from-skymesh-orange via-orange-500 to-amber-400 text-white shadow-glow"
                       : isActive
-                        ? "border-skymesh-orange bg-white shadow-soft"
-                        : "border-slate-200 bg-white"
+                        ? "border-skymesh-orange/70 bg-white/90 shadow-luxe ring-4 ring-skymesh-orange/10"
+                        : "border-white/80 bg-white/70 shadow-input"
                   }`}
                   aria-label={`Step ${index + 1}`}
                 >
@@ -147,12 +148,13 @@ export default function QuizPage() {
                 </div>
                 {index < steps.length - 1 && (
                   <div
-                    className={`mx-2 h-0.5 flex-1 ${isCompleted ? "bg-gradient-to-r from-skymesh-orange to-amber-400" : "bg-slate-200"}`}
+                    className={`mx-2 h-1 flex-1 rounded-full ${isCompleted ? "bg-gradient-to-r from-skymesh-orange/80 to-amber-400/80" : "bg-slate-200/80"}`}
                   />
                 )}
               </div>
             );
           })}
+          </div>
         </div>
 
         <div className="relative flex-1 overflow-hidden">
@@ -186,7 +188,7 @@ export default function QuizPage() {
                         // Auto-advance after brief delay for visual feedback
                         setTimeout(() => goToStep(stepIndex + 1), 200);
                       }}
-                      className={`selection-card ${
+                      className={`selection-card quiz-card ${
                         (current.id === "household" && answers.household === option) ||
                         (current.id === "devices" && answers.devices === option)
                           ? "selected"
@@ -220,7 +222,7 @@ export default function QuizPage() {
                               : [...prev.usage, option.label]
                           }))
                         }
-                        className={`selection-card ${isSelected ? "selected" : ""}`}
+                        className={`selection-card quiz-card ${isSelected ? "selected" : ""}`}
                         aria-pressed={isSelected}
                       >
                         <div className={`checkbox ${isSelected ? "checked" : ""}`}>

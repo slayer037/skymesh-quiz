@@ -117,6 +117,25 @@ body {
   @apply border-skymesh-orange bg-gradient-to-br from-orange-50/70 via-white to-amber-50/40 shadow-luxe;
 }
 
+/* Premium quiz selection cards */
+.selection-card.quiz-card {
+  @apply relative overflow-hidden border-white/70 bg-white/80 shadow-card backdrop-blur;
+  @apply hover:shadow-luxe;
+}
+
+.selection-card.quiz-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 120% at 0% 0%, rgba(249, 115, 22, 0.10), transparent 55%);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.selection-card.quiz-card.selected {
+  @apply shadow-glow;
+}
+
 /* Radio indicator */
 .radio-indicator {
   @apply flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full border-2 border-slate-300 transition-all;
