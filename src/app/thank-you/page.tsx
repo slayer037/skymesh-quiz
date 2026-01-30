@@ -12,8 +12,7 @@ export default function ThankYou() {
     address: "3A Cadle Court, Bayswater VIC 3153",
     plan: "nbn 100/20",
     router: "Tenda v12",
-    monthlyPrice: "$79",
-    setupFee: "$139.99"
+    monthlyPrice: "$79"
   };
 
   return (
@@ -106,10 +105,6 @@ export default function ThankYou() {
 
           <div className="mt-4 border-t border-slate-100 pt-4">
             <div className="flex justify-between">
-              <span className="text-slate-500">Setup fee (one-time)</span>
-              <span className="font-semibold text-slate-900">{orderDetails.setupFee}</span>
-            </div>
-            <div className="mt-2 flex justify-between">
               <span className="text-slate-500">Monthly plan</span>
               <span className="font-semibold text-slate-900">{orderDetails.monthlyPrice}/mo</span>
             </div>
