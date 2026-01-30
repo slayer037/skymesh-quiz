@@ -6,19 +6,9 @@ import { useMemo, useState } from "react";
 
 const steps = [
   {
-    id: "name",
-    title: "This you?",
-    subtitle: "We grabbed this from your address check"
-  },
-  {
-    id: "email",
-    title: "Where do emails go?",
-    subtitle: "We'll send your connection details here"
-  },
-  {
-    id: "phone",
-    title: "Is this the best number?",
-    subtitle: "We'll text you when your router ships"
+    id: "contact",
+    title: "Let's get your details",
+    subtitle: "We grabbed some of this from your address check"
   },
   {
     id: "dob",
@@ -154,7 +144,7 @@ export default function Home() {
     <main className="min-h-dvh bg-gradient-to-b from-slate-50 to-white">
       <div className="mx-auto flex min-h-dvh max-w-lg flex-col px-5 py-6">
         {/* Header */}
-        <header className="mb-6 flex items-center justify-between">
+        <header className="mb-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-skymesh-orange shadow-sm">
               <span className="text-xl font-extrabold text-white">S</span>
@@ -168,6 +158,17 @@ export default function Home() {
             Secure signup
           </div>
         </header>
+
+        {/* Plan summary */}
+        <div className="mb-6 flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3">
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-medium text-slate-600">Your plan:</span>
+            <span className="text-sm font-bold text-slate-900">Fibre Plus</span>
+          </div>
+          <div className="text-right">
+            <span className="text-sm font-bold text-slate-900">$74.95<span className="font-normal text-slate-500">/mo</span></span>
+          </div>
+        </div>
 
         {/* Progress */}
         <div className="mb-8">
@@ -200,19 +201,8 @@ export default function Home() {
               </div>
 
               {/* Step content */}
-              {current.id === "name" && (
+              {current.id === "contact" && (
                 <div className="space-y-4">
-                  <div className="card-highlight">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-skymesh-orange/10">
-                        <span className="text-xl">👋</span>
-                      </div>
-                      <div>
-                        <p className="font-semibold text-slate-900">{form.firstName} {form.lastName}</p>
-                        <p className="text-sm text-slate-500">Details from your address check</p>
-                      </div>
-                    </div>
-                  </div>
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div>
                       <label className="label" htmlFor="first-name">First name</label>
@@ -235,11 +225,6 @@ export default function Home() {
                       />
                     </div>
                   </div>
-                </div>
-              )}
-
-              {current.id === "email" && (
-                <div className="space-y-4">
                   <div>
                     <label className="label" htmlFor="email-address">Email address</label>
                     <input
@@ -251,25 +236,6 @@ export default function Home() {
                       value={form.email}
                       onChange={(e) => handleChange("email", e.target.value)}
                     />
-                  </div>
-                  <p className="flex items-center gap-2 text-sm text-slate-500">
-                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                    </svg>
-                    No spam. No third parties. Just your connection updates.
-                  </p>
-                </div>
-              )}
-
-              {current.id === "phone" && (
-                <div className="space-y-4">
-                  <div className="card-highlight">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-skymesh-orange/10">
-                        <span className="text-lg">📱</span>
-                      </div>
-                      <p className="font-medium text-slate-700">{form.phone}</p>
-                    </div>
                   </div>
                   <div>
                     <label className="label" htmlFor="mobile-number">Mobile number</label>
@@ -283,6 +249,12 @@ export default function Home() {
                       onChange={(e) => handleChange("phone", e.target.value)}
                     />
                   </div>
+                  <p className="flex items-center gap-2 text-sm text-slate-500">
+                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                    No spam. No third parties. Just your connection updates.
+                  </p>
                 </div>
               )}
 
@@ -502,11 +474,11 @@ export default function Home() {
                 <div className="space-y-4">
                   {[
                     { label: "Name", value: `${form.firstName} ${form.lastName}`, step: 0 },
-                    { label: "Email", value: form.email, step: 1 },
-                    { label: "Phone", value: form.phone, step: 2 },
-                    { label: "Date of birth", value: form.dobDay && form.dobMonth && form.dobYear ? `${form.dobDay}/${form.dobMonth}/${form.dobYear}` : "Not provided", step: 3 },
-                    { label: "Address", value: form.address, step: 4 },
-                    { label: "Router", value: selectedRouter?.name || "Not selected", step: 6 }
+                    { label: "Email", value: form.email, step: 0 },
+                    { label: "Phone", value: form.phone, step: 0 },
+                    { label: "Date of birth", value: form.dobDay && form.dobMonth && form.dobYear ? `${form.dobDay}/${form.dobMonth}/${form.dobYear}` : "Not provided", step: 1 },
+                    { label: "Address", value: form.address, step: 2 },
+                    { label: "Router", value: selectedRouter?.name || "Not selected", step: 4 }
                   ].map((row) => (
                     <div key={row.label} className="flex items-center justify-between py-3 border-b border-slate-100 last:border-0">
                       <div>
@@ -670,7 +642,7 @@ export default function Home() {
                         Start my connection
                       </>
                     ) : current.id === "review" ? "Get connected" : 
-                     current.id === "name" || current.id === "phone" || current.id === "address" ? "Confirm & Continue" : 
+                     current.id === "contact" || current.id === "address" ? "Confirm & Continue" : 
                      "Continue"}
                   </button>
                 )}

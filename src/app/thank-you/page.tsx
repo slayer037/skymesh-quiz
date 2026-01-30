@@ -168,11 +168,34 @@ export default function ThankYou() {
           </div>
         </motion.div>
 
+        {/* Referral */}
+        <motion.div
+          initial={shouldReduceMotion ? false : { y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={shouldReduceMotion ? { duration: 0 } : { delay: 0.55 }}
+          className="mb-6 rounded-2xl border border-skymesh-orange/20 bg-gradient-to-r from-orange-50 via-amber-50 to-orange-50 p-5"
+        >
+          <div className="flex items-center gap-4">
+            <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-skymesh-orange/10">
+              <span className="text-xl">🎁</span>
+            </div>
+            <div className="flex-1">
+              <p className="font-semibold text-slate-900">Know someone stuck with slow internet?</p>
+              <p className="text-sm text-slate-600">
+                Send them our way — they'll get $20 off, you'll get $20 credit.
+              </p>
+            </div>
+          </div>
+          <button className="mt-4 w-full rounded-xl bg-white py-2.5 text-sm font-semibold text-skymesh-orange shadow-sm hover:bg-orange-50 transition">
+            Share your referral link
+          </button>
+        </motion.div>
+
         {/* Support */}
         <motion.div
           initial={shouldReduceMotion ? false : { y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={shouldReduceMotion ? { duration: 0 } : { delay: 0.6 }}
+          transition={shouldReduceMotion ? { duration: 0 } : { delay: 0.65 }}
           className="mb-6 rounded-2xl bg-skymesh-navy p-5 text-white"
         >
           <div className="flex items-center gap-4">

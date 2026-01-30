@@ -11,6 +11,7 @@ const plans = [
     download: "25 Mbps",
     upload: "5 Mbps",
     ideal: "Solo user. Email, browsing, maybe a show. Nothing fancy.",
+    speedContext: "1 device streaming HD at a time",
     tag: null
   },
   {
@@ -20,6 +21,7 @@ const plans = [
     download: "48 Mbps",
     upload: "17 Mbps",
     ideal: "The one most people pick. Handles everything without drama.",
+    speedContext: "Stream 4K on 3 devices at once",
     tag: "Your match"
   },
   {
@@ -28,7 +30,8 @@ const plans = [
     ongoing: "$109.95",
     download: "90 Mbps",
     upload: "35 Mbps",
-    ideal: "When everyone's streaming, gaming, and uploading at once. Overkill for most.",
+    ideal: "For power users who want headroom. 4K everywhere, gaming, big uploads.",
+    speedContext: "Stream 4K on 5+ devices, game without lag",
     tag: null
   }
 ];
@@ -107,6 +110,7 @@ export default function PlansPage() {
                   <p className="text-xs text-slate-500">Upload</p>
                 </div>
               </div>
+              <p className="mt-2 text-xs text-slate-500">{plan.speedContext}</p>
 
               <Link
                 href="/"

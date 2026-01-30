@@ -163,6 +163,9 @@ export default function RecommendedPage() {
                   <p className="text-xs text-slate-500">Upload</p>
                 </div>
               </div>
+              <p className="mt-3 text-xs text-slate-500 text-center">
+                Stream 4K on 3 devices at once. Video calls that don't freeze.
+              </p>
             </div>
           </div>
         </motion.div>
