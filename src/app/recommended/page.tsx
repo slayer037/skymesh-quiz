@@ -99,7 +99,7 @@ export default function RecommendedPage() {
           </p>
           <h1 className="mt-3 text-3xl font-display text-slate-900">Fibre Plus</h1>
           <p className="mt-2 text-base text-slate-600">
-            Fast enough that nobody complains. Priced so you don't overpay. The Goldilocks plan.
+            Fast enough that nobody complains. Cheap enough that you don't either. The Goldilocks plan.
           </p>
           <div className="mt-3 flex items-center gap-3">
             <div className="flex">
@@ -219,7 +219,7 @@ export default function RecommendedPage() {
             Continue with Fibre Plus
           </Link>
           <p className="mt-2 text-center text-xs font-medium text-green-600">
-            Start today from $0 — only billed once you're connected
+            $0 to start. Pay nothing until your router arrives and you're online.
           </p>
         </div>
       </div>

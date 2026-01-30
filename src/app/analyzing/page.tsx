@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 const reviews = [
   {
     name: "Sarah M.",
-    location: "Melbourne",
+    location: "Melbourne — switched from Telstra",
     rating: 5,
     text: "Telstra was charging me $120 for speeds that died at 7pm. Skymesh costs $75 and it's actually faster during peak. I'm genuinely annoyed I didn't switch sooner.",
     date: "2 weeks ago"
@@ -46,7 +46,7 @@ const analysisSteps = [
   { text: "Crunching your household size...", duration: 800 },
   { text: "Counting all those devices...", duration: 900 },
   { text: "Finding the speed sweet spot...", duration: 1000 },
-  { text: "Locking in your perfect match...", duration: 1200 }
+  { text: "Picking your plan...", duration: 1200 }
 ];
 
 export default function AnalyzingPage() {

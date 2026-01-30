@@ -10,9 +10,9 @@ export default function ThankYou() {
     name: "Jane Citizen",
     email: "jane@example.com",
     address: "3A Cadle Court, Bayswater VIC 3153",
-    plan: "nbn® 100/20",
+    plan: "Fibre Plus",
     router: "Tenda AC1200",
-    monthlyPrice: "$79"
+    monthlyPrice: "$74.95"
   };
 
   return (
@@ -65,7 +65,7 @@ export default function ThankYou() {
           className="mb-8 text-center"
         >
           <h1 className="mb-2 text-2xl font-bold text-slate-900">
-            Order confirmed!
+            You're in.
           </h1>
           <p className="text-slate-500">
             Thanks {orderDetails.name.split(' ')[0]}, you&apos;re all set
@@ -142,8 +142,8 @@ export default function ThankYou() {
           <h2 className="mb-5 text-lg font-bold text-slate-900">What happens next</h2>
           <div className="relative space-y-0">
             {[
-              { icon: "📋", title: "Processing your order", desc: "1-2 business days", active: true },
-              { icon: "📦", title: "Router ships", desc: "3-5 business days via Australia Post" },
+              { icon: "📋", title: "Confirming your details", desc: "Usually same-day", active: true },
+              { icon: "📦", title: "Router ships", desc: "3-5 business days via AusPost with tracking" },
               { icon: "🌐", title: "Get connected", desc: "Plug in and go — setup guide included" }
             ].map((step, i) => (
               <div key={i} className="relative flex gap-4 pb-6 last:pb-0">

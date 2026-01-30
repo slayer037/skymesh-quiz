@@ -10,7 +10,7 @@ const plans = [
     ongoing: "$69.95",
     download: "25 Mbps",
     upload: "5 Mbps",
-    ideal: "One person, light use. Emails, browsing, one stream at a time.",
+    ideal: "Solo user. Email, browsing, maybe a show. Nothing fancy.",
     tag: null
   },
   {
@@ -28,7 +28,7 @@ const plans = [
     ongoing: "$109.95",
     download: "90 Mbps",
     upload: "35 Mbps",
-    ideal: "For households that demand a lot. 4K, gaming, big uploads.",
+    ideal: "When everyone's streaming, gaming, and uploading at once. Overkill for most.",
     tag: null
   }
 ];

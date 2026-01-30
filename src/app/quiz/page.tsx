@@ -8,7 +8,7 @@ const steps = [
   {
     id: "household",
     title: "How crowded is your WiFi?",
-    subtitle: "Everyone fighting for bandwidth at 7pm? We need to know.",
+    subtitle: "Bandwidth wars at 7pm? We'll size your connection right.",
     options: ["Solo — just me", "Duo — 2 of us", "Busy — 3-4 people", "Chaos — 5+"]
   },
   {
@@ -26,7 +26,7 @@ const steps = [
       { label: "Browsing & email", icon: "📧", hint: "News, shopping, work stuff" },
       { label: "Gaming", icon: "🎮", hint: "PlayStation, Xbox, PC online" },
       { label: "Streaming", icon: "📺", hint: "Netflix, YouTube, Stan, Binge" },
-      { label: "Big downloads", icon: "📥", hint: "Games, movies, software updates" },
+      { label: "Big downloads", icon: "📥", hint: "Game installs, 4K movies, OS updates" },
       { label: "Home phone", icon: "☎️", hint: "VoIP using your landline number" }
     ]
   }
@@ -278,7 +278,7 @@ export default function QuizPage() {
                       </button>
                     </div>
                     <p className="text-center text-xs text-slate-400">
-                      We're not selling your data. This just helps us not waste your time.
+                      This isn't a data grab. It's how we stop recommending the wrong plan.
                     </p>
                   </>
                 ) : (

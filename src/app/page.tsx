@@ -82,7 +82,7 @@ const routerOptions = [
     name: "Bring Your Own", 
     price: 0, 
     desc: "Already have one? Skip the hardware cost.",
-    features: ["Must be nbn® compatible", "You set it up", "We'll still help"],
+    features: ["Must be nbn® compatible", "DIY setup", "We're still here if you get stuck"],
     tag: null
   }
 ];
@@ -256,7 +256,7 @@ export default function Home() {
                     <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                     </svg>
-                    We never share your email with third parties
+                    No spam. No third parties. Just your connection updates.
                   </p>
                 </div>
               )}
@@ -526,7 +526,7 @@ export default function Home() {
                   <div className="card-highlight mt-6">
                     <div className="flex items-center justify-between">
                       <span className="text-slate-600">Your plan</span>
-                      <span className="text-lg font-bold text-slate-900 tabular-nums">nbn® 100/20 — $79/mo</span>
+                      <span className="text-lg font-bold text-slate-900 tabular-nums">Fibre Plus — $74.95/mo</span>
                     </div>
                     <div className="mt-3 flex items-center gap-2 text-sm">
                       <svg className="h-4 w-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
@@ -552,7 +552,7 @@ export default function Home() {
                       </span>
                     </div>
                     <p className="mt-1 text-sm text-slate-500">
-                      {routerPrice === 0 ? "Router included" : "Router only"} — $79/mo plan starts once you're connected
+                      {routerPrice === 0 ? "Router included" : "Router only"} — $74.95/mo plan starts once you're connected
                     </p>
                     <div className="mt-3 flex items-center gap-2 rounded-lg bg-green-50 px-3 py-2 text-sm">
                       <svg className="h-4 w-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
