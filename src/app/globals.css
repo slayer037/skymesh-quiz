@@ -23,8 +23,7 @@ body {
 }
 
 .page-shell {
-  @apply min-h-dvh relative overflow-x-hidden;
-  overscroll-behavior-y: contain;
+  @apply min-h-dvh relative;
 }
 
 .page-shell::before {

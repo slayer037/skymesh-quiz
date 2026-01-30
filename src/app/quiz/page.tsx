@@ -48,10 +48,14 @@ export default function QuizPage() {
 
   const current = steps[stepIndex];
 
-  // Scroll to question area on step change (mobile UX)
+  // Scroll to question area on step change (mobile UX) - only after first question
   useEffect(() => {
-    if (questionRef.current) {
-      questionRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (stepIndex > 0 && questionRef.current) {
+      // Small delay to let animation settle, then scroll
+      const timer = setTimeout(() => {
+        questionRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }, 100);
+      return () => clearTimeout(timer);
     }
   }, [stepIndex]);
 
@@ -165,7 +169,7 @@ export default function QuizPage() {
           </div>
         </div>
 
-        <div className="relative flex-1 overflow-x-hidden">
+        <div className="relative flex-1">
           <AnimatePresence mode="wait" custom={direction}>
             <motion.section
               key={current.id}
