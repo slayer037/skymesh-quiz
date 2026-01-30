@@ -6,28 +6,28 @@ import { useMemo, useState } from "react";
 const steps = [
   {
     id: "name",
-    title: "First things first — what should we call you?",
-    subtitle: "Let’s start with your details."
+    title: "Hey there! Just confirming — is this you?",
+    subtitle: "We grabbed your details from the address check."
   },
   {
     id: "email",
     title: "Where can we send the good news?",
-    subtitle: "We’ll only use this for your order updates."
+    subtitle: "We'll only use this for your order updates."
   },
   {
     id: "phone",
-    title: "Got a number? Just in case we need to chat.",
-    subtitle: "No spam, just service updates."
+    title: "Is this still the best number to reach you?",
+    subtitle: "Just double-checking before we continue."
   },
   {
     id: "dob",
     title: "Now we just need your birthday 🎂",
-    subtitle: "We won’t tell anyone."
+    subtitle: "We promise not to sing."
   },
   {
     id: "address",
-    title: "Where is the internet headed?",
-    subtitle: "Pop in the address for your new connection."
+    title: "Perfect — your address is locked in",
+    subtitle: "This is where the magic internet goes."
   },
   {
     id: "avc",
@@ -37,7 +37,7 @@ const steps = [
   {
     id: "postal",
     title: "Same address for letters?",
-    subtitle: "We’ll send any paperwork here."
+    subtitle: "We'll send any paperwork here."
   },
   {
     id: "router",
@@ -46,45 +46,37 @@ const steps = [
   },
   {
     id: "review",
-    title: "Here is the rundown — look good?",
+    title: "Here's the rundown — look good?",
     subtitle: "Double-check before we lock it in."
   }
 ];
 
 const routerOptions = [
-  { name: "Tenda v12", price: "$139.99" },
-  { name: "NF20Mesh", price: "$244.99" },
-  { name: "Grandstream HT801", price: "$89.99" },
-  { name: "No router", price: "$0" }
+  { name: "Tenda v12", price: "$139.99", desc: "Great for apartments & small homes" },
+  { name: "NF20Mesh", price: "$244.99", desc: "Whole-home mesh coverage" },
+  { name: "Grandstream HT801", price: "$89.99", desc: "VoIP adapter for landline" },
+  { name: "No router needed", price: "$0", desc: "I've got my own gear" }
 ];
 
 const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December"
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
 ];
 
 export default function Home() {
   const [stepIndex, setStepIndex] = useState(0);
   const [direction, setDirection] = useState(1);
+  
+  // Pre-filled from address availability check
   const [form, setForm] = useState({
-    firstName: "",
-    lastName: "",
+    firstName: "Jane",
+    lastName: "Citizen",
     email: "",
-    phone: "",
+    phone: "0412 345 678",
     dobDay: "",
     dobMonth: "",
     dobYear: "",
-    address: "",
+    address: "3A Cadle Court, Bayswater VIC 3153",
     avc: "",
     postalSame: "yes",
     postalAddress1: "",
@@ -152,27 +144,20 @@ export default function Home() {
               </div>
 
               {current.id === "name" && (
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div>
-                    <label className="label" htmlFor="firstName">First name</label>
-                    <input
-                      id="firstName"
-                      className="input mt-2"
-                      placeholder="Jane"
-                      value={form.firstName}
-                      onChange={(event) => handleChange("firstName", event.target.value)}
-                    />
+                <div className="space-y-4">
+                  <div className="card bg-sky-50/50 border-sky-100">
+                    <p className="text-2xl font-semibold text-slate-900">
+                      {form.firstName} {form.lastName}
+                    </p>
                   </div>
-                  <div>
-                    <label className="label" htmlFor="lastName">Last name</label>
-                    <input
-                      id="lastName"
-                      className="input mt-2"
-                      placeholder="Citizen"
-                      value={form.lastName}
-                      onChange={(event) => handleChange("lastName", event.target.value)}
-                    />
-                  </div>
+                  <p className="text-sm text-slate-500">
+                    Not you? <button type="button" className="text-skymesh-blue font-semibold hover:underline" onClick={() => {
+                      const newFirst = prompt("First name:", form.firstName);
+                      const newLast = prompt("Last name:", form.lastName);
+                      if (newFirst) handleChange("firstName", newFirst);
+                      if (newLast) handleChange("lastName", newLast);
+                    }}>Update your name</button>
+                  </p>
                 </div>
               )}
 
@@ -183,7 +168,7 @@ export default function Home() {
                     id="email"
                     type="email"
                     className="input mt-2"
-                    placeholder="jane@skymesh.com.au"
+                    placeholder="jane@example.com"
                     value={form.email}
                     onChange={(event) => handleChange("email", event.target.value)}
                   />
@@ -191,16 +176,18 @@ export default function Home() {
               )}
 
               {current.id === "phone" && (
-                <div>
-                  <label className="label" htmlFor="phone">Phone number</label>
-                  <input
-                    id="phone"
-                    type="tel"
-                    className="input mt-2"
-                    placeholder="0400 000 000"
-                    value={form.phone}
-                    onChange={(event) => handleChange("phone", event.target.value)}
-                  />
+                <div className="space-y-4">
+                  <div className="card bg-sky-50/50 border-sky-100">
+                    <p className="text-2xl font-semibold text-slate-900 tabular-nums">
+                      {form.phone}
+                    </p>
+                  </div>
+                  <p className="text-sm text-slate-500">
+                    Different number? <button type="button" className="text-skymesh-blue font-semibold hover:underline" onClick={() => {
+                      const newPhone = prompt("Phone number:", form.phone);
+                      if (newPhone) handleChange("phone", newPhone);
+                    }}>Update it here</button>
+                  </p>
                 </div>
               )}
 
@@ -216,8 +203,7 @@ export default function Home() {
                     >
                       <option value="">DD</option>
                       {Array.from({ length: 31 }, (_, index) => (
-                        <option key={index + 1} value={`${index + 1}`}
-                        >
+                        <option key={index + 1} value={`${index + 1}`}>
                           {index + 1}
                         </option>
                       ))}
@@ -231,7 +217,7 @@ export default function Home() {
                       value={form.dobMonth}
                       onChange={(event) => handleChange("dobMonth", event.target.value)}
                     >
-                      <option value="">MM</option>
+                      <option value="">Month</option>
                       {months.map((month) => (
                         <option key={month} value={month}>
                           {month}
@@ -262,31 +248,35 @@ export default function Home() {
               )}
 
               {current.id === "address" && (
-                <div>
-                  <label className="label" htmlFor="address">Service address</label>
-                  <input
-                    id="address"
-                    className="input mt-2"
-                    placeholder="123 Cloud Street, Brisbane"
-                    value={form.address}
-                    onChange={(event) => handleChange("address", event.target.value)}
-                  />
-                  <p className="mt-3 text-sm text-slate-400">
-                    Autocomplete coming soon.
-                  </p>
+                <div className="space-y-4">
+                  <div className="card bg-sky-50/50 border-sky-100">
+                    <div className="flex items-start gap-3">
+                      <span className="text-2xl">📍</span>
+                      <p className="text-xl font-semibold text-slate-900">
+                        {form.address}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-green-600">
+                    <span>✓</span>
+                    <span>NBN available at this address</span>
+                  </div>
                 </div>
               )}
 
               {current.id === "avc" && (
                 <div>
-                  <label className="label" htmlFor="avc">AVC (optional)</label>
+                  <label className="label" htmlFor="avc">AVC ID (optional)</label>
                   <input
                     id="avc"
                     className="input mt-2"
-                    placeholder="AVC123456"
+                    placeholder="AVC123456789"
                     value={form.avc}
                     onChange={(event) => handleChange("avc", event.target.value)}
                   />
+                  <p className="mt-3 text-sm text-slate-400">
+                    Find this on your current NBN bill. No worries if you don't have it.
+                  </p>
                 </div>
               )}
 
@@ -299,13 +289,13 @@ export default function Home() {
                         type="button"
                         onClick={() => handleChange("postalSame", option)}
                         className={
-                          `rounded-full px-5 py-2 text-sm font-semibold transition ` +
+                          `rounded-full px-5 py-2.5 text-sm font-semibold transition ` +
                           (form.postalSame === option
                             ? "bg-skymesh-blue text-white shadow-soft"
-                            : "border border-slate-200 bg-white text-slate-600")
+                            : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-50")
                         }
                       >
-                        {option === "yes" ? "Yes" : "No"}
+                        {option === "yes" ? "Yes, same address" : "No, different address"}
                       </button>
                     ))}
                   </div>
@@ -317,42 +307,51 @@ export default function Home() {
                         <input
                           id="postalAddress1"
                           className="input mt-2"
-                          placeholder="PO Box 123"
+                          placeholder="PO Box 123 or Street Address"
                           value={form.postalAddress1}
                           onChange={(event) => handleChange("postalAddress1", event.target.value)}
                         />
                       </div>
-                      <div className="grid gap-4 sm:grid-cols-2">
+                      <div className="grid gap-4 sm:grid-cols-3">
                         <div>
-                          <label className="label" htmlFor="postalCity">City</label>
+                          <label className="label" htmlFor="postalCity">Suburb</label>
                           <input
                             id="postalCity"
                             className="input mt-2"
-                            placeholder="Brisbane"
+                            placeholder="Bayswater"
                             value={form.postalCity}
                             onChange={(event) => handleChange("postalCity", event.target.value)}
                           />
                         </div>
                         <div>
                           <label className="label" htmlFor="postalState">State</label>
-                          <input
+                          <select
                             id="postalState"
                             className="input mt-2"
-                            placeholder="QLD"
                             value={form.postalState}
                             onChange={(event) => handleChange("postalState", event.target.value)}
+                          >
+                            <option value="">Select</option>
+                            <option value="VIC">VIC</option>
+                            <option value="NSW">NSW</option>
+                            <option value="QLD">QLD</option>
+                            <option value="SA">SA</option>
+                            <option value="WA">WA</option>
+                            <option value="TAS">TAS</option>
+                            <option value="NT">NT</option>
+                            <option value="ACT">ACT</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label className="label" htmlFor="postalPostcode">Postcode</label>
+                          <input
+                            id="postalPostcode"
+                            className="input mt-2"
+                            placeholder="3153"
+                            value={form.postalPostcode}
+                            onChange={(event) => handleChange("postalPostcode", event.target.value)}
                           />
                         </div>
-                      </div>
-                      <div>
-                        <label className="label" htmlFor="postalPostcode">Postcode</label>
-                        <input
-                          id="postalPostcode"
-                          className="input mt-2"
-                          placeholder="4000"
-                          value={form.postalPostcode}
-                          onChange={(event) => handleChange("postalPostcode", event.target.value)}
-                        />
                       </div>
                     </div>
                   )}
@@ -367,21 +366,21 @@ export default function Home() {
                       type="button"
                       onClick={() => handleChange("router", option.name)}
                       className={
-                        `card text-left ${
+                        `card text-left transition-transform ${
                           form.router === option.name
                             ? "border-skymesh-blue ring-2 ring-sky-100"
                             : "hover:-translate-y-1"
                         }`
                       }
                     >
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-center justify-between gap-4">
                         <div>
                           <p className="text-lg font-semibold text-slate-900">
                             {option.name}
                           </p>
-                          <p className="text-sm text-slate-500">High-speed friendly</p>
+                          <p className="text-sm text-slate-500">{option.desc}</p>
                         </div>
-                        <span className="text-lg font-semibold text-skymesh-blue">
+                        <span className="text-lg font-semibold text-skymesh-blue whitespace-nowrap">
                           {option.price}
                         </span>
                       </div>
@@ -396,15 +395,15 @@ export default function Home() {
                     { label: "Name", value: `${form.firstName} ${form.lastName}`, step: 0 },
                     { label: "Email", value: form.email, step: 1 },
                     { label: "Phone", value: form.phone, step: 2 },
-                    { label: "Date of Birth", value: `${form.dobDay} ${form.dobMonth} ${form.dobYear}`, step: 3 },
-                    { label: "Address", value: form.address, step: 4 },
+                    { label: "Date of Birth", value: form.dobDay ? `${form.dobDay} ${form.dobMonth} ${form.dobYear}` : "", step: 3 },
+                    { label: "Service Address", value: form.address, step: 4 },
                     { label: "AVC", value: form.avc || "Not provided", step: 5 },
                     {
                       label: "Postal Address",
                       value:
                         form.postalSame === "yes"
                           ? "Same as service address"
-                          : `${form.postalAddress1} ${form.postalCity} ${form.postalState} ${form.postalPostcode}`,
+                          : `${form.postalAddress1}, ${form.postalCity} ${form.postalState} ${form.postalPostcode}`,
                       step: 6
                     },
                     { label: "Router", value: form.router || "Not selected", step: 7 }
@@ -414,7 +413,7 @@ export default function Home() {
                         <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
                           {row.label}
                         </p>
-                        <p className="mt-2 text-lg font-semibold text-slate-900">
+                        <p className="mt-1 text-lg font-semibold text-slate-900">
                           {row.value || "—"}
                         </p>
                       </div>
@@ -445,7 +444,9 @@ export default function Home() {
                   className="button-primary"
                   onClick={() => goToStep(stepIndex + 1)}
                 >
-                  {current.id === "review" ? "Confirm and Checkout" : "Continue"}
+                  {current.id === "review" ? "Confirm & Continue to Payment" : 
+                   current.id === "name" || current.id === "phone" || current.id === "address" ? "That's correct" : 
+                   "Continue"}
                 </button>
                 {stepIndex > 0 && (
                   <button
