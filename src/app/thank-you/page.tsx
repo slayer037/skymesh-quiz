@@ -102,101 +102,113 @@ export default function ThankYou() {
           <div className="card space-y-5">
             <div>
               <h2 className="text-lg font-bold text-slate-900">Activate your connection</h2>
-              <p className="text-sm text-slate-500">Finish these details to keep your switch smooth.</p>
+              <p className="text-sm text-slate-500">
+                {activationComplete
+                  ? "Thanks, we've now started working on your connection. Please see below for next steps."
+                  : "Finish these details to keep your switch smooth."
+                }
+              </p>
             </div>
 
-            <div className="rounded-xl bg-slate-50 p-4">
-              <div>
-                <p className="font-semibold text-slate-900">Verify your identity</p>
-                <p className="text-sm text-slate-500">Required for telco account verification</p>
-              </div>
-              <div className="mt-4 grid grid-cols-3 gap-3">
-                <div>
-                  <label className="label" htmlFor="activation-dob-day">Day</label>
-                  <input
-                    id="activation-dob-day"
-                    className="input mt-2 text-center"
-                    placeholder="DD"
-                    maxLength={2}
-                    required
-                    value={activation.dobDay}
-                    onChange={(e) => setActivation((prev) => ({
-                      ...prev,
-                      dobDay: e.target.value.replace(/\D/g, "").slice(0, 2)
-                    }))}
-                  />
+            {!activationComplete ? (
+              <>
+                <div className="rounded-xl bg-slate-50 p-4">
+                  <div>
+                    <p className="font-semibold text-slate-900">Verify your identity</p>
+                    <p className="text-sm text-slate-500">Required for telco account verification</p>
+                  </div>
+                  <div className="mt-4 grid grid-cols-3 gap-3">
+                    <div>
+                      <label className="label" htmlFor="activation-dob-day">Day</label>
+                      <input
+                        id="activation-dob-day"
+                        className="input mt-2 text-center"
+                        placeholder="DD"
+                        maxLength={2}
+                        required
+                        value={activation.dobDay}
+                        onChange={(e) => setActivation((prev) => ({
+                          ...prev,
+                          dobDay: e.target.value.replace(/\D/g, "").slice(0, 2)
+                        }))}
+                      />
+                    </div>
+                    <div>
+                      <label className="label" htmlFor="activation-dob-month">Month</label>
+                      <select
+                        id="activation-dob-month"
+                        className="input mt-2"
+                        required
+                        value={activation.dobMonth}
+                        onChange={(e) => setActivation((prev) => ({ ...prev, dobMonth: e.target.value }))}
+                      >
+                        <option value="">Month</option>
+                        {months.map((m, i) => (
+                          <option key={m} value={String(i + 1).padStart(2, "0")}>{m}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="label" htmlFor="activation-dob-year">Year</label>
+                      <input
+                        id="activation-dob-year"
+                        className="input mt-2 text-center"
+                        placeholder="YYYY"
+                        maxLength={4}
+                        required
+                        value={activation.dobYear}
+                        onChange={(e) => setActivation((prev) => ({
+                          ...prev,
+                          dobYear: e.target.value.replace(/\D/g, "").slice(0, 4)
+                        }))}
+                      />
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <label className="label" htmlFor="activation-dob-month">Month</label>
-                  <select
-                    id="activation-dob-month"
-                    className="input mt-2"
-                    required
-                    value={activation.dobMonth}
-                    onChange={(e) => setActivation((prev) => ({ ...prev, dobMonth: e.target.value }))}
-                  >
-                    <option value="">Month</option>
-                    {months.map((m, i) => (
-                      <option key={m} value={String(i + 1).padStart(2, "0")}>{m}</option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className="label" htmlFor="activation-dob-year">Year</label>
-                  <input
-                    id="activation-dob-year"
-                    className="input mt-2 text-center"
-                    placeholder="YYYY"
-                    maxLength={4}
-                    required
-                    value={activation.dobYear}
-                    onChange={(e) => setActivation((prev) => ({
-                      ...prev,
-                      dobYear: e.target.value.replace(/\D/g, "").slice(0, 4)
-                    }))}
-                  />
-                </div>
-              </div>
-            </div>
 
-            <div className="rounded-xl bg-slate-50 p-4">
-              <div>
-                <p className="font-semibold text-slate-900">Speed up your switch</p>
-                <p className="text-sm text-slate-500">Have your old bill? Your AVC ID makes switching faster.</p>
-              </div>
-              <div className="mt-4">
-                <label className="label" htmlFor="activation-avc-id">AVC ID (optional)</label>
-                <input
-                  id="activation-avc-id"
-                  className="input mt-2 font-mono"
-                  placeholder="e.g. AVC123456789"
-                  spellCheck={false}
-                  value={activation.avc}
-                  onChange={(e) => setActivation((prev) => ({
-                    ...prev,
-                    avc: e.target.value.toUpperCase()
-                  }))}
-                />
-              </div>
-            </div>
+                <div className="rounded-xl bg-slate-50 p-4">
+                  <div>
+                    <p className="font-semibold text-slate-900">Speed up your switch</p>
+                    <p className="text-sm text-slate-500">Have your old bill? Your AVC ID makes switching faster.</p>
+                  </div>
+                  <div className="mt-4">
+                    <label className="label" htmlFor="activation-avc-id">AVC ID (optional)</label>
+                    <input
+                      id="activation-avc-id"
+                      className="input mt-2 font-mono"
+                      placeholder="e.g. AVC123456789"
+                      spellCheck={false}
+                      value={activation.avc}
+                      onChange={(e) => setActivation((prev) => ({
+                        ...prev,
+                        avc: e.target.value.toUpperCase()
+                      }))}
+                    />
+                  </div>
+                </div>
 
-            <button
-              type="button"
-              className="button-primary"
-              disabled={!isDobComplete || activationComplete}
-              onClick={() => setActivationComplete(true)}
-            >
-              {activationComplete ? (
-                <span className="inline-flex items-center gap-2">
+                <button
+                  type="button"
+                  className="button-primary"
+                  disabled={!isDobComplete}
+                  onClick={() => setActivationComplete(true)}
+                >
+                  Activate my connection
+                </button>
+              </>
+            ) : (
+              <div className="flex items-center gap-3 rounded-xl bg-green-50 p-4 text-green-900">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100">
                   <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7"/>
                   </svg>
-                  Activation complete
-                </span>
-              ) : (
-                "Complete activation"
-              )}
-            </button>
+                </div>
+                <div>
+                  <p className="font-semibold">Activation complete</p>
+                  <p className="text-sm text-green-800">We’ll begin the switch and keep you updated.</p>
+                </div>
+              </div>
+            )}
           </div>
         </motion.div>
 
