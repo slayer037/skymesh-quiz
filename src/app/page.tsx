@@ -607,7 +607,7 @@ export default function Home() {
                    current.id === "contact" || current.id === "address" ? "Confirm & Continue" : 
                    "Continue"}
                 </button>
-                {stepIndex > 0 && (
+                {stepIndex > 0 && current.id !== "review" && (
                   <button
                     type="button"
                     className="text-center text-sm font-medium text-slate-500 hover:text-slate-700 transition py-2"
