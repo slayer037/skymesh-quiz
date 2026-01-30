@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 
@@ -92,6 +92,7 @@ export default function Home() {
   const router = useRouter();
   const [stepIndex, setStepIndex] = useState(0);
   const [direction, setDirection] = useState(1);
+  const shouldReduceMotion = useReducedMotion();
   
   const [form, setForm] = useState({
     firstName: "Jane",
@@ -136,11 +137,14 @@ export default function Home() {
 
   const current = steps[stepIndex];
 
-  const variants = {
-    enter: (d: number) => ({ x: d > 0 ? 60 : -60, opacity: 0 }),
-    center: { x: 0, opacity: 1 },
-    exit: (d: number) => ({ x: d > 0 ? -60 : 60, opacity: 0 })
-  };
+  const variants = useMemo(
+    () => ({
+      enter: (d: number) => (shouldReduceMotion ? { opacity: 0 } : { x: d > 0 ? 60 : -60, opacity: 0 }),
+      center: { x: 0, opacity: 1 },
+      exit: (d: number) => (shouldReduceMotion ? { opacity: 0 } : { x: d > 0 ? -60 : 60, opacity: 0 })
+    }),
+    [shouldReduceMotion]
+  );
 
   return (
     <main className="min-h-dvh bg-gradient-to-b from-slate-50 to-white">
@@ -179,10 +183,10 @@ export default function Home() {
               key={current.id}
               custom={direction}
               variants={variants}
-              initial="enter"
+              initial={shouldReduceMotion ? false : "enter"}
               animate="center"
               exit="exit"
-              transition={{ duration: 0.25, ease: "easeOut" }}
+              transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.25, ease: "easeOut" }}
               className="flex min-h-full flex-col"
             >
               {/* Title */}
@@ -207,17 +211,21 @@ export default function Home() {
                   </div>
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div>
-                      <label className="label">First name</label>
+                      <label className="label" htmlFor="first-name">First name</label>
                       <input
+                        id="first-name"
                         className="input mt-2"
+                        autoComplete="given-name"
                         value={form.firstName}
                         onChange={(e) => handleChange("firstName", e.target.value)}
                       />
                     </div>
                     <div>
-                      <label className="label">Last name</label>
+                      <label className="label" htmlFor="last-name">Last name</label>
                       <input
+                        id="last-name"
                         className="input mt-2"
+                        autoComplete="family-name"
                         value={form.lastName}
                         onChange={(e) => handleChange("lastName", e.target.value)}
                       />
@@ -229,11 +237,13 @@ export default function Home() {
               {current.id === "email" && (
                 <div className="space-y-4">
                   <div>
-                    <label className="label">Email address</label>
+                    <label className="label" htmlFor="email-address">Email address</label>
                     <input
+                      id="email-address"
                       type="email"
                       className="input mt-2"
                       placeholder="jane@example.com"
+                      autoComplete="email"
                       value={form.email}
                       onChange={(e) => handleChange("email", e.target.value)}
                     />
@@ -258,11 +268,13 @@ export default function Home() {
                     </div>
                   </div>
                   <div>
-                    <label className="label">Mobile number</label>
+                    <label className="label" htmlFor="mobile-number">Mobile number</label>
                     <input
+                      id="mobile-number"
                       type="tel"
                       className="input mt-2"
                       placeholder="0412 345 678"
+                      autoComplete="tel"
                       value={form.phone}
                       onChange={(e) => handleChange("phone", e.target.value)}
                     />
@@ -274,8 +286,9 @@ export default function Home() {
                 <div className="space-y-4">
                   <div className="grid grid-cols-3 gap-3">
                     <div>
-                      <label className="label">Day</label>
+                      <label className="label" htmlFor="dob-day">Day</label>
                       <input
+                        id="dob-day"
                         className="input mt-2 text-center"
                         placeholder="DD"
                         maxLength={2}
@@ -284,8 +297,9 @@ export default function Home() {
                       />
                     </div>
                     <div>
-                      <label className="label">Month</label>
+                      <label className="label" htmlFor="dob-month">Month</label>
                       <select
+                        id="dob-month"
                         className="input mt-2"
                         value={form.dobMonth}
                         onChange={(e) => handleChange("dobMonth", e.target.value)}
@@ -297,8 +311,9 @@ export default function Home() {
                       </select>
                     </div>
                     <div>
-                      <label className="label">Year</label>
+                      <label className="label" htmlFor="dob-year">Year</label>
                       <input
+                        id="dob-year"
                         className="input mt-2 text-center"
                         placeholder="YYYY"
                         maxLength={4}
@@ -324,7 +339,14 @@ export default function Home() {
                     </div>
                   </div>
 
-                  <label className="checkbox-container" onClick={() => handleChange("addressAlternateName", !form.addressAlternateName)}>
+                  <input
+                    id="address-alternate-name"
+                    type="checkbox"
+                    className="sr-only"
+                    checked={form.addressAlternateName}
+                    onChange={(e) => handleChange("addressAlternateName", e.target.checked)}
+                  />
+                  <label className="checkbox-container" htmlFor="address-alternate-name">
                     <div className={`checkbox ${form.addressAlternateName ? 'checked' : ''}`}>
                       {form.addressAlternateName && (
                         <svg className="h-3 w-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -336,7 +358,11 @@ export default function Home() {
                   </label>
 
                   {form.addressAlternateName && (
-                    <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }}>
+                    <motion.div
+                      initial={shouldReduceMotion ? false : { height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.2, ease: "easeOut" }}
+                    >
                       <input
                         className="input"
                         placeholder="Property or lot name"
@@ -346,7 +372,14 @@ export default function Home() {
                     </motion.div>
                   )}
 
-                  <label className="checkbox-container" onClick={() => handleChange("postalDifferent", !form.postalDifferent)}>
+                  <input
+                    id="postal-different"
+                    type="checkbox"
+                    className="sr-only"
+                    checked={form.postalDifferent}
+                    onChange={(e) => handleChange("postalDifferent", e.target.checked)}
+                  />
+                  <label className="checkbox-container" htmlFor="postal-different">
                     <div className={`checkbox ${form.postalDifferent ? 'checked' : ''}`}>
                       {form.postalDifferent && (
                         <svg className="h-3 w-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -358,7 +391,12 @@ export default function Home() {
                   </label>
 
                   {form.postalDifferent && (
-                    <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} className="space-y-3">
+                    <motion.div
+                      initial={shouldReduceMotion ? false : { height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.2, ease: "easeOut" }}
+                      className="space-y-3"
+                    >
                       <input
                         className="input"
                         placeholder="Street address"
@@ -404,10 +442,12 @@ export default function Home() {
                     </div>
                   </div>
                   <div>
-                    <label className="label">AVC ID (optional)</label>
+                    <label className="label" htmlFor="avc-id">AVC ID (optional)</label>
                     <input
+                      id="avc-id"
                       className="input mt-2 font-mono"
                       placeholder="e.g. AVC123456789"
+                      spellCheck={false}
                       value={form.avc}
                       onChange={(e) => handleChange("avc", e.target.value.toUpperCase())}
                     />
@@ -430,7 +470,7 @@ export default function Home() {
                             <p className="font-semibold text-slate-900">{opt.name}</p>
                             <p className="text-sm text-slate-500">{opt.desc}</p>
                           </div>
-                          <p className="text-lg font-bold text-slate-900">
+                          <p className="text-lg font-bold text-slate-900 tabular-nums">
                             {opt.price === 0 ? "Free" : `$${opt.price.toFixed(2)}`}
                           </p>
                         </div>
@@ -475,7 +515,7 @@ export default function Home() {
                   <div className="card-highlight mt-6">
                     <div className="flex items-center justify-between">
                       <span className="text-slate-600">Your plan</span>
-                      <span className="text-lg font-bold text-slate-900">nbn® 100/20 — $79/mo</span>
+                      <span className="text-lg font-bold text-slate-900 tabular-nums">nbn® 100/20 — $79/mo</span>
                     </div>
                   </div>
                 </div>
@@ -486,7 +526,7 @@ export default function Home() {
                   <div className="card-highlight">
                     <div className="flex items-center justify-between">
                       <span className="text-slate-600">Total due today</span>
-                      <span className="text-2xl font-bold text-slate-900">
+                      <span className="text-2xl font-bold text-slate-900 tabular-nums">
                         ${routerPrice.toFixed(2)}
                       </span>
                     </div>
@@ -494,8 +534,9 @@ export default function Home() {
                   </div>
 
                   <div>
-                    <label className="label">Name on card</label>
+                    <label className="label" htmlFor="card-name">Name on card</label>
                     <input
+                      id="card-name"
                       className="input mt-2"
                       placeholder="Jane Citizen"
                       value={form.cardName}
@@ -504,8 +545,9 @@ export default function Home() {
                   </div>
 
                   <div>
-                    <label className="label">Card number</label>
+                    <label className="label" htmlFor="card-number">Card number</label>
                     <input
+                      id="card-number"
                       className="input mt-2 font-mono tracking-wider"
                       placeholder="4242 4242 4242 4242"
                       value={form.cardNumber}
@@ -515,8 +557,9 @@ export default function Home() {
 
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div>
-                      <label className="label">Expiry</label>
+                      <label className="label" htmlFor="card-expiry">Expiry</label>
                       <input
+                        id="card-expiry"
                         className="input mt-2"
                         placeholder="MM / YY"
                         value={form.cardExpiry}
@@ -524,8 +567,9 @@ export default function Home() {
                       />
                     </div>
                     <div>
-                      <label className="label">CVC</label>
+                      <label className="label" htmlFor="card-cvc">CVC</label>
                       <input
+                        id="card-cvc"
                         className="input mt-2"
                         placeholder="123"
                         value={form.cardCvc}
@@ -557,6 +601,7 @@ export default function Home() {
                 <button
                   type="button"
                   className="button-primary"
+                  aria-label={current.id === "payment" ? "Complete order" : undefined}
                   onClick={() => {
                     if (current.id === "payment") {
                       router.push("/thank-you");

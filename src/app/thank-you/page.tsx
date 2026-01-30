@@ -1,9 +1,10 @@
 "use client";
 
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import Link from "next/link";
 
 export default function ThankYou() {
+  const shouldReduceMotion = useReducedMotion();
   const orderDetails = {
     orderNumber: "SKY-" + Math.random().toString(36).substring(2, 8).toUpperCase(),
     name: "Jane Citizen",
@@ -27,13 +28,13 @@ export default function ThankYou() {
 
         {/* Success animation */}
         <motion.div
-          initial={{ scale: 0 }}
+          initial={shouldReduceMotion ? false : { scale: 0 }}
           animate={{ scale: 1 }}
-          transition={{ type: "spring", stiffness: 200, damping: 15 }}
+          transition={shouldReduceMotion ? { duration: 0 } : { type: "spring", stiffness: 200, damping: 15 }}
           className="mx-auto mb-6"
         >
           <div className="relative flex h-24 w-24 items-center justify-center">
-            <div className="absolute inset-0 animate-ping rounded-full bg-skymesh-orange/20" />
+            <div className="absolute inset-0 animate-ping rounded-full bg-skymesh-orange/20 motion-reduce:animate-none" />
             <div className="relative flex h-20 w-20 items-center justify-center rounded-full bg-skymesh-orange shadow-lg">
               <motion.svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -47,9 +48,9 @@ export default function ThankYou() {
               >
                 <motion.path
                   d="M5 13l4 4L19 7"
-                  initial={{ pathLength: 0 }}
+                  initial={shouldReduceMotion ? false : { pathLength: 0 }}
                   animate={{ pathLength: 1 }}
-                  transition={{ delay: 0.2, duration: 0.4 }}
+                  transition={shouldReduceMotion ? { duration: 0 } : { delay: 0.2, duration: 0.4 }}
                 />
               </motion.svg>
             </div>
@@ -58,9 +59,9 @@ export default function ThankYou() {
 
         {/* Title */}
         <motion.div
-          initial={{ y: 20, opacity: 0 }}
+          initial={shouldReduceMotion ? false : { y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.2 }}
+          transition={shouldReduceMotion ? { duration: 0 } : { delay: 0.2 }}
           className="mb-8 text-center"
         >
           <h1 className="mb-2 text-2xl font-bold text-slate-900">
@@ -73,9 +74,9 @@ export default function ThankYou() {
 
         {/* Order card */}
         <motion.div
-          initial={{ y: 20, opacity: 0 }}
+          initial={shouldReduceMotion ? false : { y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.3 }}
+          transition={shouldReduceMotion ? { duration: 0 } : { delay: 0.3 }}
           className="card mb-6"
         >
           <div className="mb-4 flex items-center justify-between border-b border-slate-100 pb-4">
@@ -105,16 +106,19 @@ export default function ThankYou() {
           <div className="mt-4 rounded-xl bg-slate-50 p-4">
             <div className="flex items-center justify-between">
               <span className="font-medium text-slate-700">Monthly plan</span>
-              <span className="text-xl font-bold text-slate-900">{orderDetails.monthlyPrice}<span className="text-sm font-normal text-slate-500">/mo</span></span>
+              <span className="text-xl font-bold text-slate-900 tabular-nums">
+                {orderDetails.monthlyPrice}
+                <span className="text-sm font-normal text-slate-500">/mo</span>
+              </span>
             </div>
           </div>
         </motion.div>
 
         {/* Email notice */}
         <motion.div
-          initial={{ y: 20, opacity: 0 }}
+          initial={shouldReduceMotion ? false : { y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.4 }}
+          transition={shouldReduceMotion ? { duration: 0 } : { delay: 0.4 }}
           className="mb-6 flex items-start gap-4 rounded-2xl border border-skymesh-orange/20 bg-orange-50/50 p-4"
         >
           <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-skymesh-orange/10">
@@ -130,9 +134,9 @@ export default function ThankYou() {
 
         {/* Timeline */}
         <motion.div
-          initial={{ y: 20, opacity: 0 }}
+          initial={shouldReduceMotion ? false : { y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.5 }}
+          transition={shouldReduceMotion ? { duration: 0 } : { delay: 0.5 }}
           className="mb-8"
         >
           <h2 className="mb-5 text-lg font-bold text-slate-900">What happens next</h2>
@@ -163,9 +167,9 @@ export default function ThankYou() {
 
         {/* Support */}
         <motion.div
-          initial={{ y: 20, opacity: 0 }}
+          initial={shouldReduceMotion ? false : { y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.6 }}
+          transition={shouldReduceMotion ? { duration: 0 } : { delay: 0.6 }}
           className="mb-6 rounded-2xl bg-skymesh-navy p-5 text-white"
         >
           <div className="flex items-center gap-4">
@@ -189,9 +193,9 @@ export default function ThankYou() {
 
         {/* CTA */}
         <motion.div
-          initial={{ y: 20, opacity: 0 }}
+          initial={shouldReduceMotion ? false : { y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.7 }}
+          transition={shouldReduceMotion ? { duration: 0 } : { delay: 0.7 }}
           className="mt-auto"
         >
           <Link href="/" className="button-secondary">
@@ -201,9 +205,9 @@ export default function ThankYou() {
 
         {/* Trust badges */}
         <motion.div
-          initial={{ opacity: 0 }}
+          initial={shouldReduceMotion ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.8 }}
+          transition={shouldReduceMotion ? { duration: 0 } : { delay: 0.8 }}
           className="mt-6 flex items-center justify-center gap-4 text-xs text-slate-400"
         >
           <span className="flex items-center gap-1">
