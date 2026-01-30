@@ -23,7 +23,7 @@ body {
 }
 
 .page-shell {
-  @apply min-h-dvh relative overflow-hidden;
+  @apply min-h-dvh relative overflow-x-hidden;
 }
 
 .page-shell::before {

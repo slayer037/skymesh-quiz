@@ -165,7 +165,7 @@ export default function QuizPage() {
           </div>
         </div>
 
-        <div className="relative flex-1 overflow-hidden">
+        <div className="relative flex-1 overflow-x-hidden">
           <AnimatePresence mode="wait" custom={direction}>
             <motion.section
               key={current.id}
