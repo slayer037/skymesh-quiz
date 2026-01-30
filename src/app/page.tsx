@@ -462,10 +462,12 @@ export default function Home() {
               {current.id === "router" && (
                 <div className="space-y-3">
                   {routerOptions.map((opt) => (
-                    <div
+                    <button
                       key={opt.id}
-                      className={`selection-card ${form.router === opt.id ? "selected" : ""}`}
+                      type="button"
+                      className={`selection-card w-full text-left ${form.router === opt.id ? "selected" : ""}`}
                       onClick={() => handleChange("router", opt.id)}
+                      aria-pressed={form.router === opt.id}
                     >
                       <div className="radio-indicator" />
                       <div className="flex-1">
@@ -491,7 +493,7 @@ export default function Home() {
                           ))}
                         </div>
                       </div>
-                    </div>
+                    </button>
                   ))}
                 </div>
               )}

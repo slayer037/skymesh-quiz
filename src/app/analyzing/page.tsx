@@ -103,11 +103,12 @@ export default function AnalyzingPage() {
         </header>
 
         {/* Analysis animation */}
-        <div className="mb-8 flex flex-col items-center">
+        <div className="mb-8 flex flex-col items-center" role="status" aria-live="polite">
           <motion.div
             animate={{ rotate: 360 }}
             transition={shouldReduceMotion ? { duration: 0 } : { repeat: Infinity, duration: 2, ease: "linear" }}
             className="mb-6 flex h-20 w-20 items-center justify-center rounded-full border-4 border-slate-100 border-t-skymesh-orange"
+            aria-hidden="true"
           />
           
           <motion.h1
@@ -131,6 +132,7 @@ export default function AnalyzingPage() {
               transition={{ duration: 0.3, ease: "easeOut" }}
             />
           </div>
+          <span className="sr-only">{`Progress ${Math.round(progress)}%`}</span>
         </div>
 
         {/* Social proof section */}
@@ -152,7 +154,7 @@ export default function AnalyzingPage() {
           </div>
 
           {/* Review carousel */}
-          <div className="relative h-48 overflow-hidden">
+          <div className="relative min-h-[12rem] overflow-hidden">
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentReview}

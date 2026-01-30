@@ -35,6 +35,7 @@ body {
   @apply shadow-soft transition-all duration-200;
   @apply hover:bg-skymesh-orange-hover hover:shadow-lg hover:-translate-y-0.5;
   @apply active:translate-y-0 active:shadow-md;
+  @apply focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-skymesh-orange/25;
 }
 
 /* Secondary button - clean outline */
@@ -43,6 +44,7 @@ body {
   @apply border-2 border-slate-200 bg-white px-6 py-4 text-base font-semibold text-slate-700;
   @apply shadow-card transition-all duration-200;
   @apply hover:bg-slate-50 hover:border-slate-300;
+  @apply focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-skymesh-orange/15;
 }
 
 /* Card styles */
@@ -67,6 +69,7 @@ body {
 .selection-card {
   @apply flex cursor-pointer items-start gap-4 rounded-2xl border-2 border-slate-100 bg-white p-5 transition-all duration-200;
   @apply hover:border-slate-200 hover:shadow-card;
+  @apply focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-skymesh-orange/15;
 }
 
 .selection-card.selected {
@@ -93,7 +96,8 @@ body {
 
 /* Checkbox styles */
 .checkbox-container {
-  @apply flex items-start gap-3 cursor-pointer select-none;
+  @apply flex items-start gap-3 cursor-pointer select-none py-2;
+  @apply focus-within:rounded-xl focus-within:ring-4 focus-within:ring-skymesh-orange/10;
 }
 
 .checkbox {

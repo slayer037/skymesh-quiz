@@ -211,7 +211,7 @@ export default function RecommendedPage() {
       </div>
 
       {/* Sticky footer CTA */}
-      <div className="fixed bottom-0 left-0 right-0 border-t border-slate-200 bg-white/95 backdrop-blur-sm px-5 py-4 shadow-lg">
+      <div className="fixed bottom-0 left-0 right-0 border-t border-slate-200 bg-white/95 backdrop-blur-sm px-5 py-4 pb-[calc(env(safe-area-inset-bottom)+1rem)] shadow-lg">
         <div className="mx-auto max-w-lg">
           <Link href="/" className="button-primary">
             Continue with Fibre Plus
