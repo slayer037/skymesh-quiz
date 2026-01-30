@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
+import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 
 const steps = [
@@ -64,6 +65,7 @@ const months = [
 ];
 
 export default function Home() {
+  const router = useRouter();
   const [stepIndex, setStepIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   
@@ -538,7 +540,7 @@ export default function Home() {
                   className="button-primary"
                   onClick={() => {
                     if (current.id === "payment") {
-                      alert("🎉 Order submitted! (This is a demo)");
+                      router.push("/thank-you");
                     } else {
                       goToStep(stepIndex + 1);
                     }
