@@ -113,7 +113,7 @@ export default function RecommendedPage() {
                 </svg>
               ))}
             </div>
-            <span className="text-sm text-slate-500">4.8 from 2,847 reviews</span>
+            <span className="text-sm text-slate-500">Over 600 five-star reviews</span>
           </div>
         </motion.section>
 

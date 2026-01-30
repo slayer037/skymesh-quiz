@@ -148,7 +148,7 @@ export default function AnalyzingPage() {
                 </svg>
               ))}
             </div>
-            <span className="text-sm font-semibold text-slate-600">4.8 from 2,847 reviews</span>
+            <span className="text-sm font-semibold text-slate-600">Over 600 five-star reviews</span>
           </div>
 
           {/* Review carousel */}
