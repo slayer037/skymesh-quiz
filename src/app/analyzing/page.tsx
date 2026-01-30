@@ -54,7 +54,9 @@ export default function AnalyzingPage() {
   const shouldReduceMotion = useReducedMotion();
   const [currentReview, setCurrentReview] = useState(0);
   const [analysisStep, setAnalysisStep] = useState(0);
-  const [progress, setProgress] = useState(0);
+  
+  // Calculate total duration for smooth progress
+  const totalDuration = analysisSteps.reduce((sum, step) => sum + step.duration, 0);
 
   // Cycle through reviews
   useEffect(() => {
@@ -64,28 +66,27 @@ export default function AnalyzingPage() {
     return () => clearInterval(interval);
   }, []);
 
-  // Progress through analysis steps
+  // Progress through analysis steps (text only)
   useEffect(() => {
-    let totalTime = 0;
+    let accumulatedTime = 0;
     const timeouts: NodeJS.Timeout[] = [];
 
     analysisSteps.forEach((step, index) => {
-      totalTime += step.duration;
+      accumulatedTime += step.duration;
       const timeout = setTimeout(() => {
         setAnalysisStep(index + 1);
-        setProgress(((index + 1) / analysisSteps.length) * 100);
-      }, totalTime);
+      }, accumulatedTime);
       timeouts.push(timeout);
     });
 
     // Navigate after all steps complete
     const finalTimeout = setTimeout(() => {
       router.push("/recommended");
-    }, totalTime + 600);
+    }, totalDuration + 600);
     timeouts.push(finalTimeout);
 
     return () => timeouts.forEach(clearTimeout);
-  }, [router]);
+  }, [router, totalDuration]);
 
   const review = reviews[currentReview];
 
@@ -117,16 +118,19 @@ export default function AnalyzingPage() {
             }
           </motion.h1>
 
-          {/* Progress bar */}
+          {/* Progress bar - smooth continuous animation */}
           <div className="mt-4 h-2 w-56 overflow-hidden rounded-full bg-white/80 shadow-input">
             <motion.div
               className="h-full rounded-full bg-gradient-to-r from-skymesh-orange via-orange-500 to-amber-400"
-              initial={{ width: 0 }}
-              animate={{ width: `${progress}%` }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
+              initial={{ width: "0%" }}
+              animate={{ width: "100%" }}
+              transition={{ 
+                duration: totalDuration / 1000, 
+                ease: "easeInOut"
+              }}
             />
           </div>
-          <span className="sr-only">{`Progress ${Math.round(progress)}%`}</span>
+          <span className="sr-only">Analyzing your answers</span>
         </div>
 
         {/* Social proof section */}
