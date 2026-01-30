@@ -11,19 +11,9 @@ const steps = [
     subtitle: "We grabbed some of this from your address check"
   },
   {
-    id: "dob",
-    title: "When were you born?",
-    subtitle: "Required for telco account verification"
-  },
-  {
     id: "address",
     title: "This is where we're connecting you",
     subtitle: "The good news: nbn® is ready to go here"
-  },
-  {
-    id: "avc",
-    title: "Got an existing connection?",
-    subtitle: "Your AVC ID makes switching faster. It's on your old bill."
   },
   {
     id: "router",
@@ -77,11 +67,6 @@ const routerOptions = [
   }
 ];
 
-const months = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"
-];
-
 export default function Home() {
   const router = useRouter();
   const [stepIndex, setStepIndex] = useState(0);
@@ -93,13 +78,9 @@ export default function Home() {
     lastName: "Citizen",
     email: "",
     phone: "0412 345 678",
-    dobDay: "",
-    dobMonth: "",
-    dobYear: "",
     address: "3A Cadle Court, Bayswater VIC 3153",
     addressAlternateName: false,
     addressAltName: "",
-    avc: "",
     postalDifferent: false,
     postalAddress1: "",
     postalCity: "",
@@ -258,49 +239,6 @@ export default function Home() {
                 </div>
               )}
 
-              {current.id === "dob" && (
-                <div className="space-y-4">
-                  <div className="grid grid-cols-3 gap-3">
-                    <div>
-                      <label className="label" htmlFor="dob-day">Day</label>
-                      <input
-                        id="dob-day"
-                        className="input mt-2 text-center"
-                        placeholder="DD"
-                        maxLength={2}
-                        value={form.dobDay}
-                        onChange={(e) => handleChange("dobDay", e.target.value.replace(/\D/g, ""))}
-                      />
-                    </div>
-                    <div>
-                      <label className="label" htmlFor="dob-month">Month</label>
-                      <select
-                        id="dob-month"
-                        className="input mt-2"
-                        value={form.dobMonth}
-                        onChange={(e) => handleChange("dobMonth", e.target.value)}
-                      >
-                        <option value="">Month</option>
-                        {months.map((m, i) => (
-                          <option key={m} value={String(i + 1).padStart(2, "0")}>{m}</option>
-                        ))}
-                      </select>
-                    </div>
-                    <div>
-                      <label className="label" htmlFor="dob-year">Year</label>
-                      <input
-                        id="dob-year"
-                        className="input mt-2 text-center"
-                        placeholder="YYYY"
-                        maxLength={4}
-                        value={form.dobYear}
-                        onChange={(e) => handleChange("dobYear", e.target.value.replace(/\D/g, ""))}
-                      />
-                    </div>
-                  </div>
-                </div>
-              )}
-
               {current.id === "address" && (
                 <div className="space-y-4">
                   <div className="card-highlight">
@@ -406,31 +344,6 @@ export default function Home() {
                 </div>
               )}
 
-              {current.id === "avc" && (
-                <div className="space-y-4">
-                  <div className="card bg-slate-50 border-slate-100">
-                    <div className="flex items-start gap-3">
-                      <span className="text-xl">💡</span>
-                      <div>
-                        <p className="font-medium text-slate-900">What's an AVC ID?</p>
-                        <p className="mt-1 text-sm text-slate-600">Your Access Virtual Circuit ID is on your current provider's bill. It helps us transfer your service faster.</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div>
-                    <label className="label" htmlFor="avc-id">AVC ID (optional)</label>
-                    <input
-                      id="avc-id"
-                      className="input mt-2 font-mono"
-                      placeholder="e.g. AVC123456789"
-                      spellCheck={false}
-                      value={form.avc}
-                      onChange={(e) => handleChange("avc", e.target.value.toUpperCase())}
-                    />
-                  </div>
-                </div>
-              )}
-
               {current.id === "router" && (
                 <div className="space-y-3">
                   {routerOptions.map((opt) => (
@@ -476,9 +389,8 @@ export default function Home() {
                     { label: "Name", value: `${form.firstName} ${form.lastName}`, step: 0 },
                     { label: "Email", value: form.email, step: 0 },
                     { label: "Phone", value: form.phone, step: 0 },
-                    { label: "Date of birth", value: form.dobDay && form.dobMonth && form.dobYear ? `${form.dobDay}/${form.dobMonth}/${form.dobYear}` : "Not provided", step: 1 },
-                    { label: "Address", value: form.address, step: 2 },
-                    { label: "Router", value: selectedRouter?.name || "Not selected", step: 4 }
+                    { label: "Address", value: form.address, step: 1 },
+                    { label: "Router", value: selectedRouter?.name || "Not selected", step: 2 }
                   ].map((row) => (
                     <div key={row.label} className="flex items-center justify-between py-3 border-b border-slate-100 last:border-0">
                       <div>
@@ -603,49 +515,29 @@ export default function Home() {
 
               {/* Actions */}
               <div className="mt-auto flex flex-col gap-3 pb-4 pt-6">
-                {current.id === "avc" && (
-                  <>
-                    <button
-                      type="button"
-                      className="button-primary"
-                      onClick={() => goToStep(stepIndex + 1)}
-                    >
-                      Skip — I don't have it
-                    </button>
-                    <button
-                      type="button"
-                      className="button-secondary"
-                      onClick={() => goToStep(stepIndex + 1)}
-                    >
-                      Continue with AVC ID
-                    </button>
-                  </>
-                )}
-                {current.id !== "avc" && (
-                  <button
-                    type="button"
-                    className="button-primary"
-                    aria-label={current.id === "payment" ? "Complete order" : undefined}
-                    onClick={() => {
-                      if (current.id === "payment") {
-                        router.push("/thank-you");
-                      } else {
-                        goToStep(stepIndex + 1);
-                      }
-                    }}
-                  >
-                    {current.id === "payment" ? (
-                      <>
-                        <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-                        </svg>
-                        Start my connection
-                      </>
-                    ) : current.id === "review" ? "Get connected" : 
-                     current.id === "contact" || current.id === "address" ? "Confirm & Continue" : 
-                     "Continue"}
-                  </button>
-                )}
+                <button
+                  type="button"
+                  className="button-primary"
+                  aria-label={current.id === "payment" ? "Complete order" : undefined}
+                  onClick={() => {
+                    if (current.id === "payment") {
+                      router.push("/thank-you");
+                    } else {
+                      goToStep(stepIndex + 1);
+                    }
+                  }}
+                >
+                  {current.id === "payment" ? (
+                    <>
+                      <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                      </svg>
+                      Start my connection
+                    </>
+                  ) : current.id === "review" ? "Get connected" : 
+                   current.id === "contact" || current.id === "address" ? "Confirm & Continue" : 
+                   "Continue"}
+                </button>
                 {stepIndex > 0 && (
                   <button
                     type="button"
