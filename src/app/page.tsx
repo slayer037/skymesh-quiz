@@ -123,7 +123,7 @@ export default function Home() {
 
   return (
     <main className="min-h-dvh bg-gradient-to-b from-slate-50 to-white">
-      <div className="mx-auto flex min-h-dvh max-w-lg flex-col px-5 py-6">
+      <div className="mx-auto flex max-w-lg flex-col px-5 py-6">
         {/* Header */}
         <header className="mb-4 flex items-center justify-between">
           <div className="flex items-center gap-3">

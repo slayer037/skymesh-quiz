@@ -92,7 +92,7 @@ export default function AnalyzingPage() {
   return (
     <main className="page-shell">
       <div className="page-texture" aria-hidden="true" />
-      <div className="relative z-10 mx-auto flex min-h-dvh max-w-lg flex-col px-5 py-8">
+      <div className="relative z-10 mx-auto flex max-w-lg flex-col px-5 py-8">
         {/* Header */}
         <header className="mb-10 flex items-center justify-center">
           <div className="flex items-center gap-3">

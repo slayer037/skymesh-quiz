@@ -37,7 +37,7 @@ export default function ThankYou() {
 
   return (
     <main className="min-h-dvh bg-gradient-to-b from-slate-50 to-white">
-      <div className="mx-auto flex min-h-dvh max-w-lg flex-col px-5 py-8">
+      <div className="mx-auto flex max-w-lg flex-col px-5 py-8">
         {/* Header */}
         <header className="mb-8 flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-skymesh-orange shadow-sm">
