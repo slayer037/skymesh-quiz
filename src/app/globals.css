@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,25 +9,115 @@
 }
 
 body {
-  @apply bg-white text-slate-900;
+  @apply bg-white text-slate-800 antialiased;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
+/* Inputs - Skymesh style: clean, rounder, subtle shadow */
 .input {
-  @apply w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-lg shadow-soft transition focus:border-skymesh-orange focus:outline-none focus:ring-2 focus:ring-orange-100;
+  @apply w-full rounded-xl border border-slate-200 bg-white px-4 py-3.5 text-base shadow-input transition-all duration-200;
+  @apply focus:border-skymesh-orange focus:outline-none focus:ring-4 focus:ring-skymesh-orange/10;
+  @apply placeholder:text-slate-400;
+}
+
+.input-lg {
+  @apply input text-lg py-4;
 }
 
 .label {
-  @apply text-sm font-semibold uppercase tracking-wide text-slate-500;
+  @apply text-sm font-semibold text-slate-600 tracking-wide;
 }
 
+/* Primary button - Skymesh golden amber */
 .button-primary {
-  @apply inline-flex w-full items-center justify-center rounded-full bg-skymesh-orange px-6 py-3.5 text-lg font-semibold text-white shadow-soft transition hover:bg-skymesh-coral;
+  @apply inline-flex w-full items-center justify-center gap-2 rounded-full;
+  @apply bg-skymesh-orange px-6 py-4 text-base font-semibold text-white;
+  @apply shadow-soft transition-all duration-200;
+  @apply hover:bg-skymesh-orange-hover hover:shadow-lg hover:-translate-y-0.5;
+  @apply active:translate-y-0 active:shadow-md;
 }
 
+/* Secondary button - clean outline */
 .button-secondary {
-  @apply inline-flex w-full items-center justify-center rounded-full border border-slate-200 bg-white px-6 py-3.5 text-lg font-semibold text-slate-700 shadow-soft transition hover:bg-slate-50;
+  @apply inline-flex w-full items-center justify-center gap-2 rounded-full;
+  @apply border-2 border-slate-200 bg-white px-6 py-4 text-base font-semibold text-slate-700;
+  @apply shadow-card transition-all duration-200;
+  @apply hover:bg-slate-50 hover:border-slate-300;
 }
 
+/* Card styles */
 .card {
-  @apply rounded-3xl border border-slate-200 bg-white p-5 shadow-soft transition;
+  @apply rounded-2xl border border-slate-100 bg-white p-6 shadow-card;
+}
+
+.card-highlight {
+  @apply card border-skymesh-orange/20 bg-gradient-to-br from-orange-50/50 to-white;
+}
+
+/* Progress bar */
+.progress-bar {
+  @apply h-1.5 w-full rounded-full bg-slate-100 overflow-hidden;
+}
+
+.progress-fill {
+  @apply h-full rounded-full bg-skymesh-orange transition-all duration-500 ease-out;
+}
+
+/* Selection cards (routers, etc) */
+.selection-card {
+  @apply flex cursor-pointer items-start gap-4 rounded-2xl border-2 border-slate-100 bg-white p-5 transition-all duration-200;
+  @apply hover:border-slate-200 hover:shadow-card;
+}
+
+.selection-card.selected {
+  @apply border-skymesh-orange bg-orange-50/30 shadow-card;
+}
+
+/* Radio indicator */
+.radio-indicator {
+  @apply flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full border-2 border-slate-300 transition-all;
+}
+
+.selection-card.selected .radio-indicator {
+  @apply border-skymesh-orange bg-skymesh-orange;
+}
+
+.radio-indicator::after {
+  content: '';
+  @apply block h-2 w-2 rounded-full bg-white scale-0 transition-transform;
+}
+
+.selection-card.selected .radio-indicator::after {
+  @apply scale-100;
+}
+
+/* Checkbox styles */
+.checkbox-container {
+  @apply flex items-start gap-3 cursor-pointer select-none;
+}
+
+.checkbox {
+  @apply flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-md border-2 border-slate-300 bg-white transition-all;
+}
+
+.checkbox.checked {
+  @apply border-skymesh-orange bg-skymesh-orange;
+}
+
+/* Trust badge */
+.trust-badge {
+  @apply inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1.5 text-sm font-medium text-slate-600;
+}
+
+/* Step indicator dots */
+.step-dot {
+  @apply h-2 w-2 rounded-full bg-slate-200 transition-all;
+}
+
+.step-dot.active {
+  @apply w-6 bg-skymesh-orange;
+}
+
+.step-dot.completed {
+  @apply bg-skymesh-orange;
 }

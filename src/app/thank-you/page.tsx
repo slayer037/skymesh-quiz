@@ -4,55 +4,56 @@ import { motion } from "motion/react";
 import Link from "next/link";
 
 export default function ThankYou() {
-  // In a real app, this would come from order state/context
   const orderDetails = {
     orderNumber: "SKY-" + Math.random().toString(36).substring(2, 8).toUpperCase(),
     name: "Jane Citizen",
     email: "jane@example.com",
     address: "3A Cadle Court, Bayswater VIC 3153",
-    plan: "nbn 100/20",
-    router: "Tenda v12",
+    plan: "nbn® 100/20",
+    router: "Tenda AC1200",
     monthlyPrice: "$79"
   };
 
   return (
-    <main className="min-h-dvh bg-gradient-to-b from-white to-slate-50">
-      <div className="mx-auto flex min-h-dvh max-w-xl flex-col px-5 py-8">
-        {/* Logo */}
-        <div className="mb-8 flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-skymesh-orange">
-            <span className="text-xl font-black text-white">S</span>
+    <main className="min-h-dvh bg-gradient-to-b from-slate-50 to-white">
+      <div className="mx-auto flex min-h-dvh max-w-lg flex-col px-5 py-8">
+        {/* Header */}
+        <header className="mb-8 flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-skymesh-orange shadow-sm">
+            <span className="text-xl font-extrabold text-white">S</span>
           </div>
-          <span className="text-xl font-bold text-slate-900">Skymesh</span>
-        </div>
+          <span className="text-lg font-bold text-slate-800">Skymesh</span>
+        </header>
 
         {/* Success animation */}
         <motion.div
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
           transition={{ type: "spring", stiffness: 200, damping: 15 }}
-          className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-skymesh-orange to-skymesh-coral shadow-lg"
+          className="mx-auto mb-6"
         >
-          <motion.svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="white"
-            strokeWidth={3}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="h-12 w-12"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{ delay: 0.3, duration: 0.5 }}
-          >
-            <motion.path
-              d="M5 13l4 4L19 7"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ delay: 0.3, duration: 0.5 }}
-            />
-          </motion.svg>
+          <div className="relative flex h-24 w-24 items-center justify-center">
+            <div className="absolute inset-0 animate-ping rounded-full bg-skymesh-orange/20" />
+            <div className="relative flex h-20 w-20 items-center justify-center rounded-full bg-skymesh-orange shadow-lg">
+              <motion.svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="white"
+                strokeWidth={3}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-10 w-10"
+              >
+                <motion.path
+                  d="M5 13l4 4L19 7"
+                  initial={{ pathLength: 0 }}
+                  animate={{ pathLength: 1 }}
+                  transition={{ delay: 0.2, duration: 0.4 }}
+                />
+              </motion.svg>
+            </div>
+          </div>
         </motion.div>
 
         {/* Title */}
@@ -62,11 +63,11 @@ export default function ThankYou() {
           transition={{ delay: 0.2 }}
           className="mb-8 text-center"
         >
-          <h1 className="mb-2 text-3xl font-bold text-slate-900">
-            You&apos;re all set! 🎉
+          <h1 className="mb-2 text-2xl font-bold text-slate-900">
+            Order confirmed!
           </h1>
-          <p className="text-lg text-slate-500">
-            Your order has been placed successfully.
+          <p className="text-slate-500">
+            Thanks {orderDetails.name.split(' ')[0]}, you&apos;re all set
           </p>
         </motion.div>
 
@@ -78,10 +79,8 @@ export default function ThankYou() {
           className="card mb-6"
         >
           <div className="mb-4 flex items-center justify-between border-b border-slate-100 pb-4">
-            <span className="text-sm font-semibold uppercase tracking-wide text-slate-500">
-              Order Number
-            </span>
-            <span className="font-mono text-lg font-bold text-skymesh-orange">
+            <span className="text-sm font-medium text-slate-500">Order number</span>
+            <span className="font-mono text-base font-bold text-skymesh-orange">
               {orderDetails.orderNumber}
             </span>
           </div>
@@ -89,105 +88,101 @@ export default function ThankYou() {
           <div className="space-y-3">
             <div className="flex justify-between">
               <span className="text-slate-500">Plan</span>
-              <span className="font-semibold text-slate-900">{orderDetails.plan}</span>
+              <span className="font-medium text-slate-900">{orderDetails.plan}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-slate-500">Router</span>
-              <span className="font-semibold text-slate-900">{orderDetails.router}</span>
+              <span className="font-medium text-slate-900">{orderDetails.router}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-slate-500">Installation address</span>
-              <span className="max-w-[200px] text-right font-semibold text-slate-900">
+              <span className="text-slate-500">Installation</span>
+              <span className="max-w-[180px] text-right font-medium text-slate-900">
                 {orderDetails.address}
               </span>
             </div>
           </div>
 
-          <div className="mt-4 border-t border-slate-100 pt-4">
-            <div className="flex justify-between">
-              <span className="text-slate-500">Monthly plan</span>
-              <span className="font-semibold text-slate-900">{orderDetails.monthlyPrice}/mo</span>
+          <div className="mt-4 rounded-xl bg-slate-50 p-4">
+            <div className="flex items-center justify-between">
+              <span className="font-medium text-slate-700">Monthly plan</span>
+              <span className="text-xl font-bold text-slate-900">{orderDetails.monthlyPrice}<span className="text-sm font-normal text-slate-500">/mo</span></span>
             </div>
           </div>
         </motion.div>
 
-        {/* Confirmation email notice */}
+        {/* Email notice */}
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.4 }}
-          className="mb-6 flex items-start gap-3 rounded-2xl bg-skymesh-orange/10 p-4"
+          className="mb-6 flex items-start gap-4 rounded-2xl border border-skymesh-orange/20 bg-orange-50/50 p-4"
         >
-          <span className="text-2xl">📧</span>
+          <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-skymesh-orange/10">
+            <span className="text-lg">📧</span>
+          </div>
           <div>
             <p className="font-semibold text-slate-900">Check your inbox</p>
             <p className="text-sm text-slate-600">
-              We&apos;ve sent a confirmation email to <strong>{orderDetails.email}</strong> with all
-              the details.
+              Confirmation sent to <strong>{orderDetails.email}</strong>
             </p>
           </div>
         </motion.div>
 
-        {/* What's next */}
+        {/* Timeline */}
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.5 }}
           className="mb-8"
         >
-          <h2 className="mb-4 text-lg font-bold text-slate-900">What happens next?</h2>
-          <div className="space-y-4">
-            <div className="flex gap-4">
-              <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-skymesh-orange text-sm font-bold text-white">
-                1
+          <h2 className="mb-5 text-lg font-bold text-slate-900">What happens next</h2>
+          <div className="relative space-y-0">
+            {[
+              { icon: "📋", title: "Processing your order", desc: "1-2 business days", active: true },
+              { icon: "📦", title: "Router ships", desc: "3-5 business days via Australia Post" },
+              { icon: "🌐", title: "Get connected", desc: "Plug in and go — setup guide included" }
+            ].map((step, i) => (
+              <div key={i} className="relative flex gap-4 pb-6 last:pb-0">
+                {/* Vertical line */}
+                {i < 2 && (
+                  <div className="absolute left-5 top-10 h-full w-0.5 bg-slate-200" />
+                )}
+                {/* Icon */}
+                <div className={`relative flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full ${step.active ? 'bg-skymesh-orange/10 ring-2 ring-skymesh-orange' : 'bg-slate-100'}`}>
+                  <span className="text-lg">{step.icon}</span>
+                </div>
+                {/* Content */}
+                <div className="pt-1.5">
+                  <p className="font-semibold text-slate-900">{step.title}</p>
+                  <p className="text-sm text-slate-500">{step.desc}</p>
+                </div>
               </div>
-              <div>
-                <p className="font-semibold text-slate-900">We&apos;ll process your order</p>
-                <p className="text-sm text-slate-500">This usually takes 1-2 business days.</p>
-              </div>
-            </div>
-            <div className="flex gap-4">
-              <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-skymesh-orange text-sm font-bold text-white">
-                2
-              </div>
-              <div>
-                <p className="font-semibold text-slate-900">Your router ships</p>
-                <p className="text-sm text-slate-500">
-                  Expect delivery in 3-5 business days via Australia Post.
-                </p>
-              </div>
-            </div>
-            <div className="flex gap-4">
-              <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-skymesh-orange text-sm font-bold text-white">
-                3
-              </div>
-              <div>
-                <p className="font-semibold text-slate-900">Get connected</p>
-                <p className="text-sm text-slate-500">
-                  Plug in your router and you&apos;re online. Easy setup guide included.
-                </p>
-              </div>
-            </div>
+            ))}
           </div>
         </motion.div>
 
-        {/* Support card */}
+        {/* Support */}
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.6 }}
-          className="card mb-6 border-skymesh-teal/20 bg-skymesh-teal/5"
+          className="mb-6 rounded-2xl bg-skymesh-navy p-5 text-white"
         >
-          <div className="flex items-center gap-3">
-            <span className="text-2xl">💬</span>
+          <div className="flex items-center gap-4">
+            <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-white/10">
+              <span className="text-xl">💬</span>
+            </div>
             <div>
-              <p className="font-semibold text-slate-900">Need help?</p>
-              <p className="text-sm text-slate-600">
-                Our support team is available 7am–10pm AEST.{" "}
-                <a href="tel:1300759637" className="font-semibold text-skymesh-teal hover:underline">
-                  1300 759 637
-                </a>
+              <p className="font-semibold">Questions? We&apos;re here</p>
+              <p className="text-sm text-slate-300">
+                7 days a week, 7am–10pm AEST
               </p>
+              <a href="tel:1300759637" className="mt-1 inline-flex items-center gap-1.5 text-sm font-semibold text-skymesh-orange hover:underline">
+                1300 759 637
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7"/>
+                </svg>
+              </a>
             </div>
           </div>
         </motion.div>
@@ -202,6 +197,23 @@ export default function ThankYou() {
           <Link href="/" className="button-secondary">
             Back to homepage
           </Link>
+        </motion.div>
+
+        {/* Trust badges */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8 }}
+          className="mt-6 flex items-center justify-center gap-4 text-xs text-slate-400"
+        >
+          <span className="flex items-center gap-1">
+            <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd"/>
+            </svg>
+            Secure checkout
+          </span>
+          <span>•</span>
+          <span>30-day satisfaction guarantee</span>
         </motion.div>
       </div>
     </main>

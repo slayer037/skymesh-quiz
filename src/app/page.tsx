@@ -7,56 +7,80 @@ import { useMemo, useState } from "react";
 const steps = [
   {
     id: "name",
-    title: "Hey there! Just confirming — is this you?",
-    subtitle: "We grabbed your details from the address check."
+    title: "Let's confirm your details",
+    subtitle: "We grabbed these from your address check"
   },
   {
     id: "email",
-    title: "Where can we send the good news?",
-    subtitle: "We'll only use this for your order updates."
+    title: "Where should we send updates?",
+    subtitle: "Order confirmations and service updates go here"
   },
   {
     id: "phone",
-    title: "Is this still the best number to reach you?",
-    subtitle: "Just double-checking before we continue."
+    title: "Best number to reach you?",
+    subtitle: "We'll only call if there's something urgent"
   },
   {
     id: "dob",
-    title: "Now we just need your birthday 🎂",
-    subtitle: "We promise not to sing."
+    title: "When's your birthday?",
+    subtitle: "Required for account verification"
   },
   {
     id: "address",
-    title: "Perfect — your address is locked in",
-    subtitle: "This is where the magic internet goes."
+    title: "Installation address confirmed",
+    subtitle: "This is where we'll connect your service"
   },
   {
     id: "avc",
-    title: "Switching providers? Pop your AVC in here",
-    subtitle: "Optional — you can always add it later."
+    title: "Already with another provider?",
+    subtitle: "Your AVC ID helps us switch you faster (optional)"
   },
   {
     id: "router",
-    title: "Pick your weapon ⚔️",
-    subtitle: "Choose a router or bring your own."
+    title: "Choose your router",
+    subtitle: "Or bring your own — we're flexible"
   },
   {
     id: "review",
-    title: "Here's the rundown — look good?",
-    subtitle: "Double-check before we lock it in."
+    title: "Review your order",
+    subtitle: "Make sure everything looks right"
   },
   {
     id: "payment",
-    title: "Almost there! 💳",
-    subtitle: "Enter your payment details to complete your order."
+    title: "Secure payment",
+    subtitle: "256-bit SSL encryption protects your details"
   }
 ];
 
 const routerOptions = [
-  { name: "Tenda v12", price: "$139.99", desc: "Great for apartments & small homes" },
-  { name: "NF20Mesh", price: "$244.99", desc: "Whole-home mesh coverage" },
-  { name: "Grandstream HT801", price: "$89.99", desc: "VoIP adapter for landline" },
-  { name: "No router needed", price: "$0", desc: "I've got my own gear" }
+  { 
+    id: "tenda",
+    name: "Tenda AC1200", 
+    price: 139.99, 
+    desc: "Perfect for apartments & small homes",
+    features: ["Dual-band WiFi", "Up to 80m² coverage", "Easy plug-n-play setup"]
+  },
+  { 
+    id: "mesh",
+    name: "NF20 Mesh System", 
+    price: 244.99, 
+    desc: "Whole-home coverage for larger spaces",
+    features: ["Mesh technology", "Up to 200m² coverage", "Seamless roaming"]
+  },
+  { 
+    id: "voip",
+    name: "Grandstream HT801", 
+    price: 89.99, 
+    desc: "VoIP adapter for your existing phone",
+    features: ["Keep your landline number", "Crystal clear calls", "Simple setup"]
+  },
+  { 
+    id: "byo",
+    name: "BYO Router", 
+    price: 0, 
+    desc: "Use your own compatible router",
+    features: ["nbn® compatible required", "Limited support", "Advanced users"]
+  }
 ];
 
 const months = [
@@ -69,7 +93,6 @@ export default function Home() {
   const [stepIndex, setStepIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   
-  // Pre-filled from address availability check
   const [form, setForm] = useState({
     firstName: "Jane",
     lastName: "Citizen",
@@ -99,10 +122,12 @@ export default function Home() {
     [stepIndex]
   );
 
+  const selectedRouter = routerOptions.find(r => r.id === form.router);
+  const routerPrice = selectedRouter?.price ?? 0;
+
   const goToStep = (nextIndex: number) => {
-    const clamped = Math.min(Math.max(nextIndex, 0), steps.length - 1);
-    setDirection(clamped > stepIndex ? 1 : -1);
-    setStepIndex(clamped);
+    setDirection(nextIndex > stepIndex ? 1 : -1);
+    setStepIndex(nextIndex);
   };
 
   const handleChange = (field: string, value: string | boolean) => {
@@ -111,310 +136,313 @@ export default function Home() {
 
   const current = steps[stepIndex];
 
-  return (
-    <main className="relative min-h-screen overflow-hidden bg-white">
-      <div className="pointer-events-none absolute -top-32 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-orange-100 blur-3xl" />
-      <div className="pointer-events-none absolute bottom-0 right-0 h-80 w-80 rounded-full bg-skymesh-lime/20 blur-3xl" />
+  const variants = {
+    enter: (d: number) => ({ x: d > 0 ? 60 : -60, opacity: 0 }),
+    center: { x: 0, opacity: 1 },
+    exit: (d: number) => ({ x: d > 0 ? -60 : 60, opacity: 0 })
+  };
 
-      <div className="mx-auto flex min-h-screen w-full max-w-2xl flex-col px-5 py-8">
-        <header className="mb-8">
-          <div className="flex items-center justify-between text-sm font-semibold text-slate-500">
-            <span>Step {stepIndex + 1} of {steps.length}</span>
-            <span>{progress}%</span>
+  return (
+    <main className="min-h-dvh bg-gradient-to-b from-slate-50 to-white">
+      <div className="mx-auto flex min-h-dvh max-w-lg flex-col px-5 py-6">
+        {/* Header */}
+        <header className="mb-6 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-skymesh-orange shadow-sm">
+              <span className="text-xl font-extrabold text-white">S</span>
+            </div>
+            <span className="text-lg font-bold text-slate-800">Skymesh</span>
           </div>
-          <div className="mt-3 h-2 w-full rounded-full bg-slate-100">
-            <div
-              className="h-2 rounded-full bg-skymesh-orange transition-all"
-              style={{ width: `${progress}%` }}
-            />
+          <div className="trust-badge">
+            <svg className="h-4 w-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+            </svg>
+            Secure checkout
           </div>
         </header>
 
-        <div className="relative flex-1">
-          <AnimatePresence mode="wait" initial={false} custom={direction}>
+        {/* Progress */}
+        <div className="mb-8">
+          <div className="progress-bar">
+            <div className="progress-fill" style={{ width: `${progress}%` }} />
+          </div>
+          <div className="mt-2 flex justify-between text-xs font-medium text-slate-500">
+            <span>Step {stepIndex + 1} of {steps.length}</span>
+            <span>{progress}% complete</span>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="relative flex-1 overflow-hidden">
+          <AnimatePresence mode="wait" custom={direction}>
             <motion.section
               key={current.id}
               custom={direction}
-              initial={{ opacity: 0, x: direction > 0 ? 80 : -80 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: direction > 0 ? -80 : 80 }}
-              transition={{ duration: 0.35, ease: "easeOut" }}
-              className="flex h-full flex-col gap-6"
+              variants={variants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              className="flex min-h-full flex-col"
             >
-              <div className="space-y-3">
-                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-skymesh-orange">
-                  Skymesh Checkout
-                </p>
-                <h1 className="text-3xl font-semibold text-slate-900 sm:text-4xl">
-                  {current.title}
-                </h1>
-                <p className="text-base text-slate-500">{current.subtitle}</p>
+              {/* Title */}
+              <div className="mb-6">
+                <h1 className="text-2xl font-bold text-slate-900">{current.title}</h1>
+                <p className="mt-1 text-slate-500">{current.subtitle}</p>
               </div>
 
+              {/* Step content */}
               {current.id === "name" && (
                 <div className="space-y-4">
-                  <div className="card bg-orange-50/50 border-orange-100">
-                    <p className="text-2xl font-semibold text-slate-900">
-                      {form.firstName} {form.lastName}
-                    </p>
+                  <div className="card-highlight">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-skymesh-orange/10">
+                        <span className="text-xl">👋</span>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-slate-900">{form.firstName} {form.lastName}</p>
+                        <p className="text-sm text-slate-500">Details from your address check</p>
+                      </div>
+                    </div>
                   </div>
-                  <p className="text-sm text-slate-500">
-                    Not you? <button type="button" className="text-skymesh-orange font-semibold hover:underline" onClick={() => {
-                      const newFirst = prompt("First name:", form.firstName);
-                      const newLast = prompt("Last name:", form.lastName);
-                      if (newFirst) handleChange("firstName", newFirst);
-                      if (newLast) handleChange("lastName", newLast);
-                    }}>Update your name</button>
-                  </p>
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div>
+                      <label className="label">First name</label>
+                      <input
+                        className="input mt-2"
+                        value={form.firstName}
+                        onChange={(e) => handleChange("firstName", e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <label className="label">Last name</label>
+                      <input
+                        className="input mt-2"
+                        value={form.lastName}
+                        onChange={(e) => handleChange("lastName", e.target.value)}
+                      />
+                    </div>
+                  </div>
                 </div>
               )}
 
               {current.id === "email" && (
-                <div>
-                  <label className="label" htmlFor="email">Email address</label>
-                  <input
-                    id="email"
-                    type="email"
-                    className="input mt-2"
-                    placeholder="jane@example.com"
-                    value={form.email}
-                    onChange={(event) => handleChange("email", event.target.value)}
-                  />
+                <div className="space-y-4">
+                  <div>
+                    <label className="label">Email address</label>
+                    <input
+                      type="email"
+                      className="input mt-2"
+                      placeholder="jane@example.com"
+                      value={form.email}
+                      onChange={(e) => handleChange("email", e.target.value)}
+                    />
+                  </div>
+                  <p className="flex items-center gap-2 text-sm text-slate-500">
+                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                    We never share your email with third parties
+                  </p>
                 </div>
               )}
 
               {current.id === "phone" && (
                 <div className="space-y-4">
-                  <div className="card bg-orange-50/50 border-orange-100">
-                    <p className="text-2xl font-semibold text-slate-900 tabular-nums">
-                      {form.phone}
-                    </p>
+                  <div className="card-highlight">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-skymesh-orange/10">
+                        <span className="text-lg">📱</span>
+                      </div>
+                      <p className="font-medium text-slate-700">{form.phone}</p>
+                    </div>
                   </div>
-                  <p className="text-sm text-slate-500">
-                    Different number? <button type="button" className="text-skymesh-orange font-semibold hover:underline" onClick={() => {
-                      const newPhone = prompt("Phone number:", form.phone);
-                      if (newPhone) handleChange("phone", newPhone);
-                    }}>Update it here</button>
-                  </p>
+                  <div>
+                    <label className="label">Mobile number</label>
+                    <input
+                      type="tel"
+                      className="input mt-2"
+                      placeholder="0412 345 678"
+                      value={form.phone}
+                      onChange={(e) => handleChange("phone", e.target.value)}
+                    />
+                  </div>
                 </div>
               )}
 
               {current.id === "dob" && (
-                <div className="grid gap-4 sm:grid-cols-3">
-                  <div>
-                    <label className="label" htmlFor="dobDay">Day</label>
-                    <select
-                      id="dobDay"
-                      className="input mt-2"
-                      value={form.dobDay}
-                      onChange={(event) => handleChange("dobDay", event.target.value)}
-                    >
-                      <option value="">DD</option>
-                      {Array.from({ length: 31 }, (_, index) => (
-                        <option key={index + 1} value={`${index + 1}`}>
-                          {index + 1}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div>
-                    <label className="label" htmlFor="dobMonth">Month</label>
-                    <select
-                      id="dobMonth"
-                      className="input mt-2"
-                      value={form.dobMonth}
-                      onChange={(event) => handleChange("dobMonth", event.target.value)}
-                    >
-                      <option value="">Month</option>
-                      {months.map((month) => (
-                        <option key={month} value={month}>
-                          {month}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div>
-                    <label className="label" htmlFor="dobYear">Year</label>
-                    <select
-                      id="dobYear"
-                      className="input mt-2"
-                      value={form.dobYear}
-                      onChange={(event) => handleChange("dobYear", event.target.value)}
-                    >
-                      <option value="">YYYY</option>
-                      {Array.from({ length: 90 }, (_, index) => {
-                        const year = new Date().getFullYear() - index - 18;
-                        return (
-                          <option key={year} value={`${year}`}>
-                            {year}
-                          </option>
-                        );
-                      })}
-                    </select>
+                <div className="space-y-4">
+                  <div className="grid grid-cols-3 gap-3">
+                    <div>
+                      <label className="label">Day</label>
+                      <input
+                        className="input mt-2 text-center"
+                        placeholder="DD"
+                        maxLength={2}
+                        value={form.dobDay}
+                        onChange={(e) => handleChange("dobDay", e.target.value.replace(/\D/g, ""))}
+                      />
+                    </div>
+                    <div>
+                      <label className="label">Month</label>
+                      <select
+                        className="input mt-2"
+                        value={form.dobMonth}
+                        onChange={(e) => handleChange("dobMonth", e.target.value)}
+                      >
+                        <option value="">Month</option>
+                        {months.map((m, i) => (
+                          <option key={m} value={String(i + 1).padStart(2, "0")}>{m}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="label">Year</label>
+                      <input
+                        className="input mt-2 text-center"
+                        placeholder="YYYY"
+                        maxLength={4}
+                        value={form.dobYear}
+                        onChange={(e) => handleChange("dobYear", e.target.value.replace(/\D/g, ""))}
+                      />
+                    </div>
                   </div>
                 </div>
               )}
 
               {current.id === "address" && (
-                <div className="space-y-5">
-                  <div className="card bg-orange-50/50 border-orange-100">
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="flex items-start gap-3">
-                        <span className="text-2xl">📍</span>
-                        <p className="text-xl font-semibold text-slate-900">
-                          {form.address}
-                        </p>
+                <div className="space-y-4">
+                  <div className="card-highlight">
+                    <div className="flex items-start gap-3">
+                      <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-skymesh-orange/10">
+                        <span className="text-lg">📍</span>
                       </div>
-                      <button type="button" className="text-sm text-skymesh-orange font-semibold hover:underline whitespace-nowrap">
-                        Change Address
-                      </button>
+                      <div>
+                        <p className="font-semibold text-slate-900">{form.address}</p>
+                        <p className="text-sm text-slate-500">nbn® Fixed Line available</p>
+                      </div>
                     </div>
                   </div>
-                  
-                  <div className="flex items-center gap-2 text-sm text-green-600">
-                    <span>✓</span>
-                    <span>NBN available at this address</span>
-                  </div>
 
-                  {/* Alternate name checkbox */}
-                  <label className="flex items-start gap-3 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={form.addressAlternateName}
-                      onChange={(e) => handleChange("addressAlternateName", e.target.checked)}
-                      className="mt-1 h-5 w-5 rounded border-slate-300 text-skymesh-orange focus:ring-skymesh-orange"
-                    />
-                    <span className="text-sm font-medium text-slate-700 uppercase tracking-wide">
-                      My address is typically known by another name
-                    </span>
+                  <label className="checkbox-container" onClick={() => handleChange("addressAlternateName", !form.addressAlternateName)}>
+                    <div className={`checkbox ${form.addressAlternateName ? 'checked' : ''}`}>
+                      {form.addressAlternateName && (
+                        <svg className="h-3 w-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7"/>
+                        </svg>
+                      )}
+                    </div>
+                    <span className="text-sm text-slate-700">My property is known by another name</span>
                   </label>
 
                   {form.addressAlternateName && (
-                    <div className="ml-8">
+                    <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }}>
                       <input
-                        type="text"
                         className="input"
-                        placeholder="Enter alternate name (e.g. 'The Smith Residence')"
+                        placeholder="Property or lot name"
                         value={form.addressAltName}
                         onChange={(e) => handleChange("addressAltName", e.target.value)}
                       />
-                    </div>
+                    </motion.div>
                   )}
 
-                  {/* Different postal address checkbox */}
-                  <label className="flex items-start gap-3 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={form.postalDifferent}
-                      onChange={(e) => handleChange("postalDifferent", e.target.checked)}
-                      className="mt-1 h-5 w-5 rounded border-slate-300 text-skymesh-orange focus:ring-skymesh-orange"
-                    />
-                    <span className="text-sm font-medium text-slate-700 uppercase tracking-wide">
-                      Add different postal address
-                    </span>
+                  <label className="checkbox-container" onClick={() => handleChange("postalDifferent", !form.postalDifferent)}>
+                    <div className={`checkbox ${form.postalDifferent ? 'checked' : ''}`}>
+                      {form.postalDifferent && (
+                        <svg className="h-3 w-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7"/>
+                        </svg>
+                      )}
+                    </div>
+                    <span className="text-sm text-slate-700">Send mail to a different address</span>
                   </label>
 
                   {form.postalDifferent && (
-                    <div className="ml-8 grid gap-4">
-                      <div>
-                        <label className="label" htmlFor="postalAddress1">Postal address</label>
+                    <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} className="space-y-3">
+                      <input
+                        className="input"
+                        placeholder="Street address"
+                        value={form.postalAddress1}
+                        onChange={(e) => handleChange("postalAddress1", e.target.value)}
+                      />
+                      <div className="grid grid-cols-2 gap-3">
                         <input
-                          id="postalAddress1"
-                          className="input mt-2"
-                          placeholder="PO Box 123 or Street Address"
-                          value={form.postalAddress1}
-                          onChange={(event) => handleChange("postalAddress1", event.target.value)}
+                          className="input"
+                          placeholder="City"
+                          value={form.postalCity}
+                          onChange={(e) => handleChange("postalCity", e.target.value)}
                         />
-                      </div>
-                      <div className="grid gap-4 sm:grid-cols-3">
-                        <div>
-                          <label className="label" htmlFor="postalCity">Suburb</label>
+                        <div className="grid grid-cols-2 gap-3">
                           <input
-                            id="postalCity"
-                            className="input mt-2"
-                            placeholder="Bayswater"
-                            value={form.postalCity}
-                            onChange={(event) => handleChange("postalCity", event.target.value)}
-                          />
-                        </div>
-                        <div>
-                          <label className="label" htmlFor="postalState">State</label>
-                          <select
-                            id="postalState"
-                            className="input mt-2"
+                            className="input"
+                            placeholder="State"
                             value={form.postalState}
-                            onChange={(event) => handleChange("postalState", event.target.value)}
-                          >
-                            <option value="">Select</option>
-                            <option value="VIC">VIC</option>
-                            <option value="NSW">NSW</option>
-                            <option value="QLD">QLD</option>
-                            <option value="SA">SA</option>
-                            <option value="WA">WA</option>
-                            <option value="TAS">TAS</option>
-                            <option value="NT">NT</option>
-                            <option value="ACT">ACT</option>
-                          </select>
-                        </div>
-                        <div>
-                          <label className="label" htmlFor="postalPostcode">Postcode</label>
+                            onChange={(e) => handleChange("postalState", e.target.value)}
+                          />
                           <input
-                            id="postalPostcode"
-                            className="input mt-2"
-                            placeholder="3153"
+                            className="input"
+                            placeholder="Postcode"
                             value={form.postalPostcode}
-                            onChange={(event) => handleChange("postalPostcode", event.target.value)}
+                            onChange={(e) => handleChange("postalPostcode", e.target.value)}
                           />
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                   )}
                 </div>
               )}
 
               {current.id === "avc" && (
-                <div>
-                  <label className="label" htmlFor="avc">AVC ID (optional)</label>
-                  <input
-                    id="avc"
-                    className="input mt-2"
-                    placeholder="AVC123456789"
-                    value={form.avc}
-                    onChange={(event) => handleChange("avc", event.target.value)}
-                  />
-                  <p className="mt-3 text-sm text-slate-400">
-                    Find this on your current NBN bill. No worries if you don't have it.
-                  </p>
+                <div className="space-y-4">
+                  <div className="card bg-slate-50 border-slate-100">
+                    <div className="flex items-start gap-3">
+                      <span className="text-xl">💡</span>
+                      <div>
+                        <p className="font-medium text-slate-900">What's an AVC ID?</p>
+                        <p className="mt-1 text-sm text-slate-600">Your Access Virtual Circuit ID is on your current provider's bill. It helps us transfer your service faster.</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="label">AVC ID (optional)</label>
+                    <input
+                      className="input mt-2 font-mono"
+                      placeholder="e.g. AVC123456789"
+                      value={form.avc}
+                      onChange={(e) => handleChange("avc", e.target.value.toUpperCase())}
+                    />
+                  </div>
                 </div>
               )}
 
               {current.id === "router" && (
-                <div className="grid gap-4">
-                  {routerOptions.map((option) => (
-                    <button
-                      key={option.name}
-                      type="button"
-                      onClick={() => handleChange("router", option.name)}
-                      className={
-                        `card text-left transition-transform ${
-                          form.router === option.name
-                            ? "border-skymesh-orange ring-2 ring-orange-100"
-                            : "hover:-translate-y-1"
-                        }`
-                      }
+                <div className="space-y-3">
+                  {routerOptions.map((opt) => (
+                    <div
+                      key={opt.id}
+                      className={`selection-card ${form.router === opt.id ? "selected" : ""}`}
+                      onClick={() => handleChange("router", opt.id)}
                     >
-                      <div className="flex items-center justify-between gap-4">
-                        <div>
-                          <p className="text-lg font-semibold text-slate-900">
-                            {option.name}
+                      <div className="radio-indicator" />
+                      <div className="flex-1">
+                        <div className="flex items-start justify-between">
+                          <div>
+                            <p className="font-semibold text-slate-900">{opt.name}</p>
+                            <p className="text-sm text-slate-500">{opt.desc}</p>
+                          </div>
+                          <p className="text-lg font-bold text-slate-900">
+                            {opt.price === 0 ? "Free" : `$${opt.price.toFixed(2)}`}
                           </p>
-                          <p className="text-sm text-slate-500">{option.desc}</p>
                         </div>
-                        <span className="text-lg font-semibold text-skymesh-orange whitespace-nowrap">
-                          {option.price}
-                        </span>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          {opt.features.map((f) => (
+                            <span key={f} className="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">
+                              {f}
+                            </span>
+                          ))}
+                        </div>
                       </div>
-                    </button>
+                    </div>
                   ))}
                 </div>
               )}
@@ -425,58 +453,49 @@ export default function Home() {
                     { label: "Name", value: `${form.firstName} ${form.lastName}`, step: 0 },
                     { label: "Email", value: form.email, step: 1 },
                     { label: "Phone", value: form.phone, step: 2 },
-                    { label: "Date of Birth", value: form.dobDay ? `${form.dobDay} ${form.dobMonth} ${form.dobYear}` : "", step: 3 },
-                    { label: "Service Address", value: form.address + (form.addressAltName ? ` (${form.addressAltName})` : ""), step: 4 },
-                    { label: "AVC", value: form.avc || "Not provided", step: 5 },
-                    {
-                      label: "Postal Address",
-                      value:
-                        !form.postalDifferent
-                          ? "Same as service address"
-                          : `${form.postalAddress1}, ${form.postalCity} ${form.postalState} ${form.postalPostcode}`,
-                      step: 4
-                    },
-                    { label: "Router", value: form.router || "Not selected", step: 6 }
+                    { label: "Date of birth", value: form.dobDay && form.dobMonth && form.dobYear ? `${form.dobDay}/${form.dobMonth}/${form.dobYear}` : "Not provided", step: 3 },
+                    { label: "Address", value: form.address, step: 4 },
+                    { label: "Router", value: selectedRouter?.name || "Not selected", step: 6 }
                   ].map((row) => (
-                    <div key={row.label} className="card flex items-start justify-between gap-4">
+                    <div key={row.label} className="flex items-center justify-between py-3 border-b border-slate-100 last:border-0">
                       <div>
-                        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
-                          {row.label}
-                        </p>
-                        <p className="mt-1 text-lg font-semibold text-slate-900">
-                          {row.value || "—"}
-                        </p>
+                        <p className="text-sm text-slate-500">{row.label}</p>
+                        <p className="font-medium text-slate-900">{row.value}</p>
                       </div>
                       <button
                         type="button"
                         onClick={() => goToStep(row.step)}
-                        className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
+                        className="rounded-full px-4 py-1.5 text-sm font-semibold text-skymesh-orange hover:bg-orange-50 transition"
                       >
                         Edit
                       </button>
                     </div>
                   ))}
+
+                  <div className="card-highlight mt-6">
+                    <div className="flex items-center justify-between">
+                      <span className="text-slate-600">Your plan</span>
+                      <span className="text-lg font-bold text-slate-900">nbn® 100/20 — $79/mo</span>
+                    </div>
+                  </div>
                 </div>
               )}
 
               {current.id === "payment" && (
                 <div className="space-y-5">
-                  <div className="card bg-slate-50 border-slate-200">
+                  <div className="card-highlight">
                     <div className="flex items-center justify-between">
-                      <span className="text-sm font-semibold text-slate-500">Order Total</span>
+                      <span className="text-slate-600">Total due today</span>
                       <span className="text-2xl font-bold text-slate-900">
-                        {form.router === "NF20Mesh" ? "$244.99" : 
-                         form.router === "Tenda v12" ? "$139.99" : 
-                         form.router === "Grandstream HT801" ? "$89.99" : "$0.00"}
-                        <span className="text-sm font-normal text-slate-500"> + $79/mo plan</span>
+                        ${routerPrice.toFixed(2)}
                       </span>
                     </div>
+                    <p className="mt-1 text-sm text-slate-500">+ $79/mo plan starting after connection</p>
                   </div>
 
                   <div>
-                    <label className="label" htmlFor="cardName">Name on card</label>
+                    <label className="label">Name on card</label>
                     <input
-                      id="cardName"
                       className="input mt-2"
                       placeholder="Jane Citizen"
                       value={form.cardName}
@@ -485,10 +504,9 @@ export default function Home() {
                   </div>
 
                   <div>
-                    <label className="label" htmlFor="cardNumber">Card number</label>
+                    <label className="label">Card number</label>
                     <input
-                      id="cardNumber"
-                      className="input mt-2 tabular-nums"
+                      className="input mt-2 font-mono tracking-wider"
                       placeholder="4242 4242 4242 4242"
                       value={form.cardNumber}
                       onChange={(e) => handleChange("cardNumber", e.target.value)}
@@ -497,9 +515,8 @@ export default function Home() {
 
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div>
-                      <label className="label" htmlFor="cardExpiry">Expiry</label>
+                      <label className="label">Expiry</label>
                       <input
-                        id="cardExpiry"
                         className="input mt-2"
                         placeholder="MM / YY"
                         value={form.cardExpiry}
@@ -507,9 +524,8 @@ export default function Home() {
                       />
                     </div>
                     <div>
-                      <label className="label" htmlFor="cardCvc">CVC</label>
+                      <label className="label">CVC</label>
                       <input
-                        id="cardCvc"
                         className="input mt-2"
                         placeholder="123"
                         value={form.cardCvc}
@@ -518,14 +534,17 @@ export default function Home() {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3 text-sm text-slate-500">
-                    <span>🔒</span>
-                    <span>Your payment is secure and encrypted</span>
+                  <div className="flex items-center gap-3 rounded-xl bg-slate-50 px-4 py-3 text-sm text-slate-600">
+                    <svg className="h-5 w-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd"/>
+                    </svg>
+                    <span>Your payment is secured with 256-bit SSL encryption</span>
                   </div>
                 </div>
               )}
 
-              <div className="mt-auto flex flex-col gap-3 pb-4">
+              {/* Actions */}
+              <div className="mt-auto flex flex-col gap-3 pb-4 pt-6">
                 {current.id === "avc" && (
                   <button
                     type="button"
@@ -546,18 +565,24 @@ export default function Home() {
                     }
                   }}
                 >
-                  {current.id === "payment" ? "Pay & Complete Order" :
-                   current.id === "review" ? "Continue to Payment" : 
-                   current.id === "name" || current.id === "phone" || current.id === "address" ? "That's correct" : 
+                  {current.id === "payment" ? (
+                    <>
+                      <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                      </svg>
+                      Complete Order
+                    </>
+                  ) : current.id === "review" ? "Continue to Payment" : 
+                   current.id === "name" || current.id === "phone" || current.id === "address" ? "Confirm & Continue" : 
                    "Continue"}
                 </button>
                 {stepIndex > 0 && (
                   <button
                     type="button"
-                    className="button-secondary"
+                    className="text-center text-sm font-medium text-slate-500 hover:text-slate-700 transition py-2"
                     onClick={() => goToStep(stepIndex - 1)}
                   >
-                    Back
+                    ← Back
                   </button>
                 )}
               </div>
