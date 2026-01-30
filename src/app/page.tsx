@@ -613,43 +613,67 @@ export default function Home() {
                     </svg>
                     <span>Your payment is secured with 256-bit SSL encryption</span>
                   </div>
+                  <div className="flex items-center justify-center gap-3 mt-3">
+                    <span className="text-xs text-slate-400">We accept</span>
+                    <div className="flex gap-2">
+                      <div className="flex h-7 w-11 items-center justify-center rounded bg-white border border-slate-200 text-[10px] font-bold text-[#1A1F71]">VISA</div>
+                      <div className="flex h-7 w-11 items-center justify-center rounded bg-white border border-slate-200">
+                        <div className="flex">
+                          <div className="h-4 w-4 rounded-full bg-[#EB001B] -mr-1.5"></div>
+                          <div className="h-4 w-4 rounded-full bg-[#F79E1B]"></div>
+                        </div>
+                      </div>
+                      <div className="flex h-7 w-11 items-center justify-center rounded bg-white border border-slate-200 text-[8px] font-bold text-[#006FCF]">AMEX</div>
+                    </div>
+                  </div>
                 </div>
               )}
 
               {/* Actions */}
               <div className="mt-auto flex flex-col gap-3 pb-4 pt-6">
                 {current.id === "avc" && (
+                  <>
+                    <button
+                      type="button"
+                      className="button-primary"
+                      onClick={() => goToStep(stepIndex + 1)}
+                    >
+                      Skip — I don't have it
+                    </button>
+                    <button
+                      type="button"
+                      className="button-secondary"
+                      onClick={() => goToStep(stepIndex + 1)}
+                    >
+                      Continue with AVC ID
+                    </button>
+                  </>
+                )}
+                {current.id !== "avc" && (
                   <button
                     type="button"
-                    className="button-secondary"
-                    onClick={() => goToStep(stepIndex + 1)}
+                    className="button-primary"
+                    aria-label={current.id === "payment" ? "Complete order" : undefined}
+                    onClick={() => {
+                      if (current.id === "payment") {
+                        router.push("/thank-you");
+                      } else {
+                        goToStep(stepIndex + 1);
+                      }
+                    }}
                   >
-                    Skip for now
+                    {current.id === "payment" ? (
+                      <>
+                        <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                        </svg>
+                        Start my connection
+                      </>
+                    ) : current.id === "review" ? "Get connected" : 
+                     current.id === "name" || current.id === "phone" || current.id === "address" ? "Confirm & Continue" : 
+                     "Continue"}
                   </button>
                 )}
-                <button
-                  type="button"
-                  className="button-primary"
-                  aria-label={current.id === "payment" ? "Complete order" : undefined}
-                  onClick={() => {
-                    if (current.id === "payment") {
-                      router.push("/thank-you");
-                    } else {
-                      goToStep(stepIndex + 1);
-                    }
-                  }}
-                >
-                  {current.id === "payment" ? (
-                    <>
-                      <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-                      </svg>
-                      Start my connection
-                    </>
-                  ) : current.id === "review" ? "Get connected" : 
-                   current.id === "name" || current.id === "phone" || current.id === "address" ? "Confirm & Continue" : 
-                   "Continue"}
-                </button>
                 {stepIndex > 0 && (
                   <button
                     type="button"

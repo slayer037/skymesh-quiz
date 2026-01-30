@@ -129,6 +129,9 @@ export default function ThankYou() {
             <p className="text-sm text-slate-600">
               Confirmation sent to <strong>{orderDetails.email}</strong>
             </p>
+            <p className="text-xs text-slate-500 mt-1">
+              Don't see it? Check your spam folder.
+            </p>
           </div>
         </motion.div>
 
@@ -199,7 +202,7 @@ export default function ThankYou() {
           className="mt-auto"
         >
           <Link href="/" className="button-secondary">
-            Back to homepage
+            Track your order
           </Link>
         </motion.div>
 

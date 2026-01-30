@@ -221,6 +221,9 @@ export default function RecommendedPage() {
           <p className="mt-2 text-center text-xs font-medium text-green-600">
             $0 to start. Pay nothing until your router arrives and you're online.
           </p>
+          <p className="mt-1 text-center text-xs text-slate-500">
+            ✓ Unlimited data ✓ No lock-in ✓ 30-day money-back guarantee
+          </p>
         </div>
       </div>
     </main>

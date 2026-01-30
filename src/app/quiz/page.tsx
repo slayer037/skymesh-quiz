@@ -211,6 +211,15 @@ export default function QuizPage() {
                       <p className="text-base font-semibold text-slate-900">{option}</p>
                     </button>
                   ))}
+                  {stepIndex > 0 && (
+                    <button
+                      type="button"
+                      className="mt-2 text-center text-sm font-medium text-slate-500 hover:text-slate-700 transition py-2 w-full"
+                      onClick={() => goToStep(stepIndex - 1)}
+                    >
+                      ← Back
+                    </button>
+                  )}
                 </div>
               )}
 
