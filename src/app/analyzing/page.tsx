@@ -90,32 +90,37 @@ export default function AnalyzingPage() {
   const review = reviews[currentReview];
 
   return (
-    <main className="min-h-dvh bg-gradient-to-b from-slate-50 to-white">
-      <div className="mx-auto flex min-h-dvh max-w-lg flex-col px-5 py-6">
+    <main className="page-shell">
+      <div className="page-texture" aria-hidden="true" />
+      <div className="relative z-10 mx-auto flex min-h-dvh max-w-lg flex-col px-5 py-8">
         {/* Header */}
-        <header className="mb-8 flex items-center justify-center">
+        <header className="mb-10 flex items-center justify-center">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-skymesh-orange shadow-sm">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-skymesh-orange via-orange-500 to-amber-400 shadow-glow">
               <span className="text-xl font-extrabold text-white">S</span>
             </div>
-            <span className="text-lg font-bold text-slate-800">Skymesh</span>
+            <span className="text-lg font-semibold text-slate-900">Skymesh</span>
           </div>
         </header>
 
         {/* Analysis animation */}
-        <div className="mb-8 flex flex-col items-center" role="status" aria-live="polite">
+        <div className="mb-10 flex flex-col items-center" role="status" aria-live="polite">
+          <div className="relative mb-6 flex h-24 w-24 items-center justify-center">
+            <div className="absolute inset-0 rounded-full bg-skymesh-orange/15 blur-2xl" />
+            <div className="absolute inset-4 rounded-full bg-white/90 shadow-soft" />
           <motion.div
             animate={{ rotate: 360 }}
             transition={shouldReduceMotion ? { duration: 0 } : { repeat: Infinity, duration: 2, ease: "linear" }}
-            className="mb-6 flex h-20 w-20 items-center justify-center rounded-full border-4 border-slate-100 border-t-skymesh-orange"
+            className="relative z-10 flex h-16 w-16 items-center justify-center rounded-full border-4 border-white border-t-skymesh-orange"
             aria-hidden="true"
           />
+          </div>
           
           <motion.h1
             key={analysisStep}
             initial={shouldReduceMotion ? false : { opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-2 text-center text-xl font-bold text-slate-900"
+            className="mb-2 text-center text-2xl font-display text-slate-900"
           >
             {analysisStep < analysisSteps.length 
               ? analysisSteps[analysisStep].text
@@ -124,9 +129,9 @@ export default function AnalyzingPage() {
           </motion.h1>
 
           {/* Progress bar */}
-          <div className="mt-4 h-1.5 w-48 overflow-hidden rounded-full bg-slate-100">
+          <div className="mt-4 h-2 w-56 overflow-hidden rounded-full bg-white/80 shadow-input">
             <motion.div
-              className="h-full rounded-full bg-skymesh-orange"
+              className="h-full rounded-full bg-gradient-to-r from-skymesh-orange via-orange-500 to-amber-400"
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
               transition={{ duration: 0.3, ease: "easeOut" }}
@@ -137,7 +142,7 @@ export default function AnalyzingPage() {
 
         {/* Social proof section */}
         <div className="flex-1">
-          <div className="mb-4 flex items-center justify-center gap-2">
+          <div className="mb-5 flex items-center justify-center gap-2">
             <div className="flex">
               {[1, 2, 3, 4, 5].map((star) => (
                 <svg
@@ -166,7 +171,7 @@ export default function AnalyzingPage() {
               >
                 <div className="mb-3 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-skymesh-orange/10 font-bold text-skymesh-orange">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-skymesh-orange/15 to-amber-100 font-bold text-skymesh-orange">
                       {review.name.charAt(0)}
                     </div>
                     <div>
@@ -200,7 +205,7 @@ export default function AnalyzingPage() {
                 key={index}
                 className={`h-1.5 rounded-full transition-all duration-300 ${
                   index === currentReview 
-                    ? "w-4 bg-skymesh-orange" 
+                    ? "w-4 bg-gradient-to-r from-skymesh-orange to-amber-400" 
                     : "w-1.5 bg-slate-200"
                 }`}
               />
@@ -209,7 +214,7 @@ export default function AnalyzingPage() {
         </div>
 
         {/* Bottom trust badges */}
-        <div className="mt-8 flex items-center justify-center gap-6 text-xs text-slate-400">
+        <div className="mt-10 flex items-center justify-center gap-6 text-xs text-slate-500">
           <span className="flex items-center gap-1.5">
             <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />

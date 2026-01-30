@@ -66,14 +66,15 @@ export default function RecommendedPage() {
   }, [answers]);
 
   return (
-    <main className="min-h-dvh bg-gradient-to-b from-slate-50 to-white pb-32">
-      <div className="mx-auto max-w-lg px-5 py-6">
-        <header className="mb-6 flex items-center justify-between">
+    <main className="page-shell pb-36">
+      <div className="page-texture" aria-hidden="true" />
+      <div className="relative z-10 mx-auto max-w-lg px-5 py-8">
+        <header className="mb-7 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-skymesh-orange shadow-sm">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-skymesh-orange via-orange-500 to-amber-400 shadow-glow">
               <span className="text-xl font-extrabold text-white">S</span>
             </div>
-            <span className="text-lg font-bold text-slate-800">Skymesh</span>
+            <span className="text-lg font-semibold text-slate-900">Skymesh</span>
           </div>
           <div className="trust-badge">
             <svg className="h-4 w-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
@@ -93,11 +94,11 @@ export default function RecommendedPage() {
           transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.3, ease: "easeOut" }}
           className="mb-6"
         >
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-skymesh-orange">
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-skymesh-orange">
             We found it
           </p>
-          <h1 className="mt-2 text-2xl font-bold text-slate-900">Fibre Plus</h1>
-          <p className="mt-1 text-slate-500">
+          <h1 className="mt-3 text-3xl font-display text-slate-900">Fibre Plus</h1>
+          <p className="mt-2 text-base text-slate-600">
             Fast enough that nobody complains. Priced so you don't overpay. The Goldilocks plan.
           </p>
           <div className="mt-3 flex items-center gap-3">
@@ -125,39 +126,39 @@ export default function RecommendedPage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full bg-skymesh-orange/10 px-3 py-1 text-xs font-semibold text-skymesh-orange">
+              <div className="inline-flex items-center gap-2 rounded-full border border-skymesh-orange/20 bg-white/80 px-3 py-1 text-xs font-semibold text-skymesh-orange shadow-input">
                 <span className="h-2 w-2 rounded-full bg-skymesh-orange" />
                 47% of customers choose this
               </div>
-              <h2 className="mt-3 text-xl font-bold text-slate-900">Fibre Plus</h2>
+              <h2 className="mt-3 text-2xl font-display text-slate-900">Fibre Plus</h2>
             </div>
             <div className="text-right">
-              <p className="text-2xl font-bold text-slate-900 tabular-nums">$74.95</p>
+              <p className="text-3xl font-semibold text-slate-900 tabular-nums">$74.95</p>
               <p className="text-xs text-slate-500">/month for first 6 months</p>
               <p className="text-sm font-semibold text-slate-700 tabular-nums">Then $89.95 ongoing</p>
             </div>
           </div>
 
           <div className="mt-6 grid gap-4">
-            <div className="flex items-center justify-between rounded-xl bg-white/70 p-4">
+            <div className="flex items-center justify-between rounded-2xl border border-white/70 bg-white/80 p-4 shadow-input">
               <div>
                 <p className="text-sm font-semibold text-slate-700">Unlimited data</p>
                 <p className="text-xs text-slate-500">No usage caps or overage fees</p>
               </div>
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-skymesh-orange/10 text-skymesh-orange">
+              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-skymesh-orange/15 to-amber-100 text-skymesh-orange">
                 <span className="text-xl font-bold">∞</span>
               </div>
             </div>
-            <div className="rounded-xl bg-white/70 p-4">
+            <div className="rounded-2xl border border-white/70 bg-white/80 p-4 shadow-input">
               <p className="text-sm font-semibold text-slate-700">Typical evening speeds</p>
               <div className="mt-2 flex items-center justify-between">
                 <div>
-                  <p className="text-2xl font-bold text-slate-900">48 Mbps</p>
+                  <p className="text-2xl font-semibold text-slate-900">48 Mbps</p>
                   <p className="text-xs text-slate-500">Download</p>
                 </div>
                 <div className="h-8 w-px bg-slate-200" />
                 <div>
-                  <p className="text-2xl font-bold text-slate-900">17 Mbps</p>
+                  <p className="text-2xl font-semibold text-slate-900">17 Mbps</p>
                   <p className="text-xs text-slate-500">Upload</p>
                 </div>
               </div>
@@ -171,19 +172,19 @@ export default function RecommendedPage() {
           transition={shouldReduceMotion ? { duration: 0 } : { delay: 0.2 }}
           className="card mb-6"
         >
-          <h3 className="text-lg font-bold text-slate-900">Why this one?</h3>
+          <h3 className="text-xl font-display text-slate-900">Why this one?</h3>
           <p className="mt-2 text-sm text-slate-600">{dynamicCopy}</p>
           <div className="mt-4 flex flex-wrap gap-2">
-            <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
+            <span className="rounded-full border border-white/70 bg-white/80 px-3 py-1 text-xs font-semibold text-slate-600">
               {answers.household}
             </span>
-            <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
+            <span className="rounded-full border border-white/70 bg-white/80 px-3 py-1 text-xs font-semibold text-slate-600">
               {answers.devices}
             </span>
             {answers.usage.slice(0, 3).map((item) => (
               <span
                 key={item}
-                className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600"
+                className="rounded-full border border-white/70 bg-white/80 px-3 py-1 text-xs font-semibold text-slate-600"
               >
                 {item}
               </span>
@@ -195,7 +196,7 @@ export default function RecommendedPage() {
           initial={shouldReduceMotion ? false : { y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={shouldReduceMotion ? { duration: 0 } : { delay: 0.3 }}
-          className="rounded-xl bg-amber-50 border border-amber-200/60 px-4 py-3 text-center mb-4"
+          className="rounded-2xl border border-amber-200/60 bg-gradient-to-r from-amber-50 via-orange-50 to-amber-50 px-4 py-3 text-center mb-4 shadow-input"
         >
           <p className="text-sm font-medium text-amber-800">
             🔥 127 people signed up this week
@@ -211,7 +212,7 @@ export default function RecommendedPage() {
       </div>
 
       {/* Sticky footer CTA */}
-      <div className="fixed bottom-0 left-0 right-0 border-t border-slate-200 bg-white/95 backdrop-blur-sm px-5 py-4 pb-[calc(env(safe-area-inset-bottom)+1rem)] shadow-lg">
+      <div className="fixed bottom-0 left-0 right-0 border-t border-white/70 bg-white/90 backdrop-blur-md px-5 py-4 pb-[calc(env(safe-area-inset-bottom)+1rem)] shadow-luxe">
         <div className="mx-auto max-w-lg">
           <Link href="/" className="button-primary">
             Continue with Fibre Plus

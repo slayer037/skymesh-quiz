@@ -80,14 +80,15 @@ export default function QuizPage() {
   };
 
   return (
-    <main className="min-h-dvh bg-gradient-to-b from-slate-50 to-white">
-      <div className="mx-auto flex min-h-dvh max-w-lg flex-col px-5 py-6">
-        <header className="mb-6 flex items-center justify-between">
+    <main className="page-shell">
+      <div className="page-texture" aria-hidden="true" />
+      <div className="relative z-10 mx-auto flex min-h-dvh max-w-lg flex-col px-5 py-8">
+        <header className="mb-7 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-skymesh-orange shadow-sm">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-skymesh-orange via-orange-500 to-amber-400 shadow-glow">
               <span className="text-xl font-extrabold text-white">S</span>
             </div>
-            <span className="text-lg font-bold text-slate-800">Skymesh</span>
+            <span className="text-lg font-semibold text-slate-900">Skymesh</span>
           </div>
           <div className="trust-badge">
             <svg className="h-4 w-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
@@ -101,9 +102,12 @@ export default function QuizPage() {
           </div>
         </header>
 
-        <div className="mb-6">
+        <div className="mb-7">
           <div className="progress-bar">
-            <div className="progress-fill" style={{ width: `${progress}%` }} />
+            <div
+              className="progress-fill bg-gradient-to-r from-skymesh-orange via-orange-500 to-amber-400"
+              style={{ width: `${progress}%` }}
+            />
           </div>
           <div className="mt-3 flex items-center justify-between text-xs font-medium text-slate-500">
             <span>Step {stepIndex + 1} of {steps.length}</span>
@@ -111,18 +115,18 @@ export default function QuizPage() {
           </div>
         </div>
 
-        <div className="mb-8 flex items-center justify-between">
+        <div className="mb-10 flex items-center justify-between">
           {steps.map((step, index) => {
             const isCompleted = index < stepIndex;
             const isActive = index === stepIndex;
             return (
               <div key={step.id} className="flex flex-1 items-center">
                 <div
-                  className={`flex h-9 w-9 items-center justify-center rounded-full border-2 ${
+                  className={`flex h-10 w-10 items-center justify-center rounded-full border-2 transition-all ${
                     isCompleted
-                      ? "border-skymesh-orange bg-skymesh-orange"
+                      ? "border-skymesh-orange bg-gradient-to-br from-skymesh-orange to-amber-400 text-white shadow-soft"
                       : isActive
-                        ? "border-skymesh-orange bg-white"
+                        ? "border-skymesh-orange bg-white shadow-soft"
                         : "border-slate-200 bg-white"
                   }`}
                   aria-label={`Step ${index + 1}`}
@@ -142,7 +146,9 @@ export default function QuizPage() {
                   )}
                 </div>
                 {index < steps.length - 1 && (
-                  <div className={`mx-2 h-0.5 flex-1 ${isCompleted ? "bg-skymesh-orange" : "bg-slate-200"}`} />
+                  <div
+                    className={`mx-2 h-0.5 flex-1 ${isCompleted ? "bg-gradient-to-r from-skymesh-orange to-amber-400" : "bg-slate-200"}`}
+                  />
                 )}
               </div>
             );
@@ -161,9 +167,9 @@ export default function QuizPage() {
               transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.25, ease: "easeOut" }}
               className="flex min-h-full flex-col"
             >
-              <div className="mb-6">
-                <h1 className="text-2xl font-bold text-slate-900">{current.title}</h1>
-                <p className="mt-1 text-slate-500">{current.subtitle}</p>
+              <div className="mb-7">
+                <h1 className="text-3xl font-display text-slate-900">{current.title}</h1>
+                <p className="mt-2 text-base text-slate-600">{current.subtitle}</p>
               </div>
 
               {current.id !== "usage" && (

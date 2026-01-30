@@ -7,8 +7,8 @@ const config: Config = {
       colors: {
         skymesh: {
           // Primary brand colors (matched from actual site)
-          orange: "#F7941D",      // Golden amber - primary CTA
-          "orange-hover": "#E8850A",
+          orange: "#F97316",      // Skymesh orange
+          "orange-hover": "#EA580C",
           // Navy palette
           navy: "#1A2940",
           "navy-light": "#253750",
@@ -18,16 +18,21 @@ const config: Config = {
           // Neutrals
           dark: "#1A1A2E",
           slate: "#4A5568",
-          muted: "#718096"
+          muted: "#718096",
+          cream: "#FFF7F1",
+          sand: "#FDEDDC"
         }
       },
       boxShadow: {
-        soft: "0 4px 20px rgba(0, 0, 0, 0.08)",
-        card: "0 2px 12px rgba(0, 0, 0, 0.06)",
-        input: "0 2px 8px rgba(0, 0, 0, 0.04)"
+        soft: "0 8px 24px rgba(15, 23, 42, 0.08)",
+        card: "0 6px 20px rgba(15, 23, 42, 0.08)",
+        input: "0 4px 12px rgba(15, 23, 42, 0.06)",
+        luxe: "0 20px 40px rgba(15, 23, 42, 0.14), 0 8px 18px rgba(249, 115, 22, 0.18)",
+        glow: "0 0 0 1px rgba(249, 115, 22, 0.18), 0 14px 30px rgba(249, 115, 22, 0.25)"
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+        sans: ['Manrope', 'system-ui', '-apple-system', 'sans-serif'],
+        display: ['Fraunces', 'Times New Roman', 'serif']
       }
     }
   },

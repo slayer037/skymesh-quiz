@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -9,14 +9,55 @@
 }
 
 body {
-  @apply bg-white text-slate-800 antialiased;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  @apply text-slate-900 antialiased;
+  font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+  background-color: #fff7f1;
+  background-image:
+    radial-gradient(1200px 600px at 85% -10%, rgba(249, 115, 22, 0.16), transparent 60%),
+    radial-gradient(900px 500px at -10% 10%, rgba(255, 237, 213, 0.8), transparent 60%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 247, 241, 1) 100%);
+}
+
+.font-display {
+  font-family: 'Fraunces', 'Times New Roman', serif;
+}
+
+.page-shell {
+  @apply min-h-dvh relative overflow-hidden;
+}
+
+.page-shell::before {
+  content: "";
+  position: absolute;
+  inset: -20% -10% auto;
+  height: 55%;
+  background: radial-gradient(60% 60% at 70% 40%, rgba(249, 115, 22, 0.18), transparent 70%);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.page-shell::after {
+  content: "";
+  position: absolute;
+  inset: auto -20% -30% -20%;
+  height: 60%;
+  background: radial-gradient(55% 55% at 30% 50%, rgba(15, 23, 42, 0.08), transparent 70%);
+  pointer-events: none;
+}
+
+.page-texture {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(15, 23, 42, 0.06) 0.6px, transparent 0.6px);
+  background-size: 18px 18px;
+  opacity: 0.2;
+  pointer-events: none;
 }
 
 /* Inputs - Skymesh style: clean, rounder, subtle shadow */
 .input {
-  @apply w-full rounded-xl border border-slate-200 bg-white px-4 py-3.5 text-base shadow-input transition-all duration-200;
-  @apply focus:border-skymesh-orange focus:outline-none focus:ring-4 focus:ring-skymesh-orange/10;
+  @apply w-full rounded-2xl border border-slate-200/80 bg-white/90 px-4 py-3.5 text-base shadow-input transition-all duration-200;
+  @apply focus:border-skymesh-orange focus:outline-none focus:ring-4 focus:ring-skymesh-orange/15;
   @apply placeholder:text-slate-400;
 }
 
@@ -31,34 +72,34 @@ body {
 /* Primary button - Skymesh golden amber */
 .button-primary {
   @apply inline-flex w-full items-center justify-center gap-2 rounded-full;
-  @apply bg-skymesh-orange px-6 py-4 text-base font-semibold text-white;
-  @apply shadow-soft transition-all duration-200;
-  @apply hover:bg-skymesh-orange-hover hover:shadow-lg hover:-translate-y-0.5;
-  @apply active:translate-y-0 active:shadow-md;
+  @apply bg-gradient-to-r from-skymesh-orange via-orange-500 to-amber-400 px-6 py-4 text-base font-semibold text-white;
+  @apply shadow-luxe transition-all duration-200;
+  @apply hover:shadow-glow hover:-translate-y-0.5;
+  @apply active:translate-y-0 active:shadow-soft;
   @apply focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-skymesh-orange/25;
 }
 
 /* Secondary button - clean outline */
 .button-secondary {
   @apply inline-flex w-full items-center justify-center gap-2 rounded-full;
-  @apply border-2 border-slate-200 bg-white px-6 py-4 text-base font-semibold text-slate-700;
+  @apply border-2 border-slate-200/80 bg-white/80 px-6 py-4 text-base font-semibold text-slate-700;
   @apply shadow-card transition-all duration-200;
-  @apply hover:bg-slate-50 hover:border-slate-300;
+  @apply hover:bg-white hover:border-slate-300;
   @apply focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-skymesh-orange/15;
 }
 
 /* Card styles */
 .card {
-  @apply rounded-2xl border border-slate-100 bg-white p-6 shadow-card;
+  @apply rounded-3xl border border-slate-100/80 bg-white/90 p-6 shadow-card backdrop-blur;
 }
 
 .card-highlight {
-  @apply card border-skymesh-orange/20 bg-gradient-to-br from-orange-50/50 to-white;
+  @apply card border-skymesh-orange/20 bg-gradient-to-br from-orange-50/70 via-white to-amber-50/40;
 }
 
 /* Progress bar */
 .progress-bar {
-  @apply h-1.5 w-full rounded-full bg-slate-100 overflow-hidden;
+  @apply h-2 w-full rounded-full bg-slate-100/80 overflow-hidden;
 }
 
 .progress-fill {
@@ -67,13 +108,13 @@ body {
 
 /* Selection cards (routers, etc) */
 .selection-card {
-  @apply flex cursor-pointer items-start gap-4 rounded-2xl border-2 border-slate-100 bg-white p-5 transition-all duration-200;
-  @apply hover:border-slate-200 hover:shadow-card;
+  @apply flex cursor-pointer items-start gap-4 rounded-3xl border-2 border-slate-100/80 bg-white/90 p-5 transition-all duration-200;
+  @apply hover:border-slate-200 hover:shadow-soft hover:-translate-y-0.5;
   @apply focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-skymesh-orange/15;
 }
 
 .selection-card.selected {
-  @apply border-skymesh-orange bg-orange-50/30 shadow-card;
+  @apply border-skymesh-orange bg-gradient-to-br from-orange-50/70 via-white to-amber-50/40 shadow-luxe;
 }
 
 /* Radio indicator */
@@ -110,7 +151,7 @@ body {
 
 /* Trust badge */
 .trust-badge {
-  @apply inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1.5 text-sm font-medium text-slate-600;
+  @apply inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/70 px-3 py-1.5 text-sm font-medium text-slate-600 shadow-card backdrop-blur;
 }
 
 /* Step indicator dots */
