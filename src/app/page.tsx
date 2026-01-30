@@ -528,6 +528,12 @@ export default function Home() {
                       <span className="text-slate-600">Your plan</span>
                       <span className="text-lg font-bold text-slate-900 tabular-nums">nbn® 100/20 — $79/mo</span>
                     </div>
+                    <div className="mt-3 flex items-center gap-2 text-sm">
+                      <svg className="h-4 w-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+                      </svg>
+                      <span className="font-medium text-green-600">$0 today — only billed once connected</span>
+                    </div>
                   </div>
                 </div>
               )}
@@ -536,12 +542,24 @@ export default function Home() {
                 <div className="space-y-5">
                   <div className="card-highlight">
                     <div className="flex items-center justify-between">
-                      <span className="text-slate-600">Total due today</span>
+                      <span className="text-slate-600">Due today</span>
                       <span className="text-2xl font-bold text-slate-900 tabular-nums">
-                        ${routerPrice.toFixed(2)}
+                        {routerPrice === 0 ? (
+                          <span className="text-green-600">$0</span>
+                        ) : (
+                          `$${routerPrice.toFixed(2)}`
+                        )}
                       </span>
                     </div>
-                    <p className="mt-1 text-sm text-slate-500">+ $79/mo plan starting after connection</p>
+                    <p className="mt-1 text-sm text-slate-500">
+                      {routerPrice === 0 ? "Router included" : "Router only"} — $79/mo plan starts once you're connected
+                    </p>
+                    <div className="mt-3 flex items-center gap-2 rounded-lg bg-green-50 px-3 py-2 text-sm">
+                      <svg className="h-4 w-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+                      </svg>
+                      <span className="font-medium text-green-700">No monthly charges until we connect you</span>
+                    </div>
                   </div>
 
                   <div>

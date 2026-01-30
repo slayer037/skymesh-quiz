@@ -136,6 +136,7 @@ export default function RecommendedPage() {
               <p className="text-3xl font-semibold text-slate-900 tabular-nums">$74.95</p>
               <p className="text-xs text-slate-500">/month for first 6 months</p>
               <p className="text-sm font-semibold text-slate-700 tabular-nums">Then $89.95 ongoing</p>
+              <p className="mt-1 text-xs font-semibold text-green-600">$0 today</p>
             </div>
           </div>
 
@@ -217,20 +218,9 @@ export default function RecommendedPage() {
           <Link href="/" className="button-primary">
             Continue with Fibre Plus
           </Link>
-          <div className="mt-2 flex items-center justify-center gap-4 text-xs text-slate-500">
-            <span className="flex items-center gap-1">
-              <svg className="h-3.5 w-3.5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
-              </svg>
-              30-day guarantee
-            </span>
-            <span className="flex items-center gap-1">
-              <svg className="h-3.5 w-3.5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
-              </svg>
-              No lock-in
-            </span>
-          </div>
+          <p className="mt-2 text-center text-xs font-medium text-green-600">
+            Start today from $0 — only billed once you're connected
+          </p>
         </div>
       </div>
     </main>
