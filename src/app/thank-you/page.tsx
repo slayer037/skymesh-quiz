@@ -88,71 +88,8 @@ export default function ThankYou() {
             You're in.
           </h1>
           <p className="text-slate-500">
-            Thanks {orderDetails.name.split(' ')[0]}, you&apos;re all set
+            Thanks {orderDetails.name.split(' ')[0]}, we just need a few more details to begin
           </p>
-        </motion.div>
-
-        {/* Order card */}
-        <motion.div
-          initial={shouldReduceMotion ? false : { y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={shouldReduceMotion ? { duration: 0 } : { delay: 0.3 }}
-          className="card mb-6"
-        >
-          <div className="mb-4 flex items-center justify-between border-b border-slate-100 pb-4">
-            <span className="text-sm font-medium text-slate-500">Order number</span>
-            <span className="font-mono text-base font-bold text-skymesh-orange">
-              {orderDetails.orderNumber}
-            </span>
-          </div>
-
-          <div className="space-y-3">
-            <div className="flex justify-between">
-              <span className="text-slate-500">Plan</span>
-              <span className="font-medium text-slate-900">{orderDetails.plan}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-slate-500">Router</span>
-              <span className="font-medium text-slate-900">{orderDetails.router}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-slate-500">Installation</span>
-              <span className="max-w-[180px] text-right font-medium text-slate-900">
-                {orderDetails.address}
-              </span>
-            </div>
-          </div>
-
-          <div className="mt-4 rounded-xl bg-slate-50 p-4">
-            <div className="flex items-center justify-between">
-              <span className="font-medium text-slate-700">Monthly plan</span>
-              <span className="text-xl font-bold text-slate-900 tabular-nums">
-                {orderDetails.monthlyPrice}
-                <span className="text-sm font-normal text-slate-500">/mo</span>
-              </span>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Email notice */}
-        <motion.div
-          initial={shouldReduceMotion ? false : { y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={shouldReduceMotion ? { duration: 0 } : { delay: 0.4 }}
-          className="mb-6 flex items-start gap-4 rounded-2xl border border-skymesh-orange/20 bg-orange-50/50 p-4"
-        >
-          <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-skymesh-orange/10">
-            <span className="text-lg">📧</span>
-          </div>
-          <div>
-            <p className="font-semibold text-slate-900">Check your inbox</p>
-            <p className="text-sm text-slate-600">
-              Confirmation sent to <strong>{orderDetails.email}</strong>
-            </p>
-            <p className="text-xs text-slate-500 mt-1">
-              Don't see it? Check your spam folder.
-            </p>
-          </div>
         </motion.div>
 
         {/* Activation */}
@@ -260,6 +197,69 @@ export default function ThankYou() {
                 "Complete activation"
               )}
             </button>
+          </div>
+        </motion.div>
+
+        {/* Order card */}
+        <motion.div
+          initial={shouldReduceMotion ? false : { y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={shouldReduceMotion ? { duration: 0 } : { delay: 0.3 }}
+          className="card mb-6"
+        >
+          <div className="mb-4 flex items-center justify-between border-b border-slate-100 pb-4">
+            <span className="text-sm font-medium text-slate-500">Order number</span>
+            <span className="font-mono text-base font-bold text-skymesh-orange">
+              {orderDetails.orderNumber}
+            </span>
+          </div>
+
+          <div className="space-y-3">
+            <div className="flex justify-between">
+              <span className="text-slate-500">Plan</span>
+              <span className="font-medium text-slate-900">{orderDetails.plan}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-slate-500">Router</span>
+              <span className="font-medium text-slate-900">{orderDetails.router}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-slate-500">Installation</span>
+              <span className="max-w-[180px] text-right font-medium text-slate-900">
+                {orderDetails.address}
+              </span>
+            </div>
+          </div>
+
+          <div className="mt-4 rounded-xl bg-slate-50 p-4">
+            <div className="flex items-center justify-between">
+              <span className="font-medium text-slate-700">Monthly plan</span>
+              <span className="text-xl font-bold text-slate-900 tabular-nums">
+                {orderDetails.monthlyPrice}
+                <span className="text-sm font-normal text-slate-500">/mo</span>
+              </span>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Email notice */}
+        <motion.div
+          initial={shouldReduceMotion ? false : { y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={shouldReduceMotion ? { duration: 0 } : { delay: 0.4 }}
+          className="mb-6 flex items-start gap-4 rounded-2xl border border-skymesh-orange/20 bg-orange-50/50 p-4"
+        >
+          <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-skymesh-orange/10">
+            <span className="text-lg">📧</span>
+          </div>
+          <div>
+            <p className="font-semibold text-slate-900">Check your inbox</p>
+            <p className="text-sm text-slate-600">
+              Confirmation sent to <strong>{orderDetails.email}</strong>
+            </p>
+            <p className="text-xs text-slate-500 mt-1">
+              Don't see it? Check your spam folder.
+            </p>
           </div>
         </motion.div>
 
