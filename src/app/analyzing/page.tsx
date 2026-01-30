@@ -105,17 +105,6 @@ export default function AnalyzingPage() {
 
         {/* Analysis animation */}
         <div className="mb-10 flex flex-col items-center" role="status" aria-live="polite">
-          <div className="relative mb-6 flex h-24 w-24 items-center justify-center">
-            <div className="absolute inset-0 rounded-full bg-skymesh-orange/15 blur-2xl" />
-            <div className="absolute inset-4 rounded-full bg-white/90 shadow-soft" />
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={shouldReduceMotion ? { duration: 0 } : { repeat: Infinity, duration: 2, ease: "linear" }}
-            className="relative z-10 flex h-16 w-16 items-center justify-center rounded-full border-4 border-white border-t-skymesh-orange"
-            aria-hidden="true"
-          />
-          </div>
-          
           <motion.h1
             key={analysisStep}
             initial={shouldReduceMotion ? false : { opacity: 0, y: 10 }}
