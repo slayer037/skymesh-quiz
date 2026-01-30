@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const steps = [
   {
@@ -111,6 +111,12 @@ export default function Home() {
   };
 
   const current = steps[stepIndex];
+
+  useEffect(() => {
+    if (current?.id === "router" && !form.router) {
+      setForm((prev) => ({ ...prev, router: "tenda" }));
+    }
+  }, [current?.id, form.router]);
 
   const variants = useMemo(
     () => ({
