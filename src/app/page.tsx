@@ -628,7 +628,7 @@ export default function Home() {
                       </svg>
                       Complete Order
                     </>
-                  ) : current.id === "review" ? "Continue to Payment" : 
+                  ) : current.id === "review" ? "Get connected" : 
                    current.id === "name" || current.id === "phone" || current.id === "address" ? "Confirm & Continue" : 
                    "Continue"}
                 </button>
