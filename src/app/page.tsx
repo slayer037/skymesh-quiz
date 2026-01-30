@@ -105,8 +105,8 @@ export default function Home() {
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-white">
-      <div className="pointer-events-none absolute -top-32 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-sky-100 blur-3xl" />
-      <div className="pointer-events-none absolute bottom-0 right-0 h-80 w-80 rounded-full bg-blue-50 blur-3xl" />
+      <div className="pointer-events-none absolute -top-32 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-orange-100 blur-3xl" />
+      <div className="pointer-events-none absolute bottom-0 right-0 h-80 w-80 rounded-full bg-skymesh-lime/20 blur-3xl" />
 
       <div className="mx-auto flex min-h-screen w-full max-w-2xl flex-col px-5 py-8">
         <header className="mb-8">
@@ -116,7 +116,7 @@ export default function Home() {
           </div>
           <div className="mt-3 h-2 w-full rounded-full bg-slate-100">
             <div
-              className="h-2 rounded-full bg-skymesh-blue transition-all"
+              className="h-2 rounded-full bg-skymesh-orange transition-all"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -134,7 +134,7 @@ export default function Home() {
               className="flex h-full flex-col gap-6"
             >
               <div className="space-y-3">
-                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-skymesh-blue">
+                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-skymesh-orange">
                   Skymesh Checkout
                 </p>
                 <h1 className="text-3xl font-semibold text-slate-900 sm:text-4xl">
@@ -145,13 +145,13 @@ export default function Home() {
 
               {current.id === "name" && (
                 <div className="space-y-4">
-                  <div className="card bg-sky-50/50 border-sky-100">
+                  <div className="card bg-orange-50/50 border-orange-100">
                     <p className="text-2xl font-semibold text-slate-900">
                       {form.firstName} {form.lastName}
                     </p>
                   </div>
                   <p className="text-sm text-slate-500">
-                    Not you? <button type="button" className="text-skymesh-blue font-semibold hover:underline" onClick={() => {
+                    Not you? <button type="button" className="text-skymesh-orange font-semibold hover:underline" onClick={() => {
                       const newFirst = prompt("First name:", form.firstName);
                       const newLast = prompt("Last name:", form.lastName);
                       if (newFirst) handleChange("firstName", newFirst);
@@ -177,13 +177,13 @@ export default function Home() {
 
               {current.id === "phone" && (
                 <div className="space-y-4">
-                  <div className="card bg-sky-50/50 border-sky-100">
+                  <div className="card bg-orange-50/50 border-orange-100">
                     <p className="text-2xl font-semibold text-slate-900 tabular-nums">
                       {form.phone}
                     </p>
                   </div>
                   <p className="text-sm text-slate-500">
-                    Different number? <button type="button" className="text-skymesh-blue font-semibold hover:underline" onClick={() => {
+                    Different number? <button type="button" className="text-skymesh-orange font-semibold hover:underline" onClick={() => {
                       const newPhone = prompt("Phone number:", form.phone);
                       if (newPhone) handleChange("phone", newPhone);
                     }}>Update it here</button>
@@ -249,7 +249,7 @@ export default function Home() {
 
               {current.id === "address" && (
                 <div className="space-y-4">
-                  <div className="card bg-sky-50/50 border-sky-100">
+                  <div className="card bg-orange-50/50 border-orange-100">
                     <div className="flex items-start gap-3">
                       <span className="text-2xl">📍</span>
                       <p className="text-xl font-semibold text-slate-900">
@@ -291,7 +291,7 @@ export default function Home() {
                         className={
                           `rounded-full px-5 py-2.5 text-sm font-semibold transition ` +
                           (form.postalSame === option
-                            ? "bg-skymesh-blue text-white shadow-soft"
+                            ? "bg-skymesh-orange text-white shadow-soft"
                             : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-50")
                         }
                       >
@@ -368,7 +368,7 @@ export default function Home() {
                       className={
                         `card text-left transition-transform ${
                           form.router === option.name
-                            ? "border-skymesh-blue ring-2 ring-sky-100"
+                            ? "border-skymesh-orange ring-2 ring-orange-100"
                             : "hover:-translate-y-1"
                         }`
                       }
@@ -380,7 +380,7 @@ export default function Home() {
                           </p>
                           <p className="text-sm text-slate-500">{option.desc}</p>
                         </div>
-                        <span className="text-lg font-semibold text-skymesh-blue whitespace-nowrap">
+                        <span className="text-lg font-semibold text-skymesh-orange whitespace-nowrap">
                           {option.price}
                         </span>
                       </div>

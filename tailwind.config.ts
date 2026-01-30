@@ -6,7 +6,11 @@ const config: Config = {
     extend: {
       colors: {
         skymesh: {
-          blue: "#0066CC"
+          orange: "#FF6B35",
+          coral: "#E85A2C",
+          lime: "#C5E063",
+          teal: "#006B6B",
+          dark: "#1A1A2E"
         }
       },
       boxShadow: {

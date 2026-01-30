@@ -11,7 +11,7 @@ body {
 }
 
 .input {
-  @apply w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-lg shadow-soft transition focus:border-skymesh-blue focus:outline-none focus:ring-2 focus:ring-sky-100;
+  @apply w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-lg shadow-soft transition focus:border-skymesh-orange focus:outline-none focus:ring-2 focus:ring-orange-100;
 }
 
 .label {
@@ -19,11 +19,11 @@ body {
 }
 
 .button-primary {
-  @apply inline-flex w-full items-center justify-center rounded-full bg-skymesh-blue px-6 py-3 text-lg font-semibold text-white shadow-soft transition hover:brightness-110;
+  @apply inline-flex w-full items-center justify-center rounded-full bg-skymesh-orange px-6 py-3.5 text-lg font-semibold text-white shadow-soft transition hover:bg-skymesh-coral;
 }
 
 .button-secondary {
-  @apply inline-flex w-full items-center justify-center rounded-full border border-slate-200 bg-white px-6 py-3 text-lg font-semibold text-slate-700 shadow-soft transition hover:bg-slate-50;
+  @apply inline-flex w-full items-center justify-center rounded-full border border-slate-200 bg-white px-6 py-3.5 text-lg font-semibold text-slate-700 shadow-soft transition hover:bg-slate-50;
 }
 
 .card {
