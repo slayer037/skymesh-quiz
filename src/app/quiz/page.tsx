@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 const steps = [
   {
@@ -37,6 +37,7 @@ const storageKey = "skymeshQuiz";
 export default function QuizPage() {
   const router = useRouter();
   const shouldReduceMotion = useReducedMotion();
+  const questionRef = useRef<HTMLDivElement>(null);
   const [stepIndex, setStepIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   const [answers, setAnswers] = useState({
@@ -46,6 +47,13 @@ export default function QuizPage() {
   });
 
   const current = steps[stepIndex];
+
+  // Scroll to question area on step change (mobile UX)
+  useEffect(() => {
+    if (questionRef.current) {
+      questionRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [stepIndex]);
 
   const variants = useMemo(
     () => ({
@@ -169,7 +177,7 @@ export default function QuizPage() {
               transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.25, ease: "easeOut" }}
               className="flex min-h-full flex-col"
             >
-              <div className="mb-7">
+              <div ref={questionRef} className="mb-7 scroll-mt-4">
                 <h1 className="text-3xl font-display text-slate-900">{current.title}</h1>
                 <p className="mt-2 text-base text-slate-600">{current.subtitle}</p>
               </div>
