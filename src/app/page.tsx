@@ -26,6 +26,11 @@ const steps = [
     subtitle: "Skip the setup drama with a pre-configured, plug-and-play router."
   },
   {
+    id: "situation",
+    title: "What's the situation?",
+    subtitle: "This helps us get the authority right for your line."
+  },
+  {
     id: "timing",
     title: "When should we start your connection?",
     subtitle: "Most people want ASAP, but we can wait until you've moved in."
@@ -115,6 +120,7 @@ export default function Home() {
     router: "",
     plan: "fibre-plus",
     timing: "asap",
+    situation: "",
     connectionDate: "",
     cardName: "",
     cardNumber: "",
@@ -134,6 +140,7 @@ export default function Home() {
     router: "",
     plan: "",
     timing: "asap",
+    situation: "",
     connectionDate: ""
   });
 
@@ -167,6 +174,7 @@ export default function Home() {
       address: form.address,
       router: form.router,
       plan: form.plan,
+      situation: form.situation,
       timing: form.timing,
       connectionDate: form.connectionDate
     });
@@ -537,6 +545,40 @@ export default function Home() {
                 </div>
               )}
 
+              {current.id === "situation" && (
+                <div className="space-y-4">
+                  <button
+                    type="button"
+                    className={`selection-card w-full text-left p-6 ${form.situation === "switching" ? "selected" : ""}`}
+                    onClick={() => {
+                      handleChange("situation", "switching");
+                      goToStep(stepIndex + 1);
+                    }}
+                  >
+                    <div className="radio-indicator" />
+                    <div>
+                      <p className="font-semibold text-slate-900 text-lg">I'm switching my current service</p>
+                      <p className="text-sm text-slate-500 mt-1">You're moving from another provider to Skymesh.</p>
+                    </div>
+                  </button>
+
+                  <button
+                    type="button"
+                    className={`selection-card w-full text-left p-6 ${form.situation === "moving" ? "selected" : ""}`}
+                    onClick={() => {
+                      handleChange("situation", "moving");
+                      goToStep(stepIndex + 1);
+                    }}
+                  >
+                    <div className="radio-indicator" />
+                    <div>
+                      <p className="font-semibold text-slate-900 text-lg">I'm moving into this house</p>
+                      <p className="text-sm text-slate-500 mt-1">You're moving into a new home and need a new connection.</p>
+                    </div>
+                  </button>
+                </div>
+              )}
+
               {current.id === "timing" && (
                 <div className="space-y-4">
                   <button
@@ -591,6 +633,7 @@ export default function Home() {
                     { label: "Phone", value: form.phone, modal: "contact" },
                     { label: "Date of Birth", value: `${form.dobDay}/${form.dobMonth}/${form.dobYear}`, modal: "contact" },
                     { label: "Address", value: form.address, modal: "address" },
+                    { label: "Situation", value: form.situation === "moving" ? "Moving home" : "Switching provider", modal: "address" },
                     { label: "Router", value: selectedRouter?.name || "Not selected", modal: "router" },
                     { label: "Timing", value: form.timing === "asap" ? "As soon as possible" : `Scheduled: ${form.connectionDate}`, modal: "router" }
                   ].map((row) => (

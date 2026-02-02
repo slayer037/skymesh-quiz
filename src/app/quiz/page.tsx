@@ -164,14 +164,6 @@ export default function QuizPage() {
           </div>
         </header>
 
-        <div className="mb-6 rounded-3xl border border-white/70 bg-white/80 p-5 shadow-card backdrop-blur">
-          <div className="flex items-center justify-between text-xs font-medium text-slate-500">
-            <span>
-              Step {stepIndex + 1} of {steps.length}
-            </span>
-          </div>
-        </div>
-
         <div className="mb-10 rounded-3xl border border-white/70 bg-gradient-to-r from-white/80 via-amber-50/40 to-white/80 p-5 shadow-card backdrop-blur">
           <div className="flex items-center justify-between">
             {steps.map((step, index) => {

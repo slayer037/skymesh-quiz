@@ -53,10 +53,10 @@ export default function RecommendedPage() {
     const usageList = answers.usage.length ? answers.usage : defaultAnswers.usage;
     const keyNeed = usageList.slice(0, 1).map((item) => usageDetails[item]).filter(Boolean)[0];
     
-    const householdText = answers.household.includes("Solo") ? "a household of one" : 
-      answers.household.includes("Duo") ? "two people" :
-      answers.household.includes("Busy") ? "a busy household" :
-      "a full house";
+    const householdText = answers.household.includes("Solo") ? "A household of one" : 
+      answers.household.includes("Duo") ? "Two people" :
+      answers.household.includes("Busy") ? "A busy household" :
+      "A full house";
     
     const deviceComment = parseInt(answers.devices) > 10 || answers.devices.includes("11") || answers.devices.includes("16")
       ? "That's a lot of devices fighting for bandwidth."
