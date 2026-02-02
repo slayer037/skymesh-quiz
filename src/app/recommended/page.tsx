@@ -136,7 +136,7 @@ export default function RecommendedPage() {
               <p className="text-3xl font-semibold text-slate-900 tabular-nums">$74.95</p>
               <p className="text-xs text-slate-500">/month for first 6 months</p>
               <p className="text-sm font-semibold text-slate-700 tabular-nums">Then $89.95 ongoing</p>
-              <p className="mt-1 text-xs font-semibold text-green-600">$0 today</p>
+              <p className="mt-1 text-xs font-semibold text-green-600">$0 until connected</p>
             </div>
           </div>
 
@@ -151,7 +151,7 @@ export default function RecommendedPage() {
               </div>
             </div>
             <div className="rounded-2xl border border-white/70 bg-white/80 p-4 shadow-input">
-              <p className="text-sm font-semibold text-slate-700">Typical evening speeds</p>
+              <p className="text-sm font-semibold text-slate-700">Typical evening speeds (7pm-11pm)</p>
               <div className="mt-2 flex items-center justify-between">
                 <div>
                   <p className="text-2xl font-semibold text-slate-900">48 Mbps</p>
@@ -166,6 +166,24 @@ export default function RecommendedPage() {
               <p className="mt-3 text-xs text-slate-500 text-center">
                 Stream 4K on 3 devices at once. Video calls that don't freeze.
               </p>
+              <div className="mt-4 flex flex-col gap-2 border-t border-slate-100 pt-3">
+                <a 
+                  href="https://www.skymesh.net.au/wp-json/api/broadband_cis/?service_type=FIXED-LINE&tier=FIXED_LINE_202303&plan=NBN+50+Unlimited&bundled=0" 
+                  className="text-xs text-skymesh-orange hover:underline font-medium"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Critical Information Summary (CIS)
+                </a>
+                <a 
+                  href="https://www.skymesh.net.au/wp-json/api/kfs/?service_type=FIXED-LINE&tier=FIXED_LINE_202303&plan=NBN+50+Unlimited&bundled=0" 
+                  className="text-xs text-skymesh-orange hover:underline font-medium"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Key Fact Sheet (KFS)
+                </a>
+              </div>
             </div>
           </div>
         </motion.div>
@@ -222,7 +240,7 @@ export default function RecommendedPage() {
             Continue with Fibre Plus
           </Link>
           <p className="mt-2 text-center text-xs font-medium text-green-600">
-            $0 to start. Pay nothing until your router arrives and you're online.
+            $0 to start. pay nothing until your online.
           </p>
           <p className="mt-1 text-center text-xs text-slate-500">
             ✓ Unlimited data ✓ No lock-in ✓ 30-day money-back guarantee

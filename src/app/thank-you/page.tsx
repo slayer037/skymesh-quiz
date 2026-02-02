@@ -7,23 +7,11 @@ import { useMemo, useState } from "react";
 export default function ThankYou() {
   const shouldReduceMotion = useReducedMotion();
   const [activation, setActivation] = useState({
-    dobDay: "",
-    dobMonth: "",
-    dobYear: "",
     avc: ""
   });
   const [activationComplete, setActivationComplete] = useState(false);
 
-  const months = useMemo(
-    () => [
-      "January", "February", "March", "April", "May", "June",
-      "July", "August", "September", "October", "November", "December"
-    ],
-    []
-  );
-  const isDobComplete = activation.dobDay.length === 2
-    && activation.dobMonth.length > 0
-    && activation.dobYear.length === 4;
+
 
   const orderDetails = {
     orderNumber: "SKY-" + Math.random().toString(36).substring(2, 8).toUpperCase(),
@@ -46,7 +34,7 @@ export default function ThankYou() {
           <span className="text-lg font-bold text-slate-800">Skymesh</span>
         </header>
 
-        {/* Success animation */}
+        {/* Status Icon */}
         <motion.div
           initial={shouldReduceMotion ? false : { scale: 0 }}
           animate={{ scale: 1 }}
@@ -54,26 +42,20 @@ export default function ThankYou() {
           className="mx-auto mb-6"
         >
           <div className="relative flex h-24 w-24 items-center justify-center">
-            <div className="absolute inset-0 animate-ping rounded-full bg-skymesh-orange/20 motion-reduce:animate-none" />
-            <div className="relative flex h-20 w-20 items-center justify-center rounded-full bg-skymesh-orange shadow-lg">
-              <motion.svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="white"
-                strokeWidth={3}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="h-10 w-10"
-              >
-                <motion.path
-                  d="M5 13l4 4L19 7"
-                  initial={shouldReduceMotion ? false : { pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={shouldReduceMotion ? { duration: 0 } : { delay: 0.2, duration: 0.4 }}
-                />
-              </motion.svg>
-            </div>
+            {!activationComplete ? (
+              <>
+                <div className="absolute inset-0 animate-pulse rounded-full bg-amber-500/20" />
+                <div className="relative flex h-20 w-20 items-center justify-center rounded-full bg-white border-4 border-amber-500 shadow-xl">
+                  <span className="text-4xl">⚠️</span>
+                </div>
+              </>
+            ) : (
+              <div className="relative flex h-20 w-20 items-center justify-center rounded-full bg-green-500 shadow-lg">
+                <svg className="h-10 w-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+            )}
           </div>
         </motion.div>
 
@@ -84,11 +66,20 @@ export default function ThankYou() {
           transition={shouldReduceMotion ? { duration: 0 } : { delay: 0.2 }}
           className="mb-8 text-center"
         >
-          <h1 className="mb-2 text-2xl font-bold text-slate-900">
-            You're in.
+          <h1 className="mb-2 text-3xl font-bold text-slate-900 leading-tight">
+            {!activationComplete ? (
+              <>
+                Payment Received
+                <br />
+                Activation Pending
+              </>
+            ) : "You're all set!"}
           </h1>
-          <p className="text-slate-500">
-            Thanks {orderDetails.name.split(' ')[0]}, we just need a few more details to begin
+          <p className="text-base text-slate-600 px-4">
+            {!activationComplete 
+              ? "Your order is in the system, but we can't start the connection until you provide your AVC ID below."
+              : `Thanks ${orderDetails.name.split(' ')[0]}, your connection is now being processed.`
+            }
           </p>
         </motion.div>
 
@@ -99,83 +90,46 @@ export default function ThankYou() {
           transition={shouldReduceMotion ? { duration: 0 } : { delay: 0.45 }}
           className="mb-6"
         >
-          <div className="card space-y-5">
-            <div>
-              <h2 className="text-lg font-bold text-slate-900">Activate your connection</h2>
-              <p className="text-sm text-slate-500">
-                {activationComplete
-                  ? "Thanks, we've now started working on your connection. Please see below for next steps."
-                  : "Finish these details to keep your switch smooth."
-                }
-              </p>
-            </div>
-
+          <div className="card space-y-6">
             {!activationComplete ? (
-              <>
-                <div className="rounded-xl bg-slate-50 p-4">
-                  <div>
-                    <p className="font-semibold text-slate-900">Verify your identity</p>
-                    <p className="text-sm text-slate-500">Required for telco account verification</p>
+              <div className="space-y-6">
+                {/* Video Placeholder */}
+                <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-slate-900 shadow-lg ring-1 ring-slate-200">
+                  <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6">
+                    <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-skymesh-orange/20 text-skymesh-orange backdrop-blur-sm transition-transform hover:scale-110">
+                      <svg className="h-8 w-8 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5.14v14l11-7-11-7z" />
+                      </svg>
+                    </div>
+                    <p className="text-sm font-semibold text-white">How to find your AVC ID</p>
+                    <p className="mt-1 text-xs text-slate-400">Watch this 45-second guide</p>
                   </div>
-                  <div className="mt-4 grid grid-cols-3 gap-3">
-                    <div>
-                      <label className="label" htmlFor="activation-dob-day">Day</label>
-                      <input
-                        id="activation-dob-day"
-                        className="input mt-2 text-center"
-                        placeholder="DD"
-                        maxLength={2}
-                        required
-                        value={activation.dobDay}
-                        onChange={(e) => setActivation((prev) => ({
-                          ...prev,
-                          dobDay: e.target.value.replace(/\D/g, "").slice(0, 2)
-                        }))}
-                      />
+                  {/* Decorative gradient for the 'video' look */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+                </div>
+
+                <div className="rounded-2xl border border-skymesh-orange/20 bg-orange-50/50 p-5">
+                  <div className="flex items-start gap-3">
+                    <div className="mt-1 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-skymesh-orange text-white">
+                      <span className="text-[10px] font-bold">!</span>
                     </div>
                     <div>
-                      <label className="label" htmlFor="activation-dob-month">Month</label>
-                      <select
-                        id="activation-dob-month"
-                        className="input mt-2"
-                        required
-                        value={activation.dobMonth}
-                        onChange={(e) => setActivation((prev) => ({ ...prev, dobMonth: e.target.value }))}
-                      >
-                        <option value="">Month</option>
-                        {months.map((m, i) => (
-                          <option key={m} value={String(i + 1).padStart(2, "0")}>{m}</option>
-                        ))}
-                      </select>
-                    </div>
-                    <div>
-                      <label className="label" htmlFor="activation-dob-year">Year</label>
-                      <input
-                        id="activation-dob-year"
-                        className="input mt-2 text-center"
-                        placeholder="YYYY"
-                        maxLength={4}
-                        required
-                        value={activation.dobYear}
-                        onChange={(e) => setActivation((prev) => ({
-                          ...prev,
-                          dobYear: e.target.value.replace(/\D/g, "").slice(0, 4)
-                        }))}
-                      />
+                      <p className="font-semibold text-slate-900 leading-snug">Mandatory identification</p>
+                      <p className="mt-1 text-sm text-slate-600 leading-relaxed">
+                        We can't do anything without your AVC ID. You can find it on your current internet bill. This ensures your swap happens without any downtime.
+                      </p>
                     </div>
                   </div>
                 </div>
 
-                <div className="rounded-xl bg-slate-50 p-4">
+                <div className="space-y-4">
                   <div>
-                    <p className="font-semibold text-slate-900">Speed up your switch</p>
-                    <p className="text-sm text-slate-500">Have your old bill? Your AVC ID makes switching faster.</p>
-                  </div>
-                  <div className="mt-4">
-                    <label className="label" htmlFor="activation-avc-id">AVC ID (optional)</label>
+                    <label className="label text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 block" htmlFor="activation-avc-id">
+                      Enter your AVC ID
+                    </label>
                     <input
                       id="activation-avc-id"
-                      className="input mt-2 font-mono"
+                      className="input font-mono text-lg tracking-widest placeholder:tracking-normal placeholder:font-sans"
                       placeholder="e.g. AVC123456789"
                       spellCheck={false}
                       value={activation.avc}
@@ -185,27 +139,27 @@ export default function ThankYou() {
                       }))}
                     />
                   </div>
+                  
+                  <button
+                    type="button"
+                    className="button-primary h-14 text-lg"
+                    disabled={activation.avc.length < 5}
+                    onClick={() => setActivationComplete(true)}
+                  >
+                    Submit your AVC
+                  </button>
                 </div>
-
-                <button
-                  type="button"
-                  className="button-primary"
-                  disabled={!isDobComplete}
-                  onClick={() => setActivationComplete(true)}
-                >
-                  Activate my connection
-                </button>
-              </>
+              </div>
             ) : (
-              <div className="flex items-center gap-3 rounded-xl bg-green-50 p-4 text-green-900">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100">
-                  <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7"/>
+              <div className="flex items-center gap-4 rounded-2xl bg-green-50 p-5 text-green-900 ring-1 ring-green-100">
+                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-green-100">
+                  <svg className="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7"/>
                   </svg>
                 </div>
                 <div>
-                  <p className="font-semibold">Activation complete</p>
-                  <p className="text-sm text-green-800">We’ll begin the switch and keep you updated.</p>
+                  <p className="font-bold text-lg">AVC Received!</p>
+                  <p className="text-sm text-green-800 font-medium">We've got everything we need now. We'll handle the rest.</p>
                 </div>
               </div>
             )}

@@ -11,19 +11,29 @@ const steps = [
     subtitle: "We grabbed some of this from your address check"
   },
   {
+    id: "dob",
+    title: "Verify your age",
+    subtitle: "We need this for your nbn® account activation"
+  },
+  {
     id: "address",
     title: "This is where we're connecting you",
     subtitle: "The good news: nbn® is ready to go here"
   },
   {
     id: "router",
-    title: "How do you want to WiFi?",
-    subtitle: "Pick one, or use what you've already got"
+    title: "Pick a great value router for a hassle free connection",
+    subtitle: "Skip the setup drama with a pre-configured, plug-and-play router."
+  },
+  {
+    id: "timing",
+    title: "When should we start your connection?",
+    subtitle: "Most people want ASAP, but we can wait until you've moved in."
   },
   {
     id: "review",
     title: "Quick sanity check",
-    subtitle: "Make sure we got everything right"
+    subtitle: "Make sure we've got everything right"
   },
   {
     id: "payment",
@@ -37,37 +47,35 @@ const routerOptions = [
     id: "tenda",
     name: "Tenda AC1200", 
     price: 139.99, 
-    desc: "Handles apartments and small homes. Most people pick this.",
-    features: ["Dual-band WiFi", "80m² coverage", "Zero setup drama"],
-    tag: "Most picked"
+    desc: "Perfect for apartments and small homes. Ready to use out of the box.",
+    features: ["Plug & Play", "Pre-configured", "80m² coverage", "Dual-band WiFi"],
+    tag: "Recommended based on what you've told us"
   },
   { 
     id: "mesh",
     name: "NF20 Mesh System", 
     price: 244.99, 
-    desc: "Kills dead spots. For bigger homes or thick walls.",
-    features: ["Mesh network", "200m² coverage", "Works between floors"],
-    tag: null
-  },
-  { 
-    id: "voip",
-    name: "Grandstream HT801", 
-    price: 89.99, 
-    desc: "Plug in your existing landline phone. Keep your number.",
-    features: ["Uses your old phone", "Crystal clear calls", "5-min setup"],
+    desc: "Ultimate coverage for large homes. No more dead spots.",
+    features: ["Plug & Play", "Pre-configured", "200m² coverage", "Whole-home Mesh"],
     tag: null
   },
   { 
     id: "byo",
     name: "Bring Your Own", 
     price: 0, 
-    desc: "Already have one? Skip the hardware cost.",
-    features: ["Must be nbn® compatible", "DIY setup", "We're still here if you get stuck"],
+    desc: "Already have a router? You'll need to configure it yourself.",
+    features: ["Manual setup required", "Complex settings", "No pre-configuration"],
     tag: null
   }
 ];
 
 const planOptions = [
+  {
+    id: "fibre-basic",
+    name: "Fibre Basic",
+    price: 59.95,
+    desc: "Perfect for solo users and simple browsing."
+  },
   {
     id: "fibre-plus",
     name: "Fibre Plus",
@@ -75,10 +83,10 @@ const planOptions = [
     desc: "Balanced speed for everyday streaming and work."
   },
   {
-    id: "fibre-max",
-    name: "Fibre Max",
-    price: 89.95,
-    desc: "Extra speed for busy households and gamers."
+    id: "fibre-fast",
+    name: "Fibre Fast",
+    price: 99.95,
+    desc: "Extra speed for busy households and power users."
   }
 ];
 
@@ -93,6 +101,9 @@ export default function Home() {
     lastName: "Citizen",
     email: "",
     phone: "0412 345 678",
+    dobDay: "",
+    dobMonth: "",
+    dobYear: "",
     address: "3A Cadle Court, Bayswater VIC 3153",
     addressAlternateName: false,
     addressAltName: "",
@@ -103,6 +114,8 @@ export default function Home() {
     postalPostcode: "",
     router: "",
     plan: "fibre-plus",
+    timing: "asap",
+    connectionDate: "",
     cardName: "",
     cardNumber: "",
     cardExpiry: "",
@@ -114,9 +127,14 @@ export default function Home() {
     lastName: "",
     email: "",
     phone: "",
+    dobDay: "",
+    dobMonth: "",
+    dobYear: "",
     address: "",
     router: "",
-    plan: ""
+    plan: "",
+    timing: "asap",
+    connectionDate: ""
   });
 
   const progress = useMemo(
@@ -143,9 +161,14 @@ export default function Home() {
       lastName: form.lastName,
       email: form.email,
       phone: form.phone,
+      dobDay: form.dobDay,
+      dobMonth: form.dobMonth,
+      dobYear: form.dobYear,
       address: form.address,
       router: form.router,
-      plan: form.plan
+      plan: form.plan,
+      timing: form.timing,
+      connectionDate: form.connectionDate
     });
     setEditModal(type);
   };
@@ -157,9 +180,14 @@ export default function Home() {
       lastName: modalDraft.lastName,
       email: modalDraft.email,
       phone: modalDraft.phone,
+      dobDay: modalDraft.dobDay,
+      dobMonth: modalDraft.dobMonth,
+      dobYear: modalDraft.dobYear,
       address: modalDraft.address,
       router: modalDraft.router,
-      plan: modalDraft.plan
+      plan: modalDraft.plan,
+      timing: modalDraft.timing,
+      connectionDate: modalDraft.connectionDate
     }));
     setEditModal(null);
   };
@@ -292,10 +320,76 @@ export default function Home() {
                   </div>
                   <p className="flex items-center gap-2 text-sm text-slate-500">
                     <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                      <title>We need this to keep you up to date with how your connection is progressing</title>
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    No spam. No third parties. Just your connection updates.
+                    We need this to keep you up to date with how your connection is progressing
                   </p>
+                </div>
+              )}
+
+              {current.id === "dob" && (
+                <div className="space-y-6">
+                  <div className="flex gap-4">
+                    <div className="flex-1">
+                      <label className="label" htmlFor="dob-day">Day</label>
+                      <input
+                        id="dob-day"
+                        type="text"
+                        inputMode="numeric"
+                        className="input mt-2 text-center text-lg"
+                        placeholder="DD"
+                        maxLength={2}
+                        value={form.dobDay}
+                        onChange={(e) => {
+                          const val = e.target.value.replace(/\D/g, "");
+                          if (val.length <= 2) handleChange("dobDay", val);
+                          if (val.length === 2 && parseInt(val) > 0) document.getElementById("dob-month")?.focus();
+                        }}
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <label className="label" htmlFor="dob-month">Month</label>
+                      <input
+                        id="dob-month"
+                        type="text"
+                        inputMode="numeric"
+                        className="input mt-2 text-center text-lg"
+                        placeholder="MM"
+                        maxLength={2}
+                        value={form.dobMonth}
+                        onChange={(e) => {
+                          const val = e.target.value.replace(/\D/g, "");
+                          if (val.length <= 2) handleChange("dobMonth", val);
+                          if (val.length === 2 && parseInt(val) > 0) document.getElementById("dob-year")?.focus();
+                        }}
+                      />
+                    </div>
+                    <div className="flex-[1.5]">
+                      <label className="label" htmlFor="dob-year">Year</label>
+                      <input
+                        id="dob-year"
+                        type="text"
+                        inputMode="numeric"
+                        className="input mt-2 text-center text-lg"
+                        placeholder="YYYY"
+                        maxLength={4}
+                        value={form.dobYear}
+                        onChange={(e) => {
+                          const val = e.target.value.replace(/\D/g, "");
+                          if (val.length <= 4) handleChange("dobYear", val);
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="rounded-2xl bg-blue-50/50 p-4 border border-blue-100/50">
+                    <p className="text-sm text-blue-800 flex items-start gap-3">
+                      <svg className="h-5 w-5 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      Why do we need this? nbn® requires your date of birth to verify your identity and ensure the connection is set up correctly.
+                    </p>
+                  </div>
                 </div>
               )}
 
@@ -361,7 +455,7 @@ export default function Home() {
                         </svg>
                       )}
                     </div>
-                    <span className="text-sm text-slate-700">Send mail to a different address</span>
+                    <span className="text-sm text-slate-700">Send billing info to a different address</span>
                   </label>
 
                   {form.postalDifferent && (
@@ -443,14 +537,62 @@ export default function Home() {
                 </div>
               )}
 
+              {current.id === "timing" && (
+                <div className="space-y-4">
+                  <button
+                    type="button"
+                    className={`selection-card w-full text-left p-6 ${form.timing === "asap" ? "selected" : ""}`}
+                    onClick={() => handleChange("timing", "asap")}
+                  >
+                    <div className="radio-indicator" />
+                    <div>
+                      <p className="font-semibold text-slate-900 text-lg">As soon as possible (ASAP)</p>
+                      <p className="text-sm text-slate-500 mt-1">We'll start processing your connection immediately.</p>
+                    </div>
+                  </button>
+
+                  <button
+                    type="button"
+                    className={`selection-card w-full text-left p-6 ${form.timing === "scheduled" ? "selected" : ""}`}
+                    onClick={() => handleChange("timing", "scheduled")}
+                  >
+                    <div className="radio-indicator" />
+                    <div>
+                      <p className="font-semibold text-slate-900 text-lg">Pick a specific date</p>
+                      <p className="text-sm text-slate-500 mt-1">Perfect if you're moving house and want to time it right.</p>
+                    </div>
+                  </button>
+
+                  {form.timing === "scheduled" && (
+                    <motion.div
+                      initial={shouldReduceMotion ? false : { height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      className="pt-2"
+                    >
+                      <label className="label" htmlFor="connection-date">Connection date</label>
+                      <input
+                        id="connection-date"
+                        type="date"
+                        className="input mt-2"
+                        value={form.connectionDate}
+                        onChange={(e) => handleChange("connectionDate", e.target.value)}
+                        min={new Date().toISOString().split("T")[0]}
+                      />
+                    </motion.div>
+                  )}
+                </div>
+              )}
+
               {current.id === "review" && (
                 <div className="space-y-4">
                   {[
                     { label: "Name", value: `${form.firstName} ${form.lastName}`, modal: "contact" },
                     { label: "Email", value: form.email, modal: "contact" },
                     { label: "Phone", value: form.phone, modal: "contact" },
+                    { label: "Date of Birth", value: `${form.dobDay}/${form.dobMonth}/${form.dobYear}`, modal: "contact" },
                     { label: "Address", value: form.address, modal: "address" },
-                    { label: "Router", value: selectedRouter?.name || "Not selected", modal: "router" }
+                    { label: "Router", value: selectedRouter?.name || "Not selected", modal: "router" },
+                    { label: "Timing", value: form.timing === "asap" ? "As soon as possible" : `Scheduled: ${form.connectionDate}`, modal: "router" }
                   ].map((row) => (
                     <div key={row.label} className="flex items-center justify-between py-3 border-b border-slate-100 last:border-0">
                       <div>
@@ -494,24 +636,33 @@ export default function Home() {
               {current.id === "payment" && (
                 <div className="space-y-5">
                   <div className="card-highlight">
-                    <div className="flex items-center justify-between">
-                      <span className="text-slate-600">Due today</span>
-                      <span className="text-2xl font-bold text-slate-900 tabular-nums">
-                        {routerPrice === 0 ? (
-                          <span className="text-green-600">$0</span>
-                        ) : (
-                          `$${routerPrice.toFixed(2)}`
-                        )}
+                    <h3 className="text-sm font-semibold text-slate-900 mb-3">Order summary</h3>
+                    <div className="space-y-2 border-b border-slate-100 pb-3">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-slate-600">Internet Plan ({selectedPlan.name})</span>
+                        <span className="font-medium text-slate-900">$0.00</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-slate-600">Hardware ({selectedRouter?.name || "Router"})</span>
+                        <span className="font-medium text-slate-900">
+                          {routerPrice === 0 ? "$0.00" : `$${routerPrice.toFixed(2)}`}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between pt-3">
+                      <span className="text-base font-bold text-slate-900">Total amount</span>
+                      <span className="text-2xl font-bold text-skymesh-orange tabular-nums">
+                        {routerPrice === 0 ? "$0.00" : `$${routerPrice.toFixed(2)}`}
                       </span>
                     </div>
-                    <p className="mt-1 text-sm text-slate-500">
-                      {routerPrice === 0 ? "Router included" : "Router only"} — ${selectedPlan.price.toFixed(2)}/mo plan starts once you're connected
+                    <p className="mt-4 text-xs text-slate-500 leading-relaxed text-center">
+                      Your monthly plan of ${selectedPlan.price.toFixed(2)} will only be billed once your service is online.
                     </p>
-                    <div className="mt-3 flex items-center gap-2 rounded-lg bg-green-50 px-3 py-2 text-sm">
+                    <div className="mt-3 flex items-center gap-2 rounded-lg bg-green-50 px-3 py-2 text-sm justify-center">
                       <svg className="h-4 w-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
                       </svg>
-                      <span className="font-medium text-green-700">No monthly charges until we connect you</span>
+                      <span className="font-medium text-green-700">No internet charges until your service is online</span>
                     </div>
                   </div>
 

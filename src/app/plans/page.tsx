@@ -5,14 +5,15 @@ import Link from "next/link";
 
 const plans = [
   {
-    name: "Fibre Starter",
+    name: "Fibre Basic",
     price: "$59.95",
     ongoing: "$69.95",
     download: "25 Mbps",
     upload: "5 Mbps",
     ideal: "Solo user. Email, browsing, maybe a show. Nothing fancy.",
     speedContext: "1 device streaming HD at a time",
-    tag: null
+    tag: null,
+    planId: "25"
   },
   {
     name: "Fibre Plus",
@@ -22,17 +23,19 @@ const plans = [
     upload: "17 Mbps",
     ideal: "The one most people pick. Handles everything without drama.",
     speedContext: "Stream 4K on 3 devices at once",
-    tag: "Your match"
+    tag: "Your match",
+    planId: "50"
   },
   {
-    name: "Fibre Premium",
+    name: "Fibre Fast",
     price: "$99.95",
     ongoing: "$109.95",
     download: "90 Mbps",
     upload: "35 Mbps",
     ideal: "For power users who want headroom. 4K everywhere, gaming, big uploads.",
     speedContext: "Stream 4K on 5+ devices, game without lag",
-    tag: null
+    tag: null,
+    planId: "100"
   }
 ];
 
@@ -64,9 +67,9 @@ export default function PlansPage() {
           transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.3, ease: "easeOut" }}
           className="mb-7"
         >
-          <h1 className="text-3xl font-display text-slate-900">Not feeling it? Pick another.</h1>
+          <h1 className="text-3xl font-display text-slate-900">Not feeling that plan. Pick another.</h1>
           <p className="mt-2 text-base text-slate-600">
-            All unlimited. All no lock-in. All cancel-whenever-you-want.
+            All unlimited. All no lock-in.
           </p>
         </motion.section>
 
@@ -100,17 +103,39 @@ export default function PlansPage() {
                 </div>
               </div>
 
-              <div className="mt-5 flex gap-6 text-sm">
-                <div>
-                  <p className="font-semibold text-slate-900">{plan.download}</p>
-                  <p className="text-xs text-slate-500">Download</p>
+              <div className="mt-5 border-t border-slate-100 pt-4">
+                <p className="text-xs font-semibold text-slate-700">Typical evening speeds (7pm-11pm)</p>
+                <div className="mt-2 flex gap-6 text-sm">
+                  <div>
+                    <p className="font-semibold text-slate-900">{plan.download}</p>
+                    <p className="text-xs text-slate-500">Download</p>
+                  </div>
+                  <div>
+                    <p className="font-semibold text-slate-900">{plan.upload}</p>
+                    <p className="text-xs text-slate-500">Upload</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-semibold text-slate-900">{plan.upload}</p>
-                  <p className="text-xs text-slate-500">Upload</p>
-                </div>
+                <p className="mt-2 text-xs text-slate-500">{plan.speedContext}</p>
               </div>
-              <p className="mt-2 text-xs text-slate-500">{plan.speedContext}</p>
+
+              <div className="mt-4 flex flex-col gap-2 border-t border-slate-100 pt-3">
+                <a 
+                  href={`https://www.skymesh.net.au/wp-json/api/broadband_cis/?service_type=FIXED-LINE&tier=FIXED_LINE_202303&plan=NBN+${plan.planId}+Unlimited&bundled=0`}
+                  className="text-xs text-skymesh-orange hover:underline font-medium"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Critical Information Summary (CIS)
+                </a>
+                <a 
+                  href={`https://www.skymesh.net.au/wp-json/api/kfs/?service_type=FIXED-LINE&tier=FIXED_LINE_202303&plan=NBN+${plan.planId}+Unlimited&bundled=0`}
+                  className="text-xs text-skymesh-orange hover:underline font-medium"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Key Fact Sheet (KFS)
+                </a>
+              </div>
 
               <Link
                 href="/"
