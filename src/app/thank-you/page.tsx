@@ -2,14 +2,28 @@
 
 import { motion, useReducedMotion } from "motion/react";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export default function ThankYou() {
   const shouldReduceMotion = useReducedMotion();
   const [activation, setActivation] = useState({
-    avc: ""
+    avc: "",
+    file: null as File | null
   });
   const [activationComplete, setActivationComplete] = useState(false);
+  const [situation, setSituation] = useState<string | null>(null);
+
+  useEffect(() => {
+    const quiz = localStorage.getItem("skymeshQuiz");
+    if (quiz) {
+      try {
+        const parsed = JSON.parse(quiz);
+        setSituation(parsed.situation);
+      } catch (e) {}
+    }
+  }, []);
+
+  const isMoving = situation?.includes("moving");
 
 
 
@@ -66,105 +80,140 @@ export default function ThankYou() {
           transition={shouldReduceMotion ? { duration: 0 } : { delay: 0.2 }}
           className="mb-8 text-center"
         >
-          <h1 className="mb-2 text-3xl font-bold text-slate-900 leading-tight">
-            {!activationComplete ? (
-              <>
-                Payment Received
-                <br />
-                Activation Pending
-              </>
-            ) : "You're all set!"}
-          </h1>
-          <p className="text-base text-slate-600 px-4">
-            {!activationComplete 
-              ? "Your order is in the system, but we can't start the connection until you provide your AVC ID below."
-              : `Thanks ${orderDetails.name.split(' ')[0]}, your connection is now being processed.`
-            }
-          </p>
-        </motion.div>
+              <h1 className="mb-2 text-3xl font-bold text-slate-900 leading-tight">
+                {!activationComplete ? (
+                  <>
+                    Payment Received
+                    <br />
+                    {isMoving ? "Confirmation Required" : "Activation Pending"}
+                  </>
+                ) : "You're all set!"}
+              </h1>
+              <p className="text-base text-slate-600 px-4">
+                {!activationComplete 
+                  ? (isMoving 
+                      ? "Your order is in the system, but we need proof of occupancy to process your connection."
+                      : "Your order is in the system, but we can't start the connection until you provide your AVC ID below.")
+                  : `Thanks ${orderDetails.name.split(' ')[0]}, your connection is now being processed.`
+                }
+              </p>
+            </motion.div>
 
-        {/* Activation */}
-        <motion.div
-          initial={shouldReduceMotion ? false : { y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={shouldReduceMotion ? { duration: 0 } : { delay: 0.45 }}
-          className="mb-6"
-        >
-          <div className="card space-y-6">
-            {!activationComplete ? (
-              <div className="space-y-6">
-                {/* Video Placeholder */}
-                <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-slate-900 shadow-lg ring-1 ring-slate-200">
-                  <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6">
-                    <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-skymesh-orange/20 text-skymesh-orange backdrop-blur-sm transition-transform hover:scale-110">
-                      <svg className="h-8 w-8 ml-1" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M8 5.14v14l11-7-11-7z" />
+            {/* Activation */}
+            <motion.div
+              initial={shouldReduceMotion ? false : { y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={shouldReduceMotion ? { duration: 0 } : { delay: 0.45 }}
+              className="mb-6"
+            >
+              <div className="card space-y-6">
+                {!activationComplete ? (
+                  <div className="space-y-6">
+                    {/* Video Placeholder */}
+                    <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-slate-900 shadow-lg ring-1 ring-slate-200">
+                      <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6">
+                        <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-skymesh-orange/20 text-skymesh-orange backdrop-blur-sm transition-transform hover:scale-110">
+                          <svg className="h-8 w-8 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5.14v14l11-7-11-7z" />
+                          </svg>
+                        </div>
+                        <p className="text-sm font-semibold text-white">
+                          {isMoving ? "What is Proof of Occupancy?" : "How to find your AVC ID"}
+                        </p>
+                        <p className="mt-1 text-xs text-slate-400">Watch this 45-second guide</p>
+                      </div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+                    </div>
+
+                    <div className="rounded-2xl border border-skymesh-orange/20 bg-orange-50/50 p-5">
+                      <div className="flex items-start gap-3">
+                        <div className="mt-1 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-skymesh-orange text-white">
+                          <span className="text-[10px] font-bold">!</span>
+                        </div>
+                        <div>
+                          <p className="font-semibold text-slate-900 leading-snug">
+                            {isMoving ? "Proof of Occupancy" : "Mandatory identification"}
+                          </p>
+                          <p className="mt-1 text-sm text-slate-600 leading-relaxed">
+                            {isMoving 
+                              ? "As someone else already has a service at this address, we need a digital copy of your lease or a utility bill to take over the line."
+                              : "We can't do anything without your AVC ID. You can find it on your current internet bill. This ensures your swap happens without any downtime."
+                            }
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="space-y-4">
+                      {isMoving ? (
+                        <div>
+                          <label className="label text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 block">
+                            Upload your proof (Lease/Bill)
+                          </label>
+                          <div className="relative">
+                            <input
+                              type="file"
+                              className="hidden"
+                              id="proof-upload"
+                              onChange={(e) => setActivation(prev => ({ ...prev, file: e.target.files?.[0] || null }))}
+                            />
+                            <label
+                              htmlFor="proof-upload"
+                              className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-xl border-2 border-dashed border-slate-200 bg-slate-50 p-6 transition hover:border-skymesh-orange/30 hover:bg-orange-50/20"
+                            >
+                              <svg className="h-6 w-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                              </svg>
+                              <span className="text-sm font-medium text-slate-600">
+                                {activation.file ? activation.file.name : "Choose a file or drop it here"}
+                              </span>
+                            </label>
+                          </div>
+                        </div>
+                      ) : (
+                        <div>
+                          <label className="label text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 block" htmlFor="activation-avc-id">
+                            Enter your AVC ID
+                          </label>
+                          <input
+                            id="activation-avc-id"
+                            className="input font-mono text-lg tracking-widest placeholder:tracking-normal placeholder:font-sans"
+                            placeholder="e.g. AVC123456789"
+                            spellCheck={false}
+                            value={activation.avc}
+                            onChange={(e) => setActivation((prev) => ({
+                              ...prev,
+                              avc: e.target.value.toUpperCase()
+                            }))}
+                          />
+                        </div>
+                      )}
+                      
+                      <button
+                        type="button"
+                        className="button-primary h-14 text-lg"
+                        disabled={isMoving ? !activation.file : activation.avc.length < 5}
+                        onClick={() => setActivationComplete(true)}
+                      >
+                        {isMoving ? "Submit Proof" : "Submit your AVC"}
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-4 rounded-2xl bg-green-50 p-5 text-green-900 ring-1 ring-green-100">
+                    <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-green-100">
+                      <svg className="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7"/>
                       </svg>
                     </div>
-                    <p className="text-sm font-semibold text-white">How to find your AVC ID</p>
-                    <p className="mt-1 text-xs text-slate-400">Watch this 45-second guide</p>
-                  </div>
-                  {/* Decorative gradient for the 'video' look */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
-                </div>
-
-                <div className="rounded-2xl border border-skymesh-orange/20 bg-orange-50/50 p-5">
-                  <div className="flex items-start gap-3">
-                    <div className="mt-1 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-skymesh-orange text-white">
-                      <span className="text-[10px] font-bold">!</span>
-                    </div>
                     <div>
-                      <p className="font-semibold text-slate-900 leading-snug">Mandatory identification</p>
-                      <p className="mt-1 text-sm text-slate-600 leading-relaxed">
-                        We can't do anything without your AVC ID. You can find it on your current internet bill. This ensures your swap happens without any downtime.
-                      </p>
+                      <p className="font-bold text-lg">{isMoving ? "Proof Received!" : "AVC Received!"}</p>
+                      <p className="text-sm text-green-800 font-medium">We've got everything we need now. We'll handle the rest.</p>
                     </div>
                   </div>
-                </div>
-
-                <div className="space-y-4">
-                  <div>
-                    <label className="label text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 block" htmlFor="activation-avc-id">
-                      Enter your AVC ID
-                    </label>
-                    <input
-                      id="activation-avc-id"
-                      className="input font-mono text-lg tracking-widest placeholder:tracking-normal placeholder:font-sans"
-                      placeholder="e.g. AVC123456789"
-                      spellCheck={false}
-                      value={activation.avc}
-                      onChange={(e) => setActivation((prev) => ({
-                        ...prev,
-                        avc: e.target.value.toUpperCase()
-                      }))}
-                    />
-                  </div>
-                  
-                  <button
-                    type="button"
-                    className="button-primary h-14 text-lg"
-                    disabled={activation.avc.length < 5}
-                    onClick={() => setActivationComplete(true)}
-                  >
-                    Submit your AVC
-                  </button>
-                </div>
+                )}
               </div>
-            ) : (
-              <div className="flex items-center gap-4 rounded-2xl bg-green-50 p-5 text-green-900 ring-1 ring-green-100">
-                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-green-100">
-                  <svg className="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7"/>
-                  </svg>
-                </div>
-                <div>
-                  <p className="font-bold text-lg">AVC Received!</p>
-                  <p className="text-sm text-green-800 font-medium">We've got everything we need now. We'll handle the rest.</p>
-                </div>
-              </div>
-            )}
-          </div>
-        </motion.div>
+            </motion.div>
 
         {/* Order card */}
         <motion.div

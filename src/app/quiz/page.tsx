@@ -7,9 +7,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 const steps = [
   {
     id: "household",
-    title: "This is your address",
+    title: "How many people are online?",
     subtitle:
-      "Tech type available: Fixed Line. We'll recommend the perfect plan for you.",
+      "Tell us how you use the internet and we'll recommend the best plan for you.",
     options: [
       "Solo — just me",
       "Duo — 2 of us",
@@ -54,6 +54,15 @@ const steps = [
       },
     ],
   },
+  {
+    id: "situation",
+    title: "What's the situation?",
+    subtitle: "This helps us get the authority right for your line.",
+    options: [
+      "I'm switching my current service to Skymesh",
+      "I'm moving into this house",
+    ],
+  },
 ];
 
 const storageKey = "skymeshQuiz";
@@ -68,6 +77,7 @@ export default function QuizPage() {
     household: "",
     devices: "",
     usage: [] as string[],
+    situation: "",
   });
 
   const current = steps[stepIndex];
@@ -109,6 +119,7 @@ export default function QuizPage() {
   const isStepValid = () => {
     if (current.id === "household") return answers.household.length > 0;
     if (current.id === "devices") return answers.devices.length > 0;
+    if (current.id === "situation") return answers.situation.length > 0;
     return answers.usage.length > 0;
   };
 
@@ -226,6 +237,30 @@ export default function QuizPage() {
               className="flex min-h-full flex-col"
             >
               <div ref={questionRef} className="mb-7 scroll-mt-4">
+                {stepIndex === 0 && (
+                  <div className="mb-8 rounded-2xl bg-blue-50/50 p-5 border border-blue-100/50">
+                    <div className="flex items-center gap-3 mb-3 pb-3 border-b border-blue-100/30">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 text-blue-600">
+                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                      </div>
+                      <div>
+                        <p className="text-[10px] uppercase tracking-wider font-bold text-blue-500">Address verified</p>
+                        <p className="text-sm font-semibold text-slate-800">3A Cadle Court, Bayswater VIC 3153</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-700">
+                        NBN® Ready
+                      </span>
+                      <span className="text-xs text-slate-500 font-medium tracking-tight">
+                        Tech Type: <span className="text-slate-700">Fixed Line</span>
+                      </span>
+                    </div>
+                  </div>
+                )}
                 <h1 className="text-3xl font-display text-slate-900">
                   {current.title}
                 </h1>
